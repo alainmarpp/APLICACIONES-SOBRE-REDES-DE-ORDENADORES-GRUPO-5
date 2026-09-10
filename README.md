@@ -8,3 +8,9 @@ historial perro
 reseñas
 historial reservas
 localizacion
+
+
+//EN VISUAL
+**Primera vez abres app: npm.cmd install
+4. Arrancar Expo
+Después: npx.cmd expo start
