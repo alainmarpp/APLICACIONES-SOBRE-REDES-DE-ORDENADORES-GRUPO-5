@@ -10,7 +10,7 @@ historial reservas
 localizacion
 
 
-//EN VISUAL
+//EN VISUAL<br>
 **Primera vez abres app:<br> npm.cmd install<br>
-4. Arrancar Expo<br>
+**Arrancar Expo<br>
 Después: npx.cmd expo start
