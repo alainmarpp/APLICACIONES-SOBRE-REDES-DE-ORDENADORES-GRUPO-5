@@ -11,6 +11,6 @@ localizacion
 
 
 //EN VISUAL
-**Primera vez abres app: npm.cmd install/n
+**Primera vez abres app: npm.cmd install<br>
 4. Arrancar Expo
 Después: npx.cmd expo start
