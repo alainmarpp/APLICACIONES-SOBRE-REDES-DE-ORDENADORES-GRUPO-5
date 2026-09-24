@@ -1,4 +1,4 @@
-// src/screens/ServicesScreen/useServicesScreen.js
+import { router } from "expo-router";
 import { useState } from "react";
 
 export function useServiciosScreen() {
@@ -25,10 +25,7 @@ export function useServiciosScreen() {
       return;
     }
 
-    alert(
-      `Has seleccionado ${serviciosSeleccionados.length} servicios. Calculando horario...`,
-    );
-    // router.push('/calendario');
+    router.push("/calendario");
   };
 
   return {
