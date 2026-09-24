@@ -5,6 +5,7 @@ import styles from './LoginScreenStyles';
 import { useLoginScreen } from './useLoginScreen';
 
 export default function LoginScreen() {
+  // Traemos los datos y funciones desde el archivo de funcionamiento
   const { 
     usuario, 
     setUsuario, 
