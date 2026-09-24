@@ -11,7 +11,12 @@ export default function RootLayout() {
       <AnimatedSplashOverlay />
 
       <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
 
         <Stack.Screen
           name="registro"
@@ -29,7 +34,20 @@ export default function RootLayout() {
           }}
         />
 
-        <Stack.Screen name="explore" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="calendario"
+          options={{
+            title: "Reserva tu cita",
+            headerShown: true,
+          }}
+        />clea
+
+        <Stack.Screen
+          name="explore"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
