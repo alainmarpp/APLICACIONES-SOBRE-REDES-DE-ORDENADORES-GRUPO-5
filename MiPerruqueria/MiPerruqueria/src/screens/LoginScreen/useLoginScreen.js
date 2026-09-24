@@ -1,21 +1,29 @@
-import { useState } from 'react';
-import { router } from 'expo-router';
+import { router } from "expo-router";
+import { useState } from "react";
 
 export function useLoginScreen() {
-  const [usuario, setUsuario] = useState('');
-  const [contrasena, setContrasena] = useState('');
+  const [usuario, setUsuario] = useState("");
+  const [contrasena, setContrasena] = useState("");
 
   const handleLogin = () => {
-    if (!usuario || !contrasena) {
-      alert("Por favor, rellena todos los campos.");
+    if (!usuario.trim() || !contrasena) {
+      alert("Por favor, rellena todos los campos");
       return;
     }
-    
-    alert(`Intentando iniciar sesión con el usuario: ${usuario}`);
+
+    // Pantalla Login --> Pantalla Servicios
+    // Asignar nombre usuario login a pantalla servicios
+
+    router.replace({
+      pathname: "/servicios",
+      params: {
+        usuario: usuario,
+      },
+    });
   };
 
   const handleIrARegistro = () => {
-    router.push('/registro');
+    router.push("/registro");
   };
 
   return {
@@ -24,6 +32,6 @@ export function useLoginScreen() {
     contrasena,
     setContrasena,
     handleLogin,
-    handleIrARegistro
+    handleIrARegistro,
   };
 }
