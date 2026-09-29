@@ -1,36 +1,11 @@
-# 🐕 Aplicaciones sobre Redes de Ordenadores — Grupo 5
+# Aplicaciones sobre Redes de Ordenadores (G5)
 
-Aplicación para la **gestión y reserva de servicios de cuidado y peluquería para mascotas**.
-
----
-
-## 📑 Índice
-
-* [📖 Descripción del proyecto](#-descripción-del-proyecto)
-* [✨ Funcionalidades](#-funcionalidades)
-
-  * [🔐 Autenticación](#-autenticación)
-  * [🐶 Gestión de mascotas](#-gestión-de-mascotas)
-  * [✂️ Servicios disponibles](#️-servicios-disponibles)
-  * [📅 Reservas](#-reservas)
-  * [⭐ Funcionalidades adicionales](#-funcionalidades-adicionales)
-* [💻 Tecnologías](#-tecnologías)
-* [📱 Aplicación móvil](#-aplicación-móvil)
-* [🖥️ Servidor](#️-servidor)
-
-  * [🚀 Cómo iniciar el servidor](#-cómo-iniciar-el-servidor)
-  * [🛑 Detener el servidor](#-detener-el-servidor)
-* [🗄️ Base de Datos (BBDD)](#️-base-de-datos-bbdd)
-
-  * [☁️ Infraestructura](#️-infraestructura)
-  * [🔐 Seguridad](#-seguridad)
-  * [🔄 Flujo de conexión](#-flujo-de-conexión)
-* [📡 API](#-api)
-* [👥 Grupo 5](#-grupo-5)
+Aplicación para la **gestión y reserva de servicios de cuidado y peluquería para perros**.
 
 ---
 
-# 📖 Descripción del proyecto
+
+# 1. Descripción del proyecto
 
 El proyecto consiste en una aplicación destinada a la **gestión de servicios de peluquería y cuidado de mascotas**.
 
@@ -42,9 +17,9 @@ Además, se contempla la gestión del historial de las mascotas, las reservas, l
 
 ---
 
-# ✨ Funcionalidades
+# 2. Funcionalidades
 
-## 🔐 Autenticación
+## 2.1. Autenticación
 
 * Registro de usuarios.
 * Inicio de sesión.
@@ -52,83 +27,83 @@ Además, se contempla la gestión del historial de las mascotas, las reservas, l
 * Gestión segura de las sesiones.
 * Creación del perfil de la mascota después del registro.
 
-## 🐶 Gestión de mascotas
+## 2.2. Gestión de mascotas
 
 Los usuarios pueden crear y gestionar el perfil de sus mascotas.
 
 La aplicación contempla también el **historial de cada mascota**.
 
-## ✂️ Servicios disponibles
+## 2.3. Servicios disponibles
 
 La aplicación dispone actualmente de los siguientes servicios:
 
 | ID | Servicio                           |
 | -: | ---------------------------------- |
-|  1 | 🛁 Baño + secado                   |
-|  2 | 💅 Corte uñas                      |
-|  3 | 🐕 Completo                        |
-|  4 | 🦷 Lavado dientes                  |
-|  5 | 🪲 Tratamiento pulgas y garrapatas |
-|  6 | ✂️ Corte de pelo                   |
+|  1 | Baño + secado                   |
+|  2 | Corte uñas                      |
+|  3 | Completo                        |
+|  4 | Lavado dientes                  |
+|  5 | Tratamiento pulgas y garrapatas |
+|  6 | Corte de pelo                   |
 
 Los servicios se pueden seleccionar para posteriormente realizar una reserva.
 
-## 📅 Reservas
+## 2.4. Reservas
 
 El sistema permite seleccionar uno o varios servicios y calcular la duración total de la reserva.
 
 El proceso de reserva sigue el siguiente flujo:
 
 ```text
-👤 Usuario
+Usuario
    │
    ▼
-✂️ Selección de servicios
+Selección de servicios
    │
    ▼
-⏱️ Cálculo de duración
+Cálculo de duración
    │
    ▼
-📅 Consulta de disponibilidad
+Consulta de disponibilidad
    │
    ▼
-🕐 Horarios disponibles
+Horarios disponibles
    │
    ▼
-✅ Confirmación de reserva
+Confirmación de reserva
 ```
 
-## ⭐ Funcionalidades adicionales
+## 2.5. Funcionalidades adicionales
 
 El proyecto contempla diferentes funcionalidades relacionadas con la gestión de las mascotas y las reservas:
 
-* 🐶 Historial de la mascota.
-* 📅 Historial de reservas.
-* ⭐ Sistema de reseñas.
-* 📍 Localización.
+* Historial de la mascota.
+* Historial de reservas.
+* Sistema de reseñas.
+* Localización.
 
 ---
 
-# 💻 Tecnologías
+# 3. Tecnologías
 
-## 📱 Aplicación móvil
+## 3.1. Aplicación móvil
 
 * **React Native**
 * **Expo**
 
-## 🖥️ Backend
+## 3.2. Backend
 
 * **Node.js**
 * **Express**
 * **Sequelize**
 * **MySQL2**
 
-## 🗄️ Base de datos
+## 3.3. Base de datos
 
 * **MySQL**
 * **Aiven**
 
-## 🔐 Seguridad
+## 3.4. Seguridad
 
 * Autenticación mediante tokens.
 * Conexión SSL/TLS con la base de datos.
@@ -136,11 +111,11 @@ El proyecto contempla diferentes funcionalidades relacionadas con la gestión de
 
 ---
 
-# 📱 Aplicación móvil
+# 4. Aplicación móvil
 
 La aplicación móvil está desarrollada utilizando **React Native + Expo**.
 
-## 🚀 Cómo iniciar la aplicación
+## 4.1. Cómo iniciar la aplicación
 
 La primera vez que se ejecuta el proyecto, es necesario instalar las dependencias.
 
@@ -167,11 +142,11 @@ Una vez iniciado Expo, se podrá ejecutar la aplicación utilizando las opciones
 
 ---
 
-# 🖥️ Servidor
+# 5. Servidor
 
 El servidor utiliza **Node.js + Express**.
 
-## 🚀 Cómo iniciar el servidor
+## 5.1. Cómo iniciar el servidor
 
 ### 1. Instalar Node.js
 
@@ -207,9 +182,9 @@ node index.js
 Si la conexión es correcta, aparecerán mensajes similares a:
 
 ```text
-✅ Conexión con MySQL establecida correctamente.
-✅ Modelos sincronizados correctamente.
-🚀 Servidor corriendo en http://localhost:3000
+Conexión con MySQL establecida correctamente.
+Modelos sincronizados correctamente.
+Servidor corriendo en http://localhost:3000
 ```
 
 ### 5. Comprobar que el servidor funciona
@@ -222,7 +197,7 @@ http://localhost:3000
 
 También puedes utilizar **Postman**, **Insomnia** u otra herramienta para realizar peticiones a la API.
 
-## 🛑 Detener el servidor
+## 5.2. Detener el servidor
 
 Para detener el servidor:
 
@@ -230,7 +205,7 @@ Para detener el servidor:
 Ctrl + C
 ```
 
-### 📋 Resumen de comandos
+### Resumen de comandos
 
 ```bash
 cd servidor
@@ -240,56 +215,56 @@ node index.js
 
 ---
 
-# 🗄️ BASE DE DATOS (BBDD)
+# 6. BASE DE DATOS (BBDD)
 
 La aplicación utiliza una base de datos **MySQL** alojada en la nube mediante **Aiven**, permitiendo que el servidor pueda acceder a la información de forma remota y segura.
 
-## ☁️ Infraestructura
+## 6.1. Infraestructura
 
 La base de datos se encuentra desplegada en un servidor gestionado por **Aiven**, que proporciona la infraestructura necesaria para ejecutar y administrar el servicio MySQL.
 
 La aplicación se conecta a la BBDD mediante:
 
-* 🐬 **MySQL** como sistema gestor de base de datos.
-* ☁️ **Aiven** como proveedor de alojamiento.
-* 🔌 **Sequelize** como ORM para gestionar la comunicación entre Node.js y MySQL.
-* 🔐 **SSL/TLS** para proteger la conexión entre el servidor y la base de datos.
-* 📜 **`ca.pem`** para verificar el certificado del servidor y establecer una conexión segura.
+* **MySQL** como sistema gestor de base de datos.
+* **Aiven** como proveedor de alojamiento.
+* **Sequelize** como ORM para gestionar la comunicación entre Node.js y MySQL.
+* **SSL/TLS** para proteger la conexión entre el servidor y la base de datos.
+* **`ca.pem`** para verificar el certificado del servidor y establecer una conexión segura.
 
-## 🔐 Seguridad
+## 6.2. Seguridad
 
 La conexión con la base de datos utiliza un certificado **CA (`ca.pem`) proporcionado por Aiven**, permitiendo verificar la identidad del servidor antes de establecer la conexión.
 
 Las credenciales de acceso a la base de datos son necesarias para ejecutar el servidor, pero **no deben almacenarse ni publicarse en el repositorio de GitHub**.
 
-## 🔄 Flujo de conexión
+## 6.3. Flujo de conexión
 
 La arquitectura de la aplicación sigue el siguiente flujo:
 
 ```text
-👤 Usuario
+Usuario
     │
     ▼
-📱 Aplicación móvil
+Aplicación móvil
     │
     │ HTTP / REST
     ▼
-🖥️ Node.js + Express
+Node.js + Express
     │
     │ Sequelize
-    │ SSL/TLS 🔐
+    │ SSL/TLS 
     ▼
-☁️ Aiven
+Aiven
     │
     ▼
-🐬 MySQL
+MySQL
 ```
 
 De esta forma, el servidor puede acceder a la base de datos alojada en la nube manteniendo una comunicación **segura y cifrada**.
 
 ---
 
-# 📡 API
+# 7. API
 
 La comunicación entre la aplicación móvil y el servidor se realiza mediante una **API REST**.
 
@@ -297,19 +272,19 @@ El servidor recibe las peticiones de la aplicación móvil, procesa la informaci
 
 La API gestiona las diferentes operaciones relacionadas con:
 
-* 👤 Usuarios.
-* 🔐 Autenticación.
-* 🐶 Mascotas.
-* ✂️ Servicios.
-* 📅 Reservas.
-* ⭐ Reseñas.
-* 📋 Historial.
+* Usuarios.
+* Autenticación.
+* Mascotas.
+* Servicios.
+* Reservas.
+* Reseñas.
+* Historial.
 
-> 🚧 Esta sección se irá ampliando con los diferentes endpoints implementados en la API.
+> Esta sección se irá ampliando con los diferentes endpoints implementados en la API.
 
 ---
 
-# 👥 Grupo 5
+# Grupo 5
 
 **Aplicaciones sobre Redes de Ordenadores**
 
