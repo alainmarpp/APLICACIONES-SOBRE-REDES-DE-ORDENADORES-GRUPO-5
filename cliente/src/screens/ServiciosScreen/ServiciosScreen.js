@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 import estilos from "./ServiciosScreenStyles";
@@ -46,6 +46,15 @@ export default function ServiciosScreen() {
       <Text style={estilos.subtitulo}>
         Selecciona los servicios que deseas para tu mascota
       </Text>
+
+      <TouchableOpacity
+        style={estilos.botonRegistroPerro}
+        onPress={() => router.push("/registroPerro")}
+      >
+        <Text style={estilos.textoBotonRegistroPerro}>
+          Registrar perro
+        </Text>
+      </TouchableOpacity>
 
       <FlatList
         data={serviciosDisponibles}

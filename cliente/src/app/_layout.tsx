@@ -1,3 +1,4 @@
+
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -30,6 +31,14 @@ export default function DisenoRaiz() {
           name="servicios"
           options={{
             title: "Menú de Servicios",
+            headerShown: true,
+          }}
+        />
+
+        <Stack.Screen
+          name="registroPerro"
+          options={{
+            title: "Registro del perro",
             headerShown: true,
           }}
         />

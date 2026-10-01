@@ -1,18 +1,19 @@
 import { useLocalSearchParams } from "expo-router";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Alert } from "react-native";
 
 export const useCalendarioScreen = () => {
   const { usuario, servicios } = useLocalSearchParams();
 
-  const serviciosSeleccionados = useMemo(() => {
+  const serviciosSeleccionados = (() => {
     if (!servicios) return [];
+
     try {
       return JSON.parse(servicios);
     } catch (error) {
       return [];
     }
-  }, [servicios]);
+  })();
 
   const hoy = new Date();
 
@@ -26,7 +27,7 @@ export const useCalendarioScreen = () => {
 
   const diasEnMesActual = new Date(anioActual, mesActual + 1, 0).getDate();
 
-  const desfasePrimerDia = (new Date(anioActual, mesActual, 1).getDay() + 6) % 7;
+  const diasSinEmpezar = (new Date(anioActual, mesActual, 1).getDay() + 6) % 7;
 
   const horasDisponibles = [
     "09:00",
@@ -97,8 +98,9 @@ export const useCalendarioScreen = () => {
         cita.hora === hora,
     );
   };
-
   const manejarConfirmarCita = () => {
+    Alert.alert("PRUEBA", "El botón funciona");
+
     if (!fechaSeleccionada || !horaSeleccionada) {
       Alert.alert(
         "Error",
@@ -140,7 +142,7 @@ export const useCalendarioScreen = () => {
     anioActual,
     nombresMeses,
     diasEnMesActual,
-    desfasePrimerDia,
+    diasSinEmpezar,
     manejarMesAnterior,
     manejarMesSiguiente,
     manejarSeleccionFecha,

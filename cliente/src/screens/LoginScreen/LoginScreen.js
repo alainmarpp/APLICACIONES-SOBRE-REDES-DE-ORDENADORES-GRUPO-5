@@ -17,7 +17,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>💇‍♀️ MiPerruqueria</Text>
+      <Text style={styles.title}> MiPerruqueria</Text>
       <Text style={styles.welcome}>¡Bienvenida a MiPerruqueria!</Text>
 
       <Text style={styles.label}>Usuario</Text>

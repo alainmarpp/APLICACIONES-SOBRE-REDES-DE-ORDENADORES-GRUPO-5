@@ -20,7 +20,7 @@ const CalendarioScreen = () => {
     anioActual,
     nombresMeses,
     diasEnMesActual,
-    desfasePrimerDia,
+    diasSinEmpezar,
     manejarMesAnterior,
     manejarMesSiguiente,
     manejarSeleccionFecha,
@@ -31,7 +31,7 @@ const CalendarioScreen = () => {
 
   const diasSemana = ["L", "M", "X", "J", "V", "S", "D"];
 
-  const celdasVacias = Array.from({ length: desfasePrimerDia }, () => null);
+  const celdasVacias = Array.from({ length: diasSinEmpezar }, () => null);
   const diasDelMes = Array.from(
     { length: diasEnMesActual },
     (_, indice) => indice + 1,
@@ -93,7 +93,6 @@ const CalendarioScreen = () => {
                   estaSeleccionado && estilos.botonDiaSeleccionado,
                 ]}
                 onPress={() => manejarSeleccionFecha(dia)}
-                activeOpacity={0.7}
               >
                 <Text
                   style={[
