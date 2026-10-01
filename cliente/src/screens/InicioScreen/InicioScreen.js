@@ -1,0 +1,49 @@
+import { Text, TouchableOpacity, View } from "react-native";
+
+import estilos from "./InicioScreenStyles";
+import { useInicioScreen } from "./useInicioScreen";
+
+export default function InicioScreen() {
+  const {
+    irMisAnimales,
+    irHacerReserva,
+    irMisReservas,
+  } = useInicioScreen();
+
+  return (
+    <View style={estilos.contenedor}>
+      <Text style={estilos.titulo}>Pantalla Inicial</Text>
+
+      <Text style={estilos.subtitulo}>
+        ¿Qué deseas hacer?
+      </Text>
+
+      <TouchableOpacity
+        style={estilos.boton}
+        onPress={irMisAnimales}
+      >
+        <Text style={estilos.textoBoton}>
+          Mis animales
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.boton}
+        onPress={irHacerReserva}
+      >
+        <Text style={estilos.textoBoton}>
+          Hacer reserva
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.boton}
+        onPress={irMisReservas}
+      >
+        <Text style={estilos.textoBoton}>
+          Mis reservas
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+}

@@ -1,4 +1,3 @@
-
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -23,6 +22,14 @@ export default function DisenoRaiz() {
           name="registro"
           options={{
             title: "Crear cuenta",
+            headerShown: true,
+          }}
+        />
+
+        <Stack.Screen
+          name="inicio"
+          options={{
+            title: "Pantalla Inicial",
             headerShown: true,
           }}
         />

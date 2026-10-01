@@ -28,20 +28,6 @@ export default StyleSheet.create({
     textAlign: "center",
   },
 
-  botonRegistroPerro: {
-    alignSelf: "flex-end",
-    backgroundColor: "#D8D0C4",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    marginBottom: 15,
-  },
-
-  textoBotonRegistroPerro: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-
   lista: {
     width: "100%",
     marginBottom: 20,

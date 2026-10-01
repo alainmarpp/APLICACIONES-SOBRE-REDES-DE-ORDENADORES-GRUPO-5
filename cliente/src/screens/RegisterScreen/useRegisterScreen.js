@@ -25,9 +25,10 @@ export function useRegisterScreen() {
 
     alert("¡Cuenta registrada con éxito!");
 
-    // Pantalla Registro --> Pantalla Login --> Pantalla Servicios
-
-    router.replace("/");
+    router.replace({
+      pathname: "/inicio",
+      params: { usuario },
+    });
   };
 
   return {

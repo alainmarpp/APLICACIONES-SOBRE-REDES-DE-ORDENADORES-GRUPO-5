@@ -11,14 +11,9 @@ export function useLoginScreen() {
       return;
     }
 
-    // Pantalla Login --> Pantalla Servicios
-    // Asignar nombre usuario login a pantalla servicios
-
     router.replace({
-      pathname: "/servicios",
-      params: {
-        usuario: usuario,
-      },
+      pathname: "/inicio",
+      params: { usuario },
     });
   };
 
