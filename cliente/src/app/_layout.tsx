@@ -5,7 +5,7 @@ import { AnimatedSplashOverlay } from "@/components/animated-icon";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+export default function DisenoRaiz() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <AnimatedSplashOverlay />
@@ -40,7 +40,7 @@ export default function RootLayout() {
             title: "Reserva tu cita",
             headerShown: true,
           }}
-        />clea
+        />
 
         <Stack.Screen
           name="explore"

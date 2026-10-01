@@ -1,39 +1,39 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  container: {
+  contenedor: {
     flex: 1,
     alignItems: "center",
     padding: 20,
     backgroundColor: "#f5f5f5",
   },
 
-  welcome: {
+  bienvenida: {
     fontSize: 22,
     fontWeight: "bold",
     marginTop: 30,
     marginBottom: 10,
   },
 
-  title: {
+  titulo: {
     fontSize: 32,
     fontWeight: "bold",
     marginTop: 10,
     marginBottom: 10,
   },
 
-  subtitle: {
+  subtitulo: {
     fontSize: 18,
     marginBottom: 20,
     textAlign: "center",
   },
 
-  list: {
+  lista: {
     width: "100%",
     marginBottom: 20,
   },
 
-  serviceItem: {
+  itemServicio: {
     padding: 15,
     borderWidth: 1,
     borderColor: "#cccccc",
@@ -42,22 +42,22 @@ export default StyleSheet.create({
     backgroundColor: "#ffffff",
   },
 
-  serviceItemSelected: {
+  itemServicioSeleccionado: {
     backgroundColor: "#D8D0C4",
     borderColor: "#D8D0C4",
   },
 
-  serviceText: {
+  textoServicio: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#333333",
   },
 
-  serviceTextSelected: {
+  textoServicioSeleccionado: {
     color: "#000000",
   },
 
-  button: {
+  boton: {
     width: "80%",
     padding: 15,
     borderRadius: 10,
@@ -66,7 +66,7 @@ export default StyleSheet.create({
     marginBottom: 30,
   },
 
-  buttonText: {
+  textoBoton: {
     fontSize: 18,
     fontWeight: "bold",
   },

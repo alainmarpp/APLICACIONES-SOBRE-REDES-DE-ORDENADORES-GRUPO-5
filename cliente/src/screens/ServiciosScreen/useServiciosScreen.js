@@ -1,7 +1,9 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 
 export function useServiciosScreen() {
+  const { usuario } = useLocalSearchParams();
+
   const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
 
   const serviciosDisponibles = [
@@ -13,25 +15,38 @@ export function useServiciosScreen() {
     { id: "6", nombre: "Corte de pelo" },
   ];
 
-  const toggleServicio = (id) => {
-    setServiciosSeleccionados((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+  const alternarServicio = (id) => {
+    setServiciosSeleccionados((anterior) =>
+      anterior.includes(id)
+        ? anterior.filter((elemento) => elemento !== id)
+        : [...anterior, id],
     );
   };
 
-  const handleContinuar = () => {
+  const manejarContinuar = () => {
     if (serviciosSeleccionados.length === 0) {
       alert("Por favor, selecciona al menos un servicio");
       return;
     }
 
-    router.push("/calendario");
+    const nombresSeleccionados = serviciosDisponibles
+      .filter((servicio) => serviciosSeleccionados.includes(servicio.id))
+      .map((servicio) => servicio.nombre);
+
+    router.push({
+      pathname: "/calendario",
+      params: {
+        usuario: usuario,
+        servicios: JSON.stringify(nombresSeleccionados),
+      },
+    });
   };
 
   return {
+    usuario,
     serviciosDisponibles,
     serviciosSeleccionados,
-    toggleServicio,
-    handleContinuar,
+    alternarServicio,
+    manejarContinuar,
   };
 }

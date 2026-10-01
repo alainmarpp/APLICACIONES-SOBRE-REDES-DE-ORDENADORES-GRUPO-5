@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
-import styles from "./ServiciosScreenStyles";
+import estilos from "./ServiciosScreenStyles";
 import { useServiciosScreen } from "./useServiciosScreen";
 
 export default function ServiciosScreen() {
@@ -10,46 +10,52 @@ export default function ServiciosScreen() {
   const {
     serviciosDisponibles,
     serviciosSeleccionados,
-    toggleServicio,
-    handleContinuar,
+    alternarServicio,
+    manejarContinuar,
   } = useServiciosScreen();
 
-  const renderItem = ({ item }) => {
-    const isSelected = serviciosSeleccionados.includes(item.id);
+  const renderizarElemento = ({ item: elemento }) => {
+    const estaSeleccionado = serviciosSeleccionados.includes(elemento.id);
 
     return (
       <TouchableOpacity
-        style={[styles.serviceItem, isSelected && styles.serviceItemSelected]}
-        onPress={() => toggleServicio(item.id)}
+        style={[
+          estilos.itemServicio,
+          estaSeleccionado && estilos.itemServicioSeleccionado,
+        ]}
+        onPress={() => alternarServicio(elemento.id)}
       >
         <Text
-          style={[styles.serviceText, isSelected && styles.serviceTextSelected]}
+          style={[
+            estilos.textoServicio,
+            estaSeleccionado && estilos.textoServicioSeleccionado,
+          ]}
         >
-          {item.nombre}
+          {elemento.nombre}
         </Text>
       </TouchableOpacity>
     );
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>¡Bienvenid@, {usuario}!</Text>
+    <View style={estilos.contenedor}>
+      <Text style={estilos.bienvenida}>¡Bienvenid@, {usuario}!</Text>
 
-      <Text style={styles.title}>Servicios</Text>
+      <Text style={estilos.titulo}>Servicios</Text>
 
-      <Text style={styles.subtitle}>
+      <Text style={estilos.subtitulo}>
         Selecciona los servicios que deseas para tu mascota
       </Text>
 
       <FlatList
         data={serviciosDisponibles}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        style={styles.list}
+        keyExtractor={(elemento) => elemento.id}
+        renderItem={renderizarElemento}
+        style={estilos.lista}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleContinuar}>
-        <Text style={styles.buttonText}>Continuar</Text>
+      <TouchableOpacity style={estilos.boton} onPress={manejarContinuar}>
+        <Text style={estilos.textoBoton}>Continuar</Text>
       </TouchableOpacity>
     </View>
   );

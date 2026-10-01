@@ -1,16 +1,34 @@
-import { useState } from "react";
+import { useLocalSearchParams } from "expo-router";
+import { useMemo, useState } from "react";
 import { Alert } from "react-native";
 
 export const useCalendarioScreen = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
+  const { usuario, servicios } = useLocalSearchParams();
 
-  const [currentMonth, setCurrentMonth] = useState(8);
-  const [currentYear, setCurrentYear] = useState(2026);
+  const serviciosSeleccionados = useMemo(() => {
+    if (!servicios) return [];
+    try {
+      return JSON.parse(servicios);
+    } catch (error) {
+      return [];
+    }
+  }, [servicios]);
 
-  // Horas disponibles
+  const hoy = new Date();
 
-  const timeSlots = [
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
+  const [horaSeleccionada, setHoraSeleccionada] = useState(null);
+
+  const [mesActual, setMesActual] = useState(hoy.getMonth());
+  const [anioActual, setAnioActual] = useState(hoy.getFullYear());
+
+  const [citasReservadas, setCitasReservadas] = useState([]);
+
+  const diasEnMesActual = new Date(anioActual, mesActual + 1, 0).getDate();
+
+  const desfasePrimerDia = (new Date(anioActual, mesActual, 1).getDay() + 6) % 7;
+
+  const horasDisponibles = [
     "09:00",
     "10:00",
     "11:00",
@@ -21,7 +39,7 @@ export const useCalendarioScreen = () => {
     "18:00",
   ];
 
-  const monthNames = [
+  const nombresMeses = [
     "Enero",
     "Febrero",
     "Marzo",
@@ -36,41 +54,52 @@ export const useCalendarioScreen = () => {
     "Diciembre",
   ];
 
-  const handlePreviousMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(currentYear - 1);
+  const manejarMesAnterior = () => {
+    if (mesActual === 0) {
+      setMesActual(11);
+      setAnioActual(anioActual - 1);
     } else {
-      setCurrentMonth(currentMonth - 1);
+      setMesActual(mesActual - 1);
     }
 
-    setSelectedDate(null);
-    setSelectedTime(null);
+    setFechaSeleccionada(null);
+    setHoraSeleccionada(null);
   };
 
-  const handleNextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(currentYear + 1);
+  const manejarMesSiguiente = () => {
+    if (mesActual === 11) {
+      setMesActual(0);
+      setAnioActual(anioActual + 1);
     } else {
-      setCurrentMonth(currentMonth + 1);
+      setMesActual(mesActual + 1);
     }
 
-    setSelectedDate(null);
-    setSelectedTime(null);
+    setFechaSeleccionada(null);
+    setHoraSeleccionada(null);
   };
 
-  const handleDateSelect = (day) => {
-    setSelectedDate(day);
-    setSelectedTime(null);
+  const manejarSeleccionFecha = (dia) => {
+    setFechaSeleccionada(dia);
+    setHoraSeleccionada(null);
   };
 
-  const handleTimeSelect = (time) => {
-    setSelectedTime(time);
+  const manejarSeleccionHora = (hora) => {
+    setHoraSeleccionada(hora);
   };
 
-  const handleConfirmAppointment = () => {
-    if (!selectedDate || !selectedTime) {
+  const estaHoraReservada = (hora) => {
+    if (!fechaSeleccionada) return false;
+    return citasReservadas.some(
+      (cita) =>
+        cita.dia === fechaSeleccionada &&
+        cita.mes === mesActual &&
+        cita.anio === anioActual &&
+        cita.hora === hora,
+    );
+  };
+
+  const manejarConfirmarCita = () => {
+    if (!fechaSeleccionada || !horaSeleccionada) {
       Alert.alert(
         "Error",
         "Por favor selecciona un día y una hora para tu cita.",
@@ -78,23 +107,45 @@ export const useCalendarioScreen = () => {
       return;
     }
 
+    const listaServicios = serviciosSeleccionados.length
+      ? serviciosSeleccionados.join(", ")
+      : "sin servicios seleccionados";
+
+    setCitasReservadas((anterior) => [
+      ...anterior,
+      {
+        dia: fechaSeleccionada,
+        mes: mesActual,
+        anio: anioActual,
+        hora: horaSeleccionada,
+      },
+    ]);
+
     Alert.alert(
       "Cita Confirmada",
-      `Tu cita ha sido reservada para el día ${selectedDate} a las ${selectedTime}.`,
+      `${usuario ? `${usuario}, tu` : "Tu"} cita (${listaServicios}) ha sido reservada para el día ${fechaSeleccionada}/${mesActual + 1} a las ${horaSeleccionada}.`,
     );
+
+    setFechaSeleccionada(null);
+    setHoraSeleccionada(null);
   };
 
   return {
-    selectedDate,
-    selectedTime,
-    timeSlots,
-    currentMonth,
-    currentYear,
-    monthNames,
-    handlePreviousMonth,
-    handleNextMonth,
-    handleDateSelect,
-    handleTimeSelect,
-    handleConfirmAppointment,
+    usuario,
+    serviciosSeleccionados,
+    fechaSeleccionada,
+    horaSeleccionada,
+    horasDisponibles,
+    mesActual,
+    anioActual,
+    nombresMeses,
+    diasEnMesActual,
+    desfasePrimerDia,
+    manejarMesAnterior,
+    manejarMesSiguiente,
+    manejarSeleccionFecha,
+    manejarSeleccionHora,
+    manejarConfirmarCita,
+    estaHoraReservada,
   };
 };

@@ -3,64 +3,70 @@ import { Dimensions, StyleSheet } from 'react-native';
 const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
-  safeArea: {
+  areaSegura: {
     flex: 1,
     backgroundColor: '#FAFAFA',
   },
-  container: {
+  contenedor: {
     flex: 1,
     padding: 20,
   },
-  headerTitle: {
+  tituloCabecera: {
     fontSize: 26,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 20,
     textAlign: 'center',
   },
-  sectionTitle: {
+  subtitulo: {
+    fontSize: 15,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  tituloSeccion: {
     fontSize: 18,
     fontWeight: '600',
     color: '#444',
     marginTop: 20,
     marginBottom: 10,
   },
-  monthHeader: {
+  cabeceraMes: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 15,
   },
-  monthText: {
+  textoMes: {
     fontSize: 18,
     fontWeight: '500',
     color: '#333',
   },
-  navButton: {
+  botonNavegacion: {
     padding: 10,
   },
-  navButtonText: {
+  textoBotonNavegacion: {
     fontSize: 18,
-    color: '#FF6B6B', 
+    color: '#FF6B6B',
     fontWeight: 'bold',
   },
-  weekDaysContainer: {
+  contenedorDiasSemana: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
   },
-  weekDayText: {
+  textoDiaSemana: {
     width: width / 9,
     textAlign: 'center',
     color: '#888',
     fontWeight: '600',
   },
-  daysGrid: {
+  rejillaDias: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  dayButton: {
+  botonDia: {
     width: width / 9,
     aspectRatio: 1,
     justifyContent: 'center',
@@ -68,27 +74,27 @@ export default StyleSheet.create({
     marginBottom: 10,
     borderRadius: 20,
   },
-  dayButtonSelected: {
+  botonDiaSeleccionado: {
     backgroundColor: '#FF6B6B',
   },
-  dayText: {
+  textoDia: {
     fontSize: 16,
     color: '#333',
   },
-  dayTextSelected: {
+  textoDiaSeleccionado: {
     color: '#FFF',
     fontWeight: 'bold',
   },
-  dayTextDisabled: {
+  textoDiaDeshabilitado: {
     color: '#CCC',
   },
-  timeGrid: {
+  rejillaHoras: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginTop: 10,
   },
-  timeButton: {
+  botonHora: {
     width: '23%',
     paddingVertical: 12,
     backgroundColor: '#FFF',
@@ -98,20 +104,20 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  timeButtonSelected: {
+  botonHoraSeleccionado: {
     backgroundColor: '#FF6B6B',
     borderColor: '#FF6B6B',
   },
-  timeText: {
+  textoHora: {
     color: '#555',
     fontSize: 14,
     fontWeight: '500',
   },
-  timeTextSelected: {
+  textoHoraSeleccionado: {
     color: '#FFF',
     fontWeight: 'bold',
   },
-  confirmButton: {
+  botonConfirmar: {
     backgroundColor: '#FF6B6B',
     paddingVertical: 16,
     borderRadius: 12,
@@ -124,14 +130,22 @@ export default StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
   },
-  confirmButtonDisabled: {
+  botonConfirmarDeshabilitado: {
     backgroundColor: '#FFC0C0',
     shadowOpacity: 0,
     elevation: 0,
   },
-  confirmButtonText: {
+  textoBotonConfirmar: {
     color: '#FFF',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  botonHoraDeshabilitado: {
+    backgroundColor: '#F0F0F0',
+    borderColor: '#E0E0E0',
+  },
+  textoHoraDeshabilitado: {
+    color: '#CCCCCC',
+    textDecorationLine: 'line-through',
   },
 });

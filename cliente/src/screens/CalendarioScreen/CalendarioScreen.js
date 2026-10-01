@@ -6,108 +6,134 @@ import {
   View,
 } from "react-native";
 
-import styles from "./CalendarioScreenStyles";
+import estilos from "./CalendarioScreenStyles";
 import { useCalendarioScreen } from "./useCalendarioScreen";
 
 const CalendarioScreen = () => {
   const {
-    selectedDate,
-    selectedTime,
-    timeSlots,
-    currentMonth,
-    currentYear,
-    monthNames,
-    handlePreviousMonth,
-    handleNextMonth,
-    handleDateSelect,
-    handleTimeSelect,
-    handleConfirmAppointment,
+    usuario,
+    serviciosSeleccionados,
+    fechaSeleccionada,
+    horaSeleccionada,
+    horasDisponibles,
+    mesActual,
+    anioActual,
+    nombresMeses,
+    diasEnMesActual,
+    desfasePrimerDia,
+    manejarMesAnterior,
+    manejarMesSiguiente,
+    manejarSeleccionFecha,
+    manejarSeleccionHora,
+    manejarConfirmarCita,
+    estaHoraReservada,
   } = useCalendarioScreen();
 
-  // Días de la semana
+  const diasSemana = ["L", "M", "X", "J", "V", "S", "D"];
 
-  const weekDays = ["L", "M", "X", "J", "V", "S", "D"];
-
-  // Días del mes
-
-  const daysInMonth = Array.from({ length: 30 }, (_, i) => i + 1);
+  const celdasVacias = Array.from({ length: desfasePrimerDia }, () => null);
+  const diasDelMes = Array.from(
+    { length: diasEnMesActual },
+    (_, indice) => indice + 1,
+  );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <Text style={styles.headerTitle}>Reserva tu Cita</Text>
+    <SafeAreaView style={estilos.areaSegura}>
+      <ScrollView style={estilos.contenedor} showsVerticalScrollIndicator={false}>
+        <Text style={estilos.tituloCabecera}>Reserva tu Cita</Text>
 
-        <View style={styles.monthHeader}>
+        {serviciosSeleccionados.length > 0 && (
+          <Text style={estilos.subtitulo}>
+            {usuario ? `${usuario}: ` : ""}
+            {serviciosSeleccionados.join(", ")}
+          </Text>
+        )}
+
+        <View style={estilos.cabeceraMes}>
           <TouchableOpacity
-            style={styles.navButton}
-            onPress={handlePreviousMonth}
+            style={estilos.botonNavegacion}
+            onPress={manejarMesAnterior}
           >
-            <Text style={styles.navButtonText}>{"<"}</Text>
+            <Text style={estilos.textoBotonNavegacion}>{"<"}</Text>
           </TouchableOpacity>
 
-          <Text style={styles.monthText}>
-            {monthNames[currentMonth]} {currentYear}
+          <Text style={estilos.textoMes}>
+            {nombresMeses[mesActual]} {anioActual}
           </Text>
 
-          <TouchableOpacity style={styles.navButton} onPress={handleNextMonth}>
-            <Text style={styles.navButtonText}>{">"}</Text>
+          <TouchableOpacity
+            style={estilos.botonNavegacion}
+            onPress={manejarMesSiguiente}
+          >
+            <Text style={estilos.textoBotonNavegacion}>{">"}</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.weekDaysContainer}>
-          {weekDays.map((day, index) => (
-            <Text key={`weekday-${index}`} style={styles.weekDayText}>
-              {day}
+        <View style={estilos.contenedorDiasSemana}>
+          {diasSemana.map((dia, indice) => (
+            <Text key={`dia-semana-${indice}`} style={estilos.textoDiaSemana}>
+              {dia}
             </Text>
           ))}
         </View>
 
-        <View style={styles.daysGrid}>
-          {daysInMonth.map((day) => {
-            const isSelected = selectedDate === day;
+        <View style={estilos.rejillaDias}>
+          {celdasVacias.map((_, indice) => (
+            <View key={`vacia-${indice}`} style={estilos.botonDia} />
+          ))}
+
+          {diasDelMes.map((dia) => {
+            const estaSeleccionado = fechaSeleccionada === dia;
 
             return (
               <TouchableOpacity
-                key={`day-${day}`}
+                key={`dia-${dia}`}
                 style={[
-                  styles.dayButton,
-                  isSelected && styles.dayButtonSelected,
+                  estilos.botonDia,
+                  estaSeleccionado && estilos.botonDiaSeleccionado,
                 ]}
-                onPress={() => handleDateSelect(day)}
+                onPress={() => manejarSeleccionFecha(dia)}
                 activeOpacity={0.7}
               >
                 <Text
-                  style={[styles.dayText, isSelected && styles.dayTextSelected]}
+                  style={[
+                    estilos.textoDia,
+                    estaSeleccionado && estilos.textoDiaSeleccionado,
+                  ]}
                 >
-                  {day}
+                  {dia}
                 </Text>
               </TouchableOpacity>
             );
           })}
         </View>
 
-        <Text style={styles.sectionTitle}>Horas Disponibles</Text>
+        <Text style={estilos.tituloSeccion}>Horas Disponibles</Text>
 
-        <View style={styles.timeGrid}>
-          {timeSlots.map((time) => {
-            const isSelected = selectedTime === time;
+        <View style={estilos.rejillaHoras}>
+          {horasDisponibles.map((hora) => {
+            const estaSeleccionada = horaSeleccionada === hora;
+            const estaOcupada = estaHoraReservada(hora);
 
             return (
               <TouchableOpacity
-                key={time}
+                key={hora}
                 style={[
-                  styles.timeButton,
-                  isSelected && styles.timeButtonSelected,
+                  estilos.botonHora,
+                  estaSeleccionada && estilos.botonHoraSeleccionado,
+                  estaOcupada && estilos.botonHoraDeshabilitado,
                 ]}
-                onPress={() => handleTimeSelect(time)}
+                onPress={() => manejarSeleccionHora(hora)}
+                disabled={estaOcupada}
               >
                 <Text
                   style={[
-                    styles.timeText,
-                    isSelected && styles.timeTextSelected,
+                    estilos.textoHora,
+                    estaSeleccionada && estilos.textoHoraSeleccionado,
+                    estaOcupada && estilos.textoHoraDeshabilitado,
                   ]}
                 >
-                  {time}
+                  {hora}
                 </Text>
               </TouchableOpacity>
             );
@@ -116,13 +142,14 @@ const CalendarioScreen = () => {
 
         <TouchableOpacity
           style={[
-            styles.confirmButton,
-            (!selectedDate || !selectedTime) && styles.confirmButtonDisabled,
+            estilos.botonConfirmar,
+            (!fechaSeleccionada || !horaSeleccionada) &&
+              estilos.botonConfirmarDeshabilitado,
           ]}
-          onPress={handleConfirmAppointment}
-          disabled={!selectedDate || !selectedTime}
+          onPress={manejarConfirmarCita}
+          disabled={!fechaSeleccionada || !horaSeleccionada}
         >
-          <Text style={styles.confirmButtonText}>Confirmar Cita</Text>
+          <Text style={estilos.textoBotonConfirmar}>Confirmar Cita</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
