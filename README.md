@@ -164,6 +164,7 @@ npx.cmd expo start
 ```
 
 Una vez iniciado Expo, se podrá ejecutar la aplicación utilizando las opciones proporcionadas por Expo.
+Iniciar Expo desde el cliente
 
 ---
 
