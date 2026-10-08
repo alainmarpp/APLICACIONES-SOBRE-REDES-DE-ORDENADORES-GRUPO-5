@@ -7,7 +7,7 @@ export function useRegisterScreen() {
   const [contrasena, setContrasena] = useState("");
   const [confirmarContrasena, setConfirmarContrasena] = useState("");
 
-  const handleRegistro = () => {
+  const handleRegistro = async () => {
     if (
       !usuario.trim() ||
       !telefono.trim() ||
@@ -23,12 +23,37 @@ export function useRegisterScreen() {
       return;
     }
 
-    alert("¡Cuenta registrada con éxito!");
+    try {
 
-    router.replace({
-      pathname: "/inicio",
-      params: { usuario },
-    });
+      const response = await fetch("http://localhost:3000/registro", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: usuario,   
+          tlf: telefono,    
+          contrasenia: contrasena 
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Error al registrar el usuario");
+      }
+
+      alert("¡Cuenta registrada con éxito en la base de datos!");
+
+      router.replace({
+        pathname: "/inicio",
+        params: { usuario },
+      });
+
+    } catch (error) {
+      console.error("Error de red o servidor:", error);
+      alert("No se pudo conectar con el servidor. Asegúrate de que está encendido.");
+    }
   };
 
   return {
