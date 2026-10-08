@@ -1,0 +1,38 @@
+// Este script es provisional para tener las funciones que se han de implementar apuntadas
+
+Tipos de preguntas: sobre todo conceptuales, que se entiendan las cosas.
+No hace falta memorizar datos especificos, mas bien entender los conceptos de forma general. Fechas,... no hace falta
+Diferencia tcp de udp, midelware,....
+
+TABLA USUARIOS:nombre PK, tlf, contraseña
+// Pantalla login
+obtenerUsuario(Usuario) Usuario va a ser la key
+devolveria usuario y contraseña
+obtenerTelefono(Usuario) devolveria telefono
+
+// Pantalla register
+crearUsuario(nombreUsuario, tlf, contraseña) // Para que se llame a esta funcion, el backend debe de verificar que se ha repetido correctamente la conyraseña
+
+// 
+eliminarUsuario(Usuario), modificarContraseña(Usuario)
+
+TABLA ANIMALES: id (key), nombreAnimal, edad, peso, raza, usuario(FK)
+Usuario no puede tener dos animales con mismo nombre/raza
+
+crearAnimal(nombreAnimal, edad, peso, raza, usuario)
+modificarAnimal(nombreAnimal, raza, usuario)
+eliminarAnimal(nombreAnimal, raza, usuario)
+
+TABLA RESERVAS: id (key), idAnimal (FK), usuario (FK), fecha, horainicio, horafin, servicio(string)
+buscarReserva(usuario) // que sean a partir de la fecha ke se buscarReserva
+crearReserva()
+eliminarReserva()
+
+Si quiero hacer calendario, Imprimo calendario libre, reviso reservas, y las voy metiendo al calendario del cliente
+
+
+
+
+
+
+

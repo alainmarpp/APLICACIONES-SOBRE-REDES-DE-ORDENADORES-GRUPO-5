@@ -4,6 +4,10 @@ const bcrypt = require('bcrypt'); // Lo necesitamos para el login (comparar)
 const jwt = require('jsonwebtoken'); 
 const Usuario = require('./models/Usuario'); // Ya importamos el modelo real
 
+require('./src/models/user.model');
+require('./src/models/animal.model');
+require('./src/models/reserva.model');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,17 +17,15 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.json({
-        mensaje: '¡API REST levantada y conectada a MySQL en la nube!'
+        mensaje: '¡API REST levantada y conectada a Aiven!'
     });
 });
 
 // --- RUTA: REGISTRO SEGURO ---
 app.post('/registro', async (req, res) => {
-    // Usamos las mismas variables que definiste en Usuario.js
     const { nombre, tlf, contrasenia } = req.body;
 
     try {
-        // Guardamos directamente. El modelo Usuario.js se encarga de hashear la contraseña gracias al hook "beforeCreate"
         await Usuario.create({
             nombre: nombre,
             tlf: tlf,
@@ -42,25 +44,22 @@ app.post('/login', async (req, res) => {
     const { nombre, contrasenia } = req.body;
 
     try {
-        // 1. Buscar al usuario en la BBDD por su nombre
         const usuarioDB = await Usuario.findOne({ where: { nombre: nombre } });
 
         if (!usuarioDB) {
             return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
         }
 
-        // 2. Comparamos la contraseña en texto plano que envía la app con el hash de la BBDD
         const contrasenaValida = await bcrypt.compare(contrasenia, usuarioDB.contrasenia);
 
         if (!contrasenaValida) {
             return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
         }
 
-        // 3. ¡Todo correcto! Generamos el Token JWT
         const token = jwt.sign(
             { nombre: usuarioDB.nombre, tlf: usuarioDB.tlf },
             SECRET_KEY,
-            { expiresIn: '2h' } // Caduca en 2 horas
+            { expiresIn: '2h' }
         );
 
         res.json({ 
@@ -78,17 +77,17 @@ app.post('/login', async (req, res) => {
 async function iniciarServidor() {
     try {
         await sequelize.authenticate();
-        console.log('✅ Conexión con MySQL establecida correctamente.');
+        console.log('✅ Conexión con Aiven establecida correctamente.');
 
-        await sequelize.sync();
-        console.log('✅ Modelos sincronizados correctamente.');
+        await sequelize.sync({ alter: true });
+        console.log('✅ Tablas creadas/sincronizadas correctamente en la BBDD.');
 
         app.listen(PORT, () => {
-            console.log(`Servidor corriendo en http://localhost:${PORT}`);
+            console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
         });
 
     } catch (error) {
-        console.error('Error al conectar a la base de datos:');
+        console.error('❌ Error al iniciar el servidor o conectar a la BBDD:');
         console.error(error);
     }
 }

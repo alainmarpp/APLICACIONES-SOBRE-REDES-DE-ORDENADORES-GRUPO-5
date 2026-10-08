@@ -10,15 +10,11 @@ const sequelize = new Sequelize(
     {
         host: 'miapp-miapp.b.aivencloud.com',
         port: 27199,
-
         dialect: 'mysql',
         dialectModule: mysql2,
-
         logging: false,
-
         dialectOptions: {
             connectTimeout: 20000,
-
             ssl: {
                 ca: fs.readFileSync(
                     path.join(__dirname, '..', 'ca.pem')
