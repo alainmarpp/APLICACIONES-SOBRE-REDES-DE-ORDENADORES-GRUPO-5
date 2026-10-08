@@ -1,8 +1,9 @@
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert } from "react-native";
 
 export const useCalendarioScreen = () => {
+  const router = useRouter();
   const { usuario, servicios } = useLocalSearchParams();
 
   const serviciosSeleccionados = (() => {
@@ -98,9 +99,8 @@ export const useCalendarioScreen = () => {
         cita.hora === hora,
     );
   };
-  const manejarConfirmarCita = () => {
-    Alert.alert("PRUEBA", "El botón funciona");
 
+  const manejarConfirmarCita = () => {
     if (!fechaSeleccionada || !horaSeleccionada) {
       Alert.alert(
         "Error",
@@ -109,27 +109,17 @@ export const useCalendarioScreen = () => {
       return;
     }
 
-    const listaServicios = serviciosSeleccionados.length
-      ? serviciosSeleccionados.join(", ")
-      : "sin servicios seleccionados";
-
-    setCitasReservadas((anterior) => [
-      ...anterior,
-      {
+    router.push({
+      pathname: "/reserva",
+      params: {
+        usuario: usuario ?? "",
+        servicios: serviciosSeleccionados.join(","),
         dia: fechaSeleccionada,
-        mes: mesActual,
+        mes: mesActual + 1,
         anio: anioActual,
         hora: horaSeleccionada,
       },
-    ]);
-
-    Alert.alert(
-      "Cita Confirmada",
-      `${usuario ? `${usuario}, tu` : "Tu"} cita (${listaServicios}) ha sido reservada para el día ${fechaSeleccionada}/${mesActual + 1} a las ${horaSeleccionada}.`,
-    );
-
-    setFechaSeleccionada(null);
-    setHoraSeleccionada(null);
+    });
   };
 
   return {
