@@ -1,37 +1,35 @@
 const express = require('express');
 const sequelize = require('./config/database');
 
+require('./src/models/user.model');
+require('./src/models/animal.model');
+require('./src/models/reserva.model');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Ruta básica para probar que la API responde
 app.get('/', (req, res) => {
     res.json({
-        mensaje: '¡API REST levantada y conectada a MySQL en la nube!'
+        mensaje: '¡API REST levantada y conectada a Aiven!'
     });
 });
 
-// Arrancar servidor
 async function iniciarServidor() {
     try {
-        // Comprobar conexión con Aiven
         await sequelize.authenticate();
+        console.log('Conexión con Aiven establecida correctamente.');
 
-        console.log('✅ Conexión con MySQL establecida correctamente.');
-
-        // Sincronizar modelos con las tablas de la BBDD
-        await sequelize.sync();
-
-        console.log('✅ Modelos sincronizados correctamente.');
+        await sequelize.sync({ alter: true });
+        console.log('Tablas creadas/sincronizadas correctamente en la BBDD.');
 
         app.listen(PORT, () => {
             console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
         });
 
     } catch (error) {
-        console.error('❌ Error al conectar a la base de datos:');
+        console.error('❌ Error al iniciar el servidor o conectar a la BBDD:');
         console.error(error);
     }
 }

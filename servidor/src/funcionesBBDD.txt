@@ -4,7 +4,7 @@ Tipos de preguntas: sobre todo conceptuales, que se entiendan las cosas.
 No hace falta memorizar datos especificos, mas bien entender los conceptos de forma general. Fechas,... no hace falta
 Diferencia tcp de udp, midelware,....
 
-TABLA USUARIOS: nombre, tlf, contraseña
+TABLA USUARIOS:nombre PK, tlf, contraseña
 // Pantalla login
 obtenerUsuario(Usuario) Usuario va a ser la key
 devolveria usuario y contraseña
