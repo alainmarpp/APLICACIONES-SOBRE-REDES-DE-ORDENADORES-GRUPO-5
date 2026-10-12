@@ -5,23 +5,49 @@ const jwt = require('jsonwebtoken');
 const Usuario = require('../models/user.model');
 
 const SECRET_KEY = process.env.SECRET_KEY || "mi_clave_super_secreta_perruqueria";
+const SALT_ROUNDS = 10;
 
-// --- RUTA: REGISTRO SEGURO ---
+// --- RUTA: REGISTRO SEGURO (Con hash de contraseña y tus logs) ---
 router.post('/registro', async (req, res) => {
     console.log("📥 [SERVIDOR/Register] Petición POST recibida en /registro");
     console.log("📦 [SERVIDOR/Register] Datos que han llegado (req.body):", req.body);
 
     const { nombre, tlf, contrasenia } = req.body;
 
+    if (!nombre || !tlf || !contrasenia) {
+        return res.status(400).json({ error: 'Faltan campos obligatorios' });
+    }
+
     try {
-        await Usuario.create({
+        // Verificar si ya existe
+        const existente = await Usuario.findOne({ where: { nombre } });
+        if (existente) {
+            return res.status(409).json({ error: 'Ese nombre de usuario ya existe' });
+        }
+
+        // Encriptar la contraseña con bcrypt por seguridad
+        const hash = await bcrypt.hash(contrasenia, SALT_ROUNDS);
+
+        const usuarioCreado = await Usuario.create({
             nombre: nombre,
             tlf: tlf,
-            contrasenia: contrasenia 
+            contrasenia: hash 
         });
 
-        console.log("✅ [SERVIDOR/Register] Usuario guardado con éxito en la base de datos de Aiven.");
-        res.status(201).json({ mensaje: 'Usuario registrado correctamente de forma segura.' });
+        // Generar token para login automático tras el registro
+        const token = jwt.sign(
+            { nombre: usuarioCreado.nombre, tlf: usuarioCreado.tlf },
+            SECRET_KEY,
+            { expiresIn: '2h' }
+        );
+
+        console.log("✅ [SERVIDOR/Register] Usuario guardado y encriptado con éxito en Aiven.");
+        
+        res.status(201).json({ 
+            mensaje: 'Usuario registrado correctamente de forma segura.',
+            token: token,
+            nombre: usuarioCreado.nombre
+        });
     } catch (error) {
         console.error("❌ [SERVIDOR] Error al registrar el usuario en la BBDD:", error);
         res.status(500).json({ error: 'Hubo un error al registrar el usuario.' });
@@ -31,6 +57,10 @@ router.post('/registro', async (req, res) => {
 // --- RUTA: LOGIN CON TOKENS ---
 router.post('/login', async (req, res) => {
     const { nombre, contrasenia } = req.body;
+
+    if (!nombre || !contrasenia) {
+        return res.status(400).json({ error: 'Faltan campos obligatorios' });
+    }
 
     try {
         const usuarioDB = await Usuario.findOne({ where: { nombre: nombre } });
@@ -53,7 +83,8 @@ router.post('/login', async (req, res) => {
 
         res.json({ 
             mensaje: 'Login exitoso', 
-            token: token 
+            token: token,
+            nombre: usuarioDB.nombre
         });
 
     } catch (error) {
