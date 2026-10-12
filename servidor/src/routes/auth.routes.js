@@ -8,6 +8,9 @@ const SECRET_KEY = process.env.SECRET_KEY || "mi_clave_super_secreta_perruqueria
 
 // --- RUTA: REGISTRO SEGURO ---
 router.post('/registro', async (req, res) => {
+    console.log("📥 [SERVIDOR/Register] Petición POST recibida en /registro");
+    console.log("📦 [SERVIDOR/Register] Datos que han llegado (req.body):", req.body);
+
     const { nombre, tlf, contrasenia } = req.body;
 
     try {
@@ -17,9 +20,10 @@ router.post('/registro', async (req, res) => {
             contrasenia: contrasenia 
         });
 
+        console.log("✅ [SERVIDOR/Register] Usuario guardado con éxito en la base de datos de Aiven.");
         res.status(201).json({ mensaje: 'Usuario registrado correctamente de forma segura.' });
     } catch (error) {
-        console.error("Error en el registro:", error);
+        console.error("❌ [SERVIDOR] Error al registrar el usuario en la BBDD:", error);
         res.status(500).json({ error: 'Hubo un error al registrar el usuario.' });
     }
 });

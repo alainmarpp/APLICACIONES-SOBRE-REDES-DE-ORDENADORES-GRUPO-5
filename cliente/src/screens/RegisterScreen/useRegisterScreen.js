@@ -23,21 +23,25 @@ export function useRegisterScreen() {
       return;
     }
 
-    try {
+    const datosAEnviar = {
+      nombre: usuario,   
+      tlf: telefono,    
+      contrasenia: contrasena 
+    };
 
+    console.log("📤 [CLIENTE/Register] Enviando datos al servidor:", datosAEnviar);
+
+    try {
       const response = await fetch("http://localhost:3000/registro", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          nombre: usuario,   
-          tlf: telefono,    
-          contrasenia: contrasena 
-        }),
+        body: JSON.stringify(datosAEnviar),
       });
 
       const data = await response.json();
+      console.log("📥 [CLIENTE/Register] Respuesta recibida del servidor:", data);
 
       if (!response.ok) {
         throw new Error(data.error || "Error al registrar el usuario");
@@ -51,7 +55,7 @@ export function useRegisterScreen() {
       });
 
     } catch (error) {
-      console.error("Error de red o servidor:", error);
+      console.error("❌ [CLIENTE/Register] Error de red o servidor:", error);
       alert("No se pudo conectar con el servidor. Asegúrate de que está encendido.");
     }
   };

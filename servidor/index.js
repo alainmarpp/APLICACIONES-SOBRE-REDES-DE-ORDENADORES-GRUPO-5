@@ -2,12 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
 
-// Cargar modelos
 require('./src/models/user.model');
 require('./src/models/animal.model');
 require('./src/models/reserva.model');
 
-// Importar rutas modularizadas
 const authRoutes = require('./src/routes/auth.routes');
 
 const app = express();
@@ -17,14 +15,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Rutas
 app.get('/', (req, res) => {
     res.json({ mensaje: '¡API REST levantada y conectada a Aiven!' });
 });
 
-app.use(authRoutes); // Conecta las rutas de registro y login directamente
+app.use(authRoutes);
 
-// Arrancar servidor
 async function iniciarServidor() {
     try {
         await sequelize.authenticate();
