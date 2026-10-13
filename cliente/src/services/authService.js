@@ -1,10 +1,13 @@
 import * as SecureStore from 'expo-secure-store';
 import { router } from 'expo-router';
+import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
-// Web e iOS simulator: localhost. Emulador Android: 10.0.2.2 (alias del PC).
-// Móvil físico: define EXPO_PUBLIC_API_URL=http://IP_DE_TU_PC:3000 en el .env del cliente.
-const HOST = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+// Expo sabe la IP del ordenador donde está corriendo (sirve para móvil físico, emulador y web).
+// Si no la encuentra (por ejemplo usando --tunnel): Emulador Android 10.0.2.2, resto localhost.
+// Para forzar una dirección: EXPO_PUBLIC_API_URL=http://IP_DE_TU_PC:3000 en el .env del cliente.
+const HOST_EXPO = Constants.expoConfig?.hostUri?.split(':')[0];
+const HOST = HOST_EXPO || (Platform.OS === 'android' ? '10.0.2.2' : 'localhost');
 export const API_URL = process.env.EXPO_PUBLIC_API_URL || `http://${HOST}:3000`;
 
 const TOKEN_KEY = 'auth_token';

@@ -1,19 +1,36 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { peticion } from "../../services/api";
 
 export function useServiciosScreen() {
   const { usuario } = useLocalSearchParams();
 
   const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
+  const [serviciosDisponibles, setServiciosDisponibles] = useState([]);
+  const [cargando, setCargando] = useState(true);
 
-  const serviciosDisponibles = [
-    { id: "1", nombre: "Baño + secado" },
-    { id: "2", nombre: "Corte uñas" },
-    { id: "3", nombre: "Completo" },
-    { id: "4", nombre: "Lavado dientes" },
-    { id: "5", nombre: "Tratamiento pulgas y garrapatas" },
-    { id: "6", nombre: "Corte de pelo" },
-  ];
+  // La lista de servicios viene del servidor
+  useEffect(() => {
+    let cancelado = false;
+
+    const cargarServicios = async () => {
+      try {
+        const datos = await peticion("/servicios");
+        if (!cancelado) setServiciosDisponibles(datos);
+      } catch (error) {
+        if (!cancelado) alert(error.message);
+      } finally {
+        if (!cancelado) setCargando(false);
+      }
+    };
+
+    cargarServicios();
+
+    return () => {
+      cancelado = true;
+    };
+  }, []);
 
   const alternarServicio = (id) => {
     setServiciosSeleccionados((anterior) =>
@@ -38,12 +55,14 @@ export function useServiciosScreen() {
       params: {
         usuario: usuario,
         servicios: JSON.stringify(nombresSeleccionados),
+        serviciosIds: serviciosSeleccionados.join(","),
       },
     });
   };
 
   return {
     usuario,
+    cargando,
     serviciosDisponibles,
     serviciosSeleccionados,
     alternarServicio,

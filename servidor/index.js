@@ -9,6 +9,9 @@ require('./src/models/animal.model');
 require('./src/models/reserva.model');
 
 const authRoutes = require('./src/routes/auth.routes');
+const serviciosRoutes = require('./src/routes/servicios.routes');
+const animalesRoutes = require('./src/routes/animales.routes');
+const reservasRoutes = require('./src/routes/reservas.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,7 +25,10 @@ app.get('/', (req, res) => {
     res.json({ mensaje: '¡API REST levantada y conectada a Aiven!' });
 });
 
-app.use(authRoutes);
+app.use(authRoutes);      // POST /registro, POST /login, GET /perfil
+app.use(serviciosRoutes); // GET /servicios
+app.use(animalesRoutes);  // GET/POST /animales, PUT/DELETE /animales/:id   (con token)
+app.use(reservasRoutes);  // GET /disponibilidad, GET/POST /reservas, DELETE /reservas/:id (con token)
 
 
 async function iniciarServidor() {
