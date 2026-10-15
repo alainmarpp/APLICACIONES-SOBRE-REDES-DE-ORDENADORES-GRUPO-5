@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import HistorialPerroScreen from "../screens/HistorialPerroScreen/HistorialPerroScreen";
+import HistorialPerroScreen from "../screens/HistorialReservasScreen/HistorialReservasScreen";
 
 export default function HistorialPerro() {
   return (
