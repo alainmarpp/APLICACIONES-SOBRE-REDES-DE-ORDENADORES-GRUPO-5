@@ -5,8 +5,11 @@ if (!process.env.SECRET_KEY) {
     console.warn('⚠️  SECRET_KEY no definida en el entorno: usando clave de desarrollo.');
 }
 
+// Duración del token: cámbiala aquí (ej. '30m', '1h', '12h') o con la variable TOKEN_DURACION
+const DURACION_TOKEN = process.env.TOKEN_DURACION || '15m';
+
 function generarToken(usuario) {
-    return jwt.sign({ nombre: usuario.nombre }, SECRET_KEY, { expiresIn: '2h' });
+    return jwt.sign({ nombre: usuario.nombre, tlf: usuario.tlf }, SECRET_KEY, { expiresIn: DURACION_TOKEN });
 }
 
 // Middleware: exige cabecera "Authorization: Bearer <token>"

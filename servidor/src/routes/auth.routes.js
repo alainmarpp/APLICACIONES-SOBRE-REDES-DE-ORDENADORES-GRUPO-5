@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const Usuario = require('../models/user.model');
-const { verificarToken } = require('../middlewares/auth.middleware');
-
-const SECRET_KEY = process.env.SECRET_KEY || "mi_clave_super_secreta_perruqueria";
+const { verificarToken, generarToken } = require('../middlewares/auth.middleware');
 
 // --- RUTA: REGISTRO SEGURO (Con hash de contraseña y tus logs) ---
 router.post('/registro', async (req, res) => {
@@ -25,9 +22,7 @@ router.post('/registro', async (req, res) => {
             return res.status(409).json({ error: 'Ese nombre de usuario ya existe' });
         }
 
-        // OJO: la contraseña NO se hashea aquí. El modelo (user.model.js) ya la hashea
-        // en el hook beforeCreate. Si se hasheara también aquí, quedaría hasheada dos veces
-        // y el login (bcrypt.compare) fallaría siempre.
+
         const usuarioCreado = await Usuario.create({
             nombre: nombre,
             tlf: tlf,
@@ -35,11 +30,7 @@ router.post('/registro', async (req, res) => {
         });
 
         // Generar token para login automático tras el registro
-        const token = jwt.sign(
-            { nombre: usuarioCreado.nombre, tlf: usuarioCreado.tlf },
-            SECRET_KEY,
-            { expiresIn: '2h' }
-        );
+        const token = generarToken(usuarioCreado);
 
         console.log("✅ [SERVIDOR/Register] Usuario guardado y encriptado con éxito en Aiven.");
         
@@ -75,11 +66,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
         }
 
-        const token = jwt.sign(
-            { nombre: usuarioDB.nombre, tlf: usuarioDB.tlf },
-            SECRET_KEY,
-            { expiresIn: '2h' }
-        );
+        const token = generarToken(usuarioDB);
 
         res.json({ 
             mensaje: 'Login exitoso', 
