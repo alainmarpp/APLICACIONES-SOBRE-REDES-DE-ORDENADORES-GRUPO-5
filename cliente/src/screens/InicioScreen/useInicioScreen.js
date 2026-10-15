@@ -10,6 +10,10 @@ export function useInicioScreen() {
     });
   };
 
+  const irMiPerfil = () => {
+    router.push("/perfil");
+  };
+
   const irMisAnimales = () => {
     router.push({
       pathname: "/historialAnimales",
@@ -33,6 +37,7 @@ export function useInicioScreen() {
 
   return {
     irInicio,
+    irMiPerfil,
     irMisAnimales,
     irHacerReserva,
     irMisReservas,

@@ -9,6 +9,23 @@ export default StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
 
+  botonPerfil: {
+    position: "absolute",
+    top: 15,
+    right: 15,
+    zIndex: 10,
+    backgroundColor: "#D8D0C4",
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+  },
+
+  textoPerfil: {
+    color: "#40382F",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+
   titulo: {
     fontSize: 32,
     fontWeight: "bold",
