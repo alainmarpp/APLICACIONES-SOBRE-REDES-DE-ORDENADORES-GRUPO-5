@@ -1,5 +1,5 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import { useCallback, useState } from "react";
 import { Alert } from "react-native";
 
 import { peticion } from "../../services/api";
@@ -42,6 +42,7 @@ export const useCalendarioScreen = () => {
 
   // Respuesta del servidor: [{ hora: "09:00", libre: true }, ...]
   const [disponibilidad, setDisponibilidad] = useState(null);
+  const [cargandoHoras, setCargandoHoras] = useState(false);
 
   const diasEnMesActual = new Date(anioActual, mesActual + 1, 0).getDate();
 
@@ -62,40 +63,63 @@ export const useCalendarioScreen = () => {
     "Diciembre",
   ];
 
-  // Cada vez que se elige un día, se pregunta al servidor qué horas hay libres
-  useEffect(() => {
-    if (!fechaSeleccionada || !serviciosIds) {
-      setDisponibilidad(null);
-      return;
-    }
-
-    let cancelado = false;
-    const fechaIso = `${anioActual}-${dosDigitos(mesActual + 1)}-${dosDigitos(fechaSeleccionada)}`;
-
-    const cargarDisponibilidad = async () => {
-      try {
-        const datos = await peticion(
-          `/disponibilidad?fecha=${fechaIso}&servicios=${serviciosIds}`,
-        );
-        if (!cancelado) setDisponibilidad(datos.horas);
-      } catch (error) {
-        if (!cancelado) {
-          setDisponibilidad(null);
-          Alert.alert("Error", error.message);
-        }
+  // Pregunta al servidor qué horas hay libres:
+  //  - cada vez que se elige un día
+  //  - cada vez que la pantalla vuelve a estar visible (por ejemplo, tras un 409
+  //    en /reserva), para no enseñar horas que ya ha cogido otra persona
+  useFocusEffect(
+    useCallback(() => {
+      if (!fechaSeleccionada || !serviciosIds) {
+        setDisponibilidad(null);
+        setCargandoHoras(false);
+        return;
       }
-    };
 
-    cargarDisponibilidad();
+      let cancelado = false;
+      const fechaIso = `${anioActual}-${dosDigitos(mesActual + 1)}-${dosDigitos(fechaSeleccionada)}`;
 
-    return () => {
-      cancelado = true;
-    };
-  }, [fechaSeleccionada, mesActual, anioActual, serviciosIds]);
+      const cargarDisponibilidad = async () => {
+        setCargandoHoras(true);
+        try {
+          const datos = await peticion(
+            `/disponibilidad?fecha=${fechaIso}&servicios=${serviciosIds}`,
+          );
+          if (cancelado) return;
+
+          setDisponibilidad(datos.horas);
+
+          // Si la hora elegida se ha ocupado entretanto, se deselecciona
+          setHoraSeleccionada((actual) => {
+            const encontrada = datos.horas.find((h) => h.hora === actual);
+            return encontrada && encontrada.libre ? actual : null;
+          });
+        } catch (error) {
+          if (!cancelado) {
+            setDisponibilidad(null);
+            Alert.alert("Error", error.message);
+          }
+        } finally {
+          if (!cancelado) setCargandoHoras(false);
+        }
+      };
+
+      cargarDisponibilidad();
+
+      return () => {
+        cancelado = true;
+      };
+    }, [fechaSeleccionada, mesActual, anioActual, serviciosIds]),
+  );
 
   const horasDisponibles = disponibilidad
     ? disponibilidad.map((elemento) => elemento.hora)
     : HORAS_POR_DEFECTO;
+
+  // Días anteriores a hoy: no se pueden elegir
+  const esDiaPasado = (dia) => {
+    const inicioHoy = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+    return new Date(anioActual, mesActual, dia) < inicioHoy;
+  };
 
   const manejarMesAnterior = () => {
     if (mesActual === 0) {
@@ -122,20 +146,24 @@ export const useCalendarioScreen = () => {
   };
 
   const manejarSeleccionFecha = (dia) => {
+    if (esDiaPasado(dia)) return;
     setFechaSeleccionada(dia);
     setHoraSeleccionada(null);
   };
 
-  const manejarSeleccionHora = (hora) => {
-    setHoraSeleccionada(hora);
-  };
-
-  // Una hora está "reservada" (no se puede elegir) si el servidor dice que no está libre
+  // Una hora está "reservada" (tachada y no seleccionable) si el servidor dice que no está libre
   const estaHoraReservada = (hora) => {
     if (!disponibilidad) return false;
 
     const encontrada = disponibilidad.find((elemento) => elemento.hora === hora);
     return encontrada ? !encontrada.libre : false;
+  };
+
+  const manejarSeleccionHora = (hora) => {
+    // Sin datos del servidor (aún no hay día o está cargando) no se puede elegir
+    if (!disponibilidad || cargandoHoras) return;
+    if (estaHoraReservada(hora)) return;
+    setHoraSeleccionada(hora);
   };
 
   const manejarConfirmarCita = () => {
@@ -167,11 +195,13 @@ export const useCalendarioScreen = () => {
     fechaSeleccionada,
     horaSeleccionada,
     horasDisponibles,
+    cargandoHoras,
     mesActual,
     anioActual,
     nombresMeses,
     diasEnMesActual,
     diasSinEmpezar,
+    esDiaPasado,
     manejarMesAnterior,
     manejarMesSiguiente,
     manejarSeleccionFecha,

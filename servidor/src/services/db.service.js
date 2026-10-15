@@ -2,6 +2,7 @@ const Usuario = require('../models/user.model');
 const Animal = require('../models/animal.model');
 const Reserva = require('../models/reserva.model');
 const { Op } = require('sequelize');
+const sequelize = require('../../config/database');
 
 async function registrarUsuario(nombre, tlf, contrasenia) {
     return await Usuario.create({ nombre, tlf, contrasenia });
@@ -66,6 +67,29 @@ async function crearReserva(idAnimal, usuario, fecha, horainicio, horafin, servi
     return await Reserva.create({ idAnimal, usuario, fecha, horainicio, horafin, servicio });
 }
 
+// Crea la reserva solo si no choca con otra del mismo día. Devuelve null si la hora ya está ocupada.
+// Va dentro de una transacción con bloqueo para que dos personas que pulsan a la vez
+// no puedan coger la misma hora.
+async function crearReservaSiLibre(idAnimal, usuario, fecha, horainicio, horafin, servicio) {
+    return await sequelize.transaction(async (t) => {
+        const choque = await Reserva.findOne({
+            where: {
+                fecha,
+                horainicio: { [Op.lt]: horafin },
+                horafin: { [Op.gt]: horainicio }
+            },
+            transaction: t,
+            lock: t.LOCK.UPDATE
+        });
+        if (choque) return null;
+
+        return await Reserva.create(
+            { idAnimal, usuario, fecha, horainicio, horafin, servicio },
+            { transaction: t }
+        );
+    });
+}
+
 async function buscarReserva(usuario, fechaActual) {
     // Busca reservas del usuario a partir de una fecha dada
     return await Reserva.findAll({
@@ -108,6 +132,7 @@ module.exports = {
     modificarAnimalPorId,
     eliminarAnimalPorId,
     crearReserva,
+    crearReservaSiLibre,
     buscarReserva,
     reservasDelDia,
     eliminarReserva,

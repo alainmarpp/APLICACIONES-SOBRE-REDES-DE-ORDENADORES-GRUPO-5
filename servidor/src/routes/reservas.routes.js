@@ -81,9 +81,18 @@ router.post('/reservas', verificarToken, async (req, res) => {
         const horafin = aHora(aMinutos(horainicio) + duracion);
         const nombres = elegidos.map((s) => s.nombre).join(', ');
 
-        const reserva = await db.crearReserva(animal.id, req.usuario.nombre, fecha, horainicio, horafin, nombres);
+        // Comprueba el solape y guarda dentro de una transacción (devuelve null si ya está ocupada)
+        const reserva = await db.crearReservaSiLibre(animal.id, req.usuario.nombre, fecha, horainicio, horafin, nombres);
+        if (!reserva) {
+            return res.status(409).json({ error: 'Esa hora ya no está disponible' });
+        }
         res.status(201).json(reserva);
     } catch (error) {
+        // Dos reservas a la vez sobre la misma hora: MySQL aborta una con deadlock
+        const codigo = error.parent?.code || error.original?.code || error.code;
+        if (codigo === 'ER_LOCK_DEADLOCK') {
+            return res.status(409).json({ error: 'Esa hora ya no está disponible' });
+        }
         console.error('Error al crear reserva:', error);
         res.status(500).json({ error: 'No se pudo crear la reserva' });
     }
