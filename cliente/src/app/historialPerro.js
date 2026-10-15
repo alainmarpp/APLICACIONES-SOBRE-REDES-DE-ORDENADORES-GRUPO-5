@@ -6,7 +6,7 @@ export default function HistorialPerro() {
     <>
       <Stack.Screen
         options={{
-          title: "Historial del Perro",
+          title: "Historial de Reservas",
         }}
       />
       <HistorialPerroScreen />
