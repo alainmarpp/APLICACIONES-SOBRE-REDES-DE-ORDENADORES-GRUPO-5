@@ -29,7 +29,7 @@ export function useRegistroPerroScreen() {
     setCargando(true);
 
     try {
-      await peticion("/animales", {
+      await peticion("/registrarAnimal", {
         metodo: "POST",
         cuerpo: {
           nombreAnimal: nombre.trim(),
