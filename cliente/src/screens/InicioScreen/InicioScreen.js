@@ -5,6 +5,7 @@ import { useInicioScreen } from "./useInicioScreen";
 
 export default function InicioScreen() {
   const {
+    irMiPerfil,
     irMisAnimales,
     irHacerReserva,
     irMisReservas,
@@ -12,6 +13,13 @@ export default function InicioScreen() {
 
   return (
     <View style={estilos.contenedor}>
+      <TouchableOpacity
+        style={estilos.botonPerfil}
+        onPress={irMiPerfil}
+      >
+        <Text style={estilos.textoPerfil}>Mi perfil</Text>
+      </TouchableOpacity>
+
       <Text style={estilos.titulo}>Pantalla Inicial</Text>
 
       <Text style={estilos.subtitulo}>
