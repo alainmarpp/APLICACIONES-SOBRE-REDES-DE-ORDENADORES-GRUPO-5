@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   SafeAreaView,
   ScrollView,
   Text,
@@ -16,11 +17,13 @@ const CalendarioScreen = () => {
     fechaSeleccionada,
     horaSeleccionada,
     horasDisponibles,
+    cargandoHoras,
     mesActual,
     anioActual,
     nombresMeses,
     diasEnMesActual,
     diasSinEmpezar,
+    esDiaPasado,
     manejarMesAnterior,
     manejarMesSiguiente,
     manejarSeleccionFecha,
@@ -84,6 +87,7 @@ const CalendarioScreen = () => {
 
           {diasDelMes.map((dia) => {
             const estaSeleccionado = fechaSeleccionada === dia;
+            const estaPasado = esDiaPasado(dia);
 
             return (
               <TouchableOpacity
@@ -93,11 +97,13 @@ const CalendarioScreen = () => {
                   estaSeleccionado && estilos.botonDiaSeleccionado,
                 ]}
                 onPress={() => manejarSeleccionFecha(dia)}
+                disabled={estaPasado}
               >
                 <Text
                   style={[
                     estilos.textoDia,
                     estaSeleccionado && estilos.textoDiaSeleccionado,
+                    estaPasado && estilos.textoDiaDeshabilitado,
                   ]}
                 >
                   {dia}
@@ -109,10 +115,17 @@ const CalendarioScreen = () => {
 
         <Text style={estilos.tituloSeccion}>Horas Disponibles</Text>
 
+        {!fechaSeleccionada && (
+          <Text style={estilos.subtitulo}>Elige un día para ver las horas libres</Text>
+        )}
+        {cargandoHoras && <ActivityIndicator color="#FF6B6B" />}
+
         <View style={estilos.rejillaHoras}>
           {horasDisponibles.map((hora) => {
             const estaSeleccionada = horaSeleccionada === hora;
             const estaOcupada = estaHoraReservada(hora);
+            // Sin día elegido o mientras cargan las horas, tampoco se pueden pulsar
+            const sinDatos = !fechaSeleccionada || cargandoHoras;
 
             return (
               <TouchableOpacity
@@ -120,15 +133,16 @@ const CalendarioScreen = () => {
                 style={[
                   estilos.botonHora,
                   estaSeleccionada && estilos.botonHoraSeleccionado,
-                  estaOcupada && estilos.botonHoraDeshabilitado,
+                  (estaOcupada || sinDatos) && estilos.botonHoraDeshabilitado,
                 ]}
                 onPress={() => manejarSeleccionHora(hora)}
-                disabled={estaOcupada}
+                disabled={estaOcupada || sinDatos}
               >
                 <Text
                   style={[
                     estilos.textoHora,
                     estaSeleccionada && estilos.textoHoraSeleccionado,
+                    sinDatos && estilos.textoHoraInactiva,
                     estaOcupada && estilos.textoHoraDeshabilitado,
                   ]}
                 >

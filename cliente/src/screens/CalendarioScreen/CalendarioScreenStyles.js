@@ -144,6 +144,9 @@ export default StyleSheet.create({
     backgroundColor: '#F0F0F0',
     borderColor: '#E0E0E0',
   },
+  textoHoraInactiva: {
+    color: '#CCCCCC',
+  },
   textoHoraDeshabilitado: {
     color: '#CCCCCC',
     textDecorationLine: 'line-through',
