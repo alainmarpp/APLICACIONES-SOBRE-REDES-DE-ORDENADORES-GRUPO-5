@@ -49,6 +49,23 @@ export default function DisenoRaiz() {
             headerShown: true,
           }}
         />
+        
+      <Stack.Screen
+        name="historialPerro"
+        options={{
+          title: "Historial de reservas",
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="historialAnimales"
+        options={{
+          title: "Historial de animales",
+          headerShown: true,
+        }}
+      />
+
 
         <Stack.Screen
           name="calendario"

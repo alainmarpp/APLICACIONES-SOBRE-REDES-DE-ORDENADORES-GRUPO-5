@@ -10,7 +10,7 @@ export default function HistorialPerroScreen() {
     <View style={estilos.contenedor}>
 
       <Text style={estilos.titulo}>
-        Historial del perro
+        Historial de Reservas
       </Text>
 
       <Text style={estilos.historial}>
