@@ -43,6 +43,25 @@ async function eliminarAnimal(nombreAnimal, raza, usuario) {
     });
 }
 
+// --- Nuevas: lo que necesita la API para las pantallas ---
+
+async function listarAnimales(usuario) {
+    return await Animal.findAll({ where: { usuario } });
+}
+
+// Busca un animal por id comprobando que es de ese usuario
+async function obtenerAnimalDeUsuario(id, usuario) {
+    return await Animal.findOne({ where: { id, usuario } });
+}
+
+async function modificarAnimalPorId(id, usuario, nuevosDatos) {
+    return await Animal.update(nuevosDatos, { where: { id, usuario } });
+}
+
+async function eliminarAnimalPorId(id, usuario) {
+    return await Animal.destroy({ where: { id, usuario } });
+}
+
 async function crearReserva(idAnimal, usuario, fecha, horainicio, horafin, servicio) {
     return await Reserva.create({ idAnimal, usuario, fecha, horainicio, horafin, servicio });
 }
@@ -56,12 +75,23 @@ async function buscarReserva(usuario, fechaActual) {
                 [Op.gte]: fechaActual // Op.gte significa "Greater than or equal" (>=)
             }
         },
-        include: [Animal] // Trae también la información del animal asociado si lo necesitas
+        include: [Animal], // Trae también la información del animal asociado
+        order: [['fecha', 'ASC'], ['horainicio', 'ASC']]
     });
+}
+
+// Todas las reservas de un día (de cualquier usuario), para calcular huecos libres
+async function reservasDelDia(fecha) {
+    return await Reserva.findAll({ where: { fecha } });
 }
 
 async function eliminarReserva(idReserva) {
     return await Reserva.destroy({ where: { id: idReserva } });
+}
+
+// Igual que eliminarReserva pero solo si la reserva es de ese usuario
+async function eliminarReservaDeUsuario(idReserva, usuario) {
+    return await Reserva.destroy({ where: { id: idReserva, usuario } });
 }
 
 module.exports = {
@@ -73,7 +103,13 @@ module.exports = {
     crearAnimal,
     modificarAnimal,
     eliminarAnimal,
+    listarAnimales,
+    obtenerAnimalDeUsuario,
+    modificarAnimalPorId,
+    eliminarAnimalPorId,
     crearReserva,
     buscarReserva,
-    eliminarReserva
+    reservasDelDia,
+    eliminarReserva,
+    eliminarReservaDeUsuario
 };

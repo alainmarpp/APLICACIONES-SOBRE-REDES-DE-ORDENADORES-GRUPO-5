@@ -28,6 +28,38 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
 
+  aviso: {
+    width: "80%",
+    fontSize: 16,
+    marginBottom: 5,
+  },
+
+  listaAnimales: {
+    width: "80%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: 10,
+  },
+
+  animal: {
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    marginRight: 8,
+    marginBottom: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#D8D0C4",
+    backgroundColor: "#ffffff",
+  },
+
+  animalSeleccionado: {
+    backgroundColor: "#D8D0C4",
+  },
+
+  textoAnimal: {
+    fontSize: 16,
+  },
+
   button: {
     width: "80%",
     padding: 15,
@@ -35,6 +67,10 @@ export default StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#D8D0C4",
     alignItems: "center",
+  },
+
+  botonDeshabilitado: {
+    opacity: 0.6,
   },
 
   buttonText: {

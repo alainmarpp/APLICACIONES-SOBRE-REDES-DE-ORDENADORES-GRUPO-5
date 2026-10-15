@@ -1,10 +1,22 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import styles from "./ReservaScreenStyles";
 import { useReservaScreen } from "./useReservaScreen";
 
 export default function ReservaScreen() {
-  const { usuario, servicios, fecha, hora, handleConfirmar, handleCancelar } =
-    useReservaScreen();
+  const {
+    usuario,
+    servicios,
+    fecha,
+    hora,
+    animales,
+    animalSeleccionado,
+    setAnimalSeleccionado,
+    cargandoAnimales,
+    enviando,
+    handleConfirmar,
+    handleCancelar,
+    irRegistrarPerro,
+  } = useReservaScreen();
 
   return (
     <View style={styles.container}>
@@ -22,8 +34,49 @@ export default function ReservaScreen() {
       <Text style={styles.label}>Hora</Text>
       <Text style={styles.value}>{hora}</Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleConfirmar}>
-        <Text style={styles.buttonText}>Confirmar</Text>
+      <Text style={styles.label}>Perro</Text>
+
+      {cargandoAnimales ? (
+        <Text style={styles.value}>Cargando...</Text>
+      ) : animales.length === 0 ? (
+        <>
+          <Text style={styles.aviso}>
+            Aún no tienes ningún perro registrado.
+          </Text>
+          <TouchableOpacity
+            style={styles.buttonSecondary}
+            onPress={irRegistrarPerro}
+          >
+            <Text style={styles.buttonText}>Registrar perro</Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <View style={styles.listaAnimales}>
+          {animales.map((animal) => (
+            <TouchableOpacity
+              key={animal.id}
+              style={[
+                styles.animal,
+                animalSeleccionado === animal.id && styles.animalSeleccionado,
+              ]}
+              onPress={() => setAnimalSeleccionado(animal.id)}
+            >
+              <Text style={styles.textoAnimal}>
+                {animal.nombreAnimal} ({animal.raza})
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+
+      <TouchableOpacity
+        style={[styles.button, enviando && styles.botonDeshabilitado]}
+        onPress={handleConfirmar}
+        disabled={enviando}
+      >
+        <Text style={styles.buttonText}>
+          {enviando ? "Reservando..." : "Confirmar"}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.buttonSecondary} onPress={handleCancelar}>

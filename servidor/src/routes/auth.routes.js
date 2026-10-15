@@ -3,9 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Usuario = require('../models/user.model');
+const { verificarToken } = require('../middlewares/auth.middleware');
 
 const SECRET_KEY = process.env.SECRET_KEY || "mi_clave_super_secreta_perruqueria";
-const SALT_ROUNDS = 10;
 
 // --- RUTA: REGISTRO SEGURO (Con hash de contraseña y tus logs) ---
 router.post('/registro', async (req, res) => {
@@ -25,13 +25,13 @@ router.post('/registro', async (req, res) => {
             return res.status(409).json({ error: 'Ese nombre de usuario ya existe' });
         }
 
-        // Encriptar la contraseña con bcrypt por seguridad
-        const hash = await bcrypt.hash(contrasenia, SALT_ROUNDS);
-
+        // OJO: la contraseña NO se hashea aquí. El modelo (user.model.js) ya la hashea
+        // en el hook beforeCreate. Si se hasheara también aquí, quedaría hasheada dos veces
+        // y el login (bcrypt.compare) fallaría siempre.
         const usuarioCreado = await Usuario.create({
             nombre: nombre,
             tlf: tlf,
-            contrasenia: hash 
+            contrasenia: contrasenia
         });
 
         // Generar token para login automático tras el registro
@@ -90,6 +90,22 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         console.error("Error en el login:", error);
         res.status(500).json({ error: 'Hubo un error al iniciar sesión.' });
+    }
+});
+
+// --- RUTA: PERFIL (comprueba que el token sigue siendo válido; la usa el auto-login) ---
+router.get('/perfil', verificarToken, async (req, res) => {
+    try {
+        const usuarioDB = await Usuario.findByPk(req.usuario.nombre, { attributes: ['nombre', 'tlf'] });
+
+        if (!usuarioDB) {
+            return res.status(401).json({ error: 'Usuario no encontrado' });
+        }
+
+        res.json({ nombre: usuarioDB.nombre, tlf: usuarioDB.tlf });
+    } catch (error) {
+        console.error("Error en /perfil:", error);
+        res.status(500).json({ error: 'No se pudo cargar el perfil.' });
     }
 });
 
