@@ -43,6 +43,13 @@ export function useInicioScreen() {
     });
   };
 
+  const irLocalizacion = () => {
+    router.push({
+      pathname: "/localizacion",
+      params: { usuario },
+    });
+  };
+
   const cerrarSesion = async () => {
     try {
       try {
@@ -78,6 +85,7 @@ export function useInicioScreen() {
     irHacerReserva,
     irMisReservas,
     irResenas,
+    irLocalizacion,
     cerrarSesion,
   };
 }

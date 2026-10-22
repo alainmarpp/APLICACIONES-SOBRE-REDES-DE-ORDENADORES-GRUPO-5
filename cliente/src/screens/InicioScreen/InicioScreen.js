@@ -9,6 +9,7 @@ export default function InicioScreen() {
     irHacerReserva,
     irMisReservas,
     irResenas,
+    irLocalizacion,
     cerrarSesion,
   } = useInicioScreen();
 
@@ -60,6 +61,15 @@ export default function InicioScreen() {
       >
         <Text style={estilos.textoBoton}>
           Reseñas
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.boton}
+        onPress={irLocalizacion}
+      >
+        <Text style={estilos.textoBoton}>
+          Localización
         </Text>
       </TouchableOpacity>
 
