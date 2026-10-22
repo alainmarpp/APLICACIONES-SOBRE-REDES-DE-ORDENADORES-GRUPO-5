@@ -1,25 +1,59 @@
+
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-
 import { peticion } from "../../services/api";
 
+const primerValor = (valor) =>
+  Array.isArray(valor) ? valor[0] : valor;
+
 export function useServiciosScreen() {
-  const { usuario } = useLocalSearchParams();
+  const params = useLocalSearchParams();
+
+  const usuario = primerValor(params.usuario) ?? "";
+  const reservaId = primerValor(params.reservaId);
+  const fechaActual = primerValor(params.fechaActual);
+  const horaActual = primerValor(params.horaActual);
+  const serviciosActuales = primerValor(params.serviciosActuales) ?? "";
+  const idAnimal = primerValor(params.idAnimal) ?? "";
+
+  const modoEdicion = Boolean(reservaId);
 
   const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
   const [serviciosDisponibles, setServiciosDisponibles] = useState([]);
   const [cargando, setCargando] = useState(true);
 
-  // La lista de servicios viene del servidor
   useEffect(() => {
     let cancelado = false;
 
     const cargarServicios = async () => {
       try {
         const datos = await peticion("/servicios");
-        if (!cancelado) setServiciosDisponibles(datos);
+
+        if (cancelado) return;
+
+        setServiciosDisponibles(datos);
+
+        // Al modificar, marcar los servicios que ya tenía la reserva.
+        if (modoEdicion) {
+          const nombresActuales = serviciosActuales
+            .split(",")
+            .map((nombre) => nombre.trim().toLowerCase())
+            .filter(Boolean);
+
+          const idsActuales = datos
+            .filter((servicio) =>
+              nombresActuales.includes(
+                String(servicio.nombre).trim().toLowerCase()
+              )
+            )
+            .map((servicio) => servicio.id);
+
+          setServiciosSeleccionados(idsActuales);
+        }
       } catch (error) {
-        if (!cancelado) alert(error.message);
+        if (!cancelado) {
+          alert(error.message || "No se pudieron cargar los servicios.");
+        }
       } finally {
         if (!cancelado) setCargando(false);
       }
@@ -30,13 +64,13 @@ export function useServiciosScreen() {
     return () => {
       cancelado = true;
     };
-  }, []);
+  }, [modoEdicion, serviciosActuales]);
 
   const alternarServicio = (id) => {
     setServiciosSeleccionados((anterior) =>
       anterior.includes(id)
         ? anterior.filter((elemento) => elemento !== id)
-        : [...anterior, id],
+        : [...anterior, id]
     );
   };
 
@@ -47,15 +81,27 @@ export function useServiciosScreen() {
     }
 
     const nombresSeleccionados = serviciosDisponibles
-      .filter((servicio) => serviciosSeleccionados.includes(servicio.id))
+      .filter((servicio) =>
+        serviciosSeleccionados.includes(servicio.id)
+      )
       .map((servicio) => servicio.nombre);
 
     router.push({
       pathname: "/calendario",
       params: {
-        usuario: usuario,
+        usuario,
         servicios: JSON.stringify(nombresSeleccionados),
         serviciosIds: serviciosSeleccionados.join(","),
+
+        // Estos datos solo se utilizan al modificar una reserva.
+        ...(modoEdicion
+          ? {
+              reservaId,
+              fechaActual,
+              horaActual,
+              idAnimal,
+            }
+          : {}),
       },
     });
   };

@@ -100,6 +100,14 @@ export default function DisenoRaiz() {
         />
 
         <Stack.Screen
+          name="reserva"
+          options={{
+            title: "Reserva Cita",
+            headerShown: true,
+          }}
+        />
+
+        <Stack.Screen
           name="explore"
           options={{
             headerShown: false,

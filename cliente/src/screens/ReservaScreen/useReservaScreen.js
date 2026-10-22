@@ -1,11 +1,18 @@
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
 import { useCallback, useState } from "react";
 
 import { peticion } from "../../services/api";
 
-const primerValor = (valor) => (Array.isArray(valor) ? valor[0] : valor);
+const primerValor = (valor) =>
+  Array.isArray(valor) ? valor[0] : valor;
 
-const dosDigitos = (valor) => String(valor ?? "").padStart(2, "0");
+const dosDigitos = (valor) =>
+  String(valor ?? "").padStart(2, "0");
 
 export function useReservaScreen() {
   const router = useRouter();
@@ -18,21 +25,31 @@ export function useReservaScreen() {
   const hora = primerValor(params.hora) ?? "";
   const serviciosIds = primerValor(params.serviciosIds) ?? "";
 
+  const reservaId = primerValor(params.reservaId);
+  const idAnimalOriginal = primerValor(params.idAnimal);
+
+  const modoEdicion = Boolean(reservaId);
+
   const servicios = (primerValor(params.servicios) ?? "")
     .split(",")
     .map((servicio) => servicio.trim())
     .filter(Boolean);
 
-  const fecha =
-    dia && mes && anio ? `${dosDigitos(dia)}/${dosDigitos(mes)}/${anio}` : "";
+  const fecha = dia && mes && anio
+    ? `${dosDigitos(dia)}/${dosDigitos(mes)}/${anio}`
+    : "";
+
+  const fechaIso = dia && mes && anio
+    ? `${anio}-${dosDigitos(mes)}-${dosDigitos(dia)}`
+    : "";
 
   const [animales, setAnimales] = useState([]);
-  const [animalSeleccionado, setAnimalSeleccionado] = useState(null);
+  const [animalSeleccionado, setAnimalSeleccionado] = useState(
+    idAnimalOriginal ? Number(idAnimalOriginal) : null
+  );
   const [cargandoAnimales, setCargandoAnimales] = useState(true);
   const [enviando, setEnviando] = useState(false);
 
-  // Se recarga cada vez que la pantalla vuelve a estar visible
-  // (por ejemplo, al volver de registrar un perro nuevo)
   useFocusEffect(
     useCallback(() => {
       let cancelado = false;
@@ -40,17 +57,29 @@ export function useReservaScreen() {
       const cargarAnimales = async () => {
         try {
           const datos = await peticion("/animales");
+
           if (cancelado) return;
 
           setAnimales(datos);
+
           setAnimalSeleccionado((actual) => {
-            if (actual && datos.some((animal) => animal.id === actual)) {
+            if (
+              actual &&
+              datos.some((animal) => Number(animal.id) === Number(actual))
+            ) {
               return actual;
             }
+
+            if (modoEdicion && idAnimalOriginal) {
+              return Number(idAnimalOriginal);
+            }
+
             return datos.length === 1 ? datos[0].id : null;
           });
         } catch (error) {
-          if (!cancelado) alert(error.message);
+          if (!cancelado) {
+            alert(error.message || "No se pudieron cargar los perros.");
+          }
         } finally {
           if (!cancelado) setCargandoAnimales(false);
         }
@@ -61,44 +90,66 @@ export function useReservaScreen() {
       return () => {
         cancelado = true;
       };
-    }, []),
+    }, [modoEdicion, idAnimalOriginal])
   );
 
   const handleConfirmar = async () => {
-    if (!usuario || servicios.length === 0 || !fecha || !hora) {
+    if (!usuario || servicios.length === 0 || !fechaIso || !hora) {
       alert("Faltan datos de la cita");
       return;
     }
 
-    if (!animalSeleccionado) {
+    // En una edición se mantiene el perro original.
+    if (!modoEdicion && !animalSeleccionado) {
       alert("Elige para qué perro es la cita");
       return;
     }
 
     if (enviando) return;
+
     setEnviando(true);
 
     try {
-      await peticion("/reservas", {
-        metodo: "POST",
-        cuerpo: {
-          idAnimal: animalSeleccionado,
-          fecha: `${anio}-${dosDigitos(mes)}-${dosDigitos(dia)}`,
-          horainicio: hora,
-          servicios: serviciosIds.split(",").filter(Boolean),
-        },
-      });
+      const datosReserva = {
+        fecha: fechaIso,
+        horainicio: hora,
+        servicios: serviciosIds
+          .split(",")
+          .filter(Boolean),
+      };
 
-      alert(`¡Cita confirmada para el ${fecha} a las ${hora}!`);
+      if (modoEdicion) {
+        await peticion(`/reservas/${reservaId}`, {
+          metodo: "PUT",
+          cuerpo: datosReserva,
+        });
 
-      router.replace({
-        pathname: "/inicio",
-        params: { usuario },
-      });
+        alert(`¡Reserva modificada para el ${fecha} a las ${hora}!`);
+
+        // Volvemos al historial para comprobar la reserva actualizada.
+        router.replace({
+          pathname: "/historialPerro",
+          params: { usuario },
+        });
+      } else {
+        await peticion("/reservas", {
+          metodo: "POST",
+          cuerpo: {
+            ...datosReserva,
+            idAnimal: animalSeleccionado,
+          },
+        });
+
+        alert(`¡Cita confirmada para el ${fecha} a las ${hora}!`);
+
+        router.replace({
+          pathname: "/inicio",
+          params: { usuario },
+        });
+      }
     } catch (error) {
-      alert(error.message);
+      alert(error.message || "No se pudo guardar la reserva.");
 
-      // 409: alguien ha cogido esa hora mientras tanto, se vuelve al calendario
       if (error.estado === 409) {
         router.back();
       }
@@ -128,6 +179,7 @@ export function useReservaScreen() {
     setAnimalSeleccionado,
     cargandoAnimales,
     enviando,
+    modoEdicion,
     handleConfirmar,
     handleCancelar,
     irRegistrarPerro,
