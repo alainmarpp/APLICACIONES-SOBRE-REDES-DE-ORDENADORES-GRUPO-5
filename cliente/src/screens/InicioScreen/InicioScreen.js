@@ -8,7 +8,8 @@ export default function InicioScreen() {
     irMisAnimales,
     irHacerReserva,
     irMisReservas,
-    cerrarSesion,
+    irResenas,    // Recuperado de la rama main
+    cerrarSesion, // Recuperado de la rama logout
   } = useInicioScreen();
 
   return (
@@ -53,6 +54,17 @@ export default function InicioScreen() {
         </Text>
       </TouchableOpacity>
 
+      {/* Botón de Reseñas (rama main) */}
+      <TouchableOpacity
+        style={estilos.boton}
+        onPress={irResenas}
+      >
+        <Text style={estilos.textoBoton}>
+          Reseñas
+        </Text>
+      </TouchableOpacity>
+
+      {/* Botón de Cerrar Sesión (rama logout) */}
       <TouchableOpacity
         style={estilos.botonSalir}
         onPress={cerrarSesion}
