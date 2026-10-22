@@ -1,19 +1,14 @@
 const jwt = require('jsonwebtoken');
+const TokenInvalido = require('../models/blacklist.model');
 
 const SECRET_KEY = process.env.SECRET_KEY || 'mi_clave_super_secreta_perruqueria';
-if (!process.env.SECRET_KEY) {
-    console.warn('⚠️  SECRET_KEY no definida en el entorno: usando clave de desarrollo.');
-}
-
-// Duración del token: cámbiala aquí (ej. '30m', '1h', '12h') o con la variable TOKEN_DURACION
 const DURACION_TOKEN = process.env.TOKEN_DURACION || '15m';
 
 function generarToken(usuario) {
     return jwt.sign({ nombre: usuario.nombre, tlf: usuario.tlf }, SECRET_KEY, { expiresIn: DURACION_TOKEN });
 }
 
-// Middleware: exige cabecera "Authorization: Bearer <token>"
-function verificarToken(req, res, next) {
+async function verificarToken(req, res, next) {
     const cabecera = req.headers['authorization'];
     const token = cabecera && cabecera.startsWith('Bearer ') ? cabecera.slice(7) : null;
 
@@ -22,7 +17,12 @@ function verificarToken(req, res, next) {
     }
 
     try {
-        req.usuario = jwt.verify(token, SECRET_KEY); // { nombre, iat, exp }
+        const tokenRevocado = await TokenInvalido.findOne({ where: { token: token } });
+        if (tokenRevocado) {
+            return res.status(401).json({ error: 'La sesión fue cerrada. Inicia sesión de nuevo.' });
+        }
+
+        req.usuario = jwt.verify(token, SECRET_KEY);
         next();
     } catch (error) {
         const mensaje = error.name === 'TokenExpiredError' ? 'Token expirado' : 'Token inválido';

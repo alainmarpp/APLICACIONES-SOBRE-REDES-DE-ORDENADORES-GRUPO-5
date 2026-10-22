@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const Usuario = require('../models/user.model');
+const TokenInvalido = require('../models/blacklist.model');
 const { verificarToken, generarToken } = require('../middlewares/auth.middleware');
 
-// --- RUTA: REGISTRO SEGURO (Con hash de contraseña y tus logs) ---
 router.post('/registro', async (req, res) => {
     console.log("📥 [SERVIDOR/Register] Petición POST recibida en /registro");
     console.log("📦 [SERVIDOR/Register] Datos que han llegado (req.body):", req.body);
@@ -16,12 +16,10 @@ router.post('/registro', async (req, res) => {
     }
 
     try {
-        // Verificar si ya existe
         const existente = await Usuario.findOne({ where: { nombre } });
         if (existente) {
             return res.status(409).json({ error: 'Ese nombre de usuario ya existe' });
         }
-
 
         const usuarioCreado = await Usuario.create({
             nombre: nombre,
@@ -29,10 +27,9 @@ router.post('/registro', async (req, res) => {
             contrasenia: contrasenia
         });
 
-        // Generar token para login automático tras el registro
         const token = generarToken(usuarioCreado);
 
-        console.log("✅ [SERVIDOR/Register] Usuario guardado y encriptado con éxito en Aiven.");
+        console.log("✅ [SERVIDOR/Register] Usuario guardado y encriptado con éxito.");
         
         res.status(201).json({ 
             mensaje: 'Usuario registrado correctamente de forma segura.',
@@ -45,7 +42,6 @@ router.post('/registro', async (req, res) => {
     }
 });
 
-// --- RUTA: LOGIN CON TOKENS ---
 router.post('/login', async (req, res) => {
     const { nombre, contrasenia } = req.body;
 
@@ -80,7 +76,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// --- RUTA: PERFIL (comprueba que el token sigue siendo válido; la usa el auto-login) ---
 router.get('/perfil', verificarToken, async (req, res) => {
     try {
         const usuarioDB = await Usuario.findByPk(req.usuario.nombre, { attributes: ['nombre', 'tlf'] });
@@ -93,6 +88,19 @@ router.get('/perfil', verificarToken, async (req, res) => {
     } catch (error) {
         console.error("Error en /perfil:", error);
         res.status(500).json({ error: 'No se pudo cargar el perfil.' });
+    }
+});
+
+router.post('/logout', verificarToken, async (req, res) => {
+    const cabecera = req.headers['authorization'];
+    const token = cabecera.slice(7); 
+
+    try {
+        await TokenInvalido.create({ token: token });
+        res.json({ mensaje: 'Sesión cerrada y token invalidado en el servidor.' });
+    } catch (error) {
+        console.error("Error al invalidar token:", error);
+        res.status(500).json({ error: 'Error al cerrar sesión en el servidor.' });
     }
 });
 

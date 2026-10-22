@@ -7,6 +7,7 @@ const sequelize = require('./config/database');
 require('./src/models/user.model');
 require('./src/models/animal.model');
 require('./src/models/reserva.model');
+require('./src/models/blacklist.model');
 
 const authRoutes = require('./src/routes/auth.routes');
 const serviciosRoutes = require('./src/routes/servicios.routes');
