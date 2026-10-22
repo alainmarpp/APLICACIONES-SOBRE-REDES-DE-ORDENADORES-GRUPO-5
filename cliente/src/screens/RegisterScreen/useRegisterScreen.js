@@ -9,9 +9,19 @@ export function useRegisterScreen() {
   const [confirmarContrasena, setConfirmarContrasena] = useState("");
   const [cargando, setCargando] = useState(false);
 
+  const handleTelefonoChange = (texto) => {
+    const soloNumeros = texto.replace(/[^0-9]/g, "").slice(0, 9);
+    setTelefono(soloNumeros);
+  };
+
   const handleRegistro = async () => {
     if (!usuario.trim() || !telefono.trim() || !contrasena || !confirmarContrasena) {
       alert("Por favor, rellena todos los campos");
+      return;
+    }
+
+    if (telefono.length !== 9) {
+      alert("El teléfono debe tener exactamente 9 dígitos numéricos.");
       return;
     }
 
@@ -44,7 +54,6 @@ export function useRegisterScreen() {
         return;
       }
 
-      // Si el backend devuelve token al registrar, lo guardamos. Si no, protegemos con un opcional ? por seguridad
       if (datos.token) {
         await guardarToken(datos.token);
       }
@@ -63,7 +72,7 @@ export function useRegisterScreen() {
     usuario,
     setUsuario,
     telefono,
-    setTelefono,
+    setTelefono: handleTelefonoChange, 
     contrasena,
     setContrasena,
     confirmarContrasena,
