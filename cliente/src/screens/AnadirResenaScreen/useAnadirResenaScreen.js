@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Alert } from "react-native";
-import { router } from "expo-router";
+import { Alert, Platform } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import { peticion } from "../../services/api";
 
 export function useAnadirResenaScreen() {
+  const { usuario } = useLocalSearchParams();
   const [puntuacion, setPuntuacion] = useState(0);
   const [comentario, setComentario] = useState("");
 
@@ -10,7 +12,7 @@ export function useAnadirResenaScreen() {
     setPuntuacion(estrellas);
   };
 
-  const publicarResena = () => {
+  const publicarResena = async () => {
     if (puntuacion === 0) {
       Alert.alert(
         "Falta tu puntuación",
@@ -27,10 +29,37 @@ export function useAnadirResenaScreen() {
       return;
     }
 
-    Alert.alert(
-      "Reseñas",
-      "Todavía no se pueden guardar reseñas porque falta conectar la base de datos."
-    );
+    try {
+      await peticion("/resenas", {
+        metodo: "POST",
+        cuerpo: {
+          puntuacion,
+          comentario,
+        },
+      });
+
+      if (Platform.OS === 'web') {
+        window.alert("¡Tu reseña se ha publicado correctamente!");
+        router.replace({
+          pathname: "/verResenas",
+          params: { usuario },
+        });
+      } else {
+        Alert.alert("¡Éxito!", "Tu reseña se ha publicado correctamente.", [
+          {
+            text: "OK",
+            onPress: () => {
+              router.replace({
+                pathname: "/verResenas",
+                params: { usuario },
+              });
+            },
+          },
+        ]);
+      }
+    } catch (e) {
+      Alert.alert("Error", e.message || "No se pudo publicar la reseña.");
+    }
   };
 
   const volver = () => {

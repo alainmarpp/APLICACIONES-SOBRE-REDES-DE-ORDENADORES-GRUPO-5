@@ -1,5 +1,4 @@
 import { Text, TouchableOpacity, View } from "react-native";
-
 import estilos from "./InicioScreenStyles";
 import { useInicioScreen } from "./useInicioScreen";
 
@@ -11,6 +10,7 @@ export default function InicioScreen() {
     irMisReservas,
     irResenas,
     irLocalizacion,
+    cerrarSesion,
   } = useInicioScreen();
 
   return (
@@ -70,6 +70,15 @@ export default function InicioScreen() {
       >
         <Text style={estilos.textoBoton}>
           Localización
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.botonSalir}
+        onPress={cerrarSesion}
+      >
+        <Text style={estilos.textoBotonSalir}>
+          Cerrar sesión
         </Text>
       </TouchableOpacity>
     </View>
