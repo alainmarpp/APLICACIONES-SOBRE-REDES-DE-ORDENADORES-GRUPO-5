@@ -57,4 +57,20 @@ export default StyleSheet.create({
     fontWeight: "bold",
     color: "#333333",
   },
+
+  botonSalir: {
+    width: "90%",
+    height: 65,
+    backgroundColor: "#ff3b30",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+
+  textoBotonSalir: {
+    fontSize: 19,
+    fontWeight: "bold",
+    color: "#ffffff",
+  },
 });
