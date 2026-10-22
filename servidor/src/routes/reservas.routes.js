@@ -1,111 +1,364 @@
+
 const express = require('express');
 const router = express.Router();
+
 const db = require('../services/db.service');
 const { verificarToken } = require('../middlewares/auth.middleware');
 const { servicios } = require('../data/servicios');
-const { aMinutos, aHora, fechaDeHoy, calcularHoras } = require('../utils/disponibilidad');
+const {
+    aMinutos,
+    aHora,
+    fechaDeHoy,
+    calcularHoras
+} = require('../utils/disponibilidad');
 
 const formatoFecha = /^\d{4}-\d{2}-\d{2}$/;
 
-// Convierte "1,3" en los servicios correspondientes (ignora ids que no existan)
+// Convierte los IDs en los servicios correspondientes.
 function buscarServicios(ids) {
     return ids
         .map((id) => servicios.find((s) => s.id === String(id)))
         .filter(Boolean);
 }
 
-// Horas libres de un día para unos servicios (pantalla Calendario)
+// Consultar disponibilidad de horas.
 // GET /disponibilidad?fecha=2026-10-15&servicios=1,3
+// Al modificar: añadir &excluirReserva=ID
 router.get('/disponibilidad', verificarToken, async (req, res) => {
-    const { fecha, servicios: idsTexto } = req.query;
+    const {
+        fecha,
+        servicios: idsTexto,
+        excluirReserva
+    } = req.query;
 
     if (!fecha || !formatoFecha.test(fecha)) {
-        return res.status(400).json({ error: 'Fecha no válida (usa AAAA-MM-DD)' });
+        return res.status(400).json({
+            error: 'Fecha no válida (usa AAAA-MM-DD)'
+        });
     }
 
-    const elegidos = buscarServicios(String(idsTexto || '').split(',').filter(Boolean));
+    const elegidos = buscarServicios(
+        String(idsTexto || '').split(',').filter(Boolean)
+    );
+
     if (elegidos.length === 0) {
-        return res.status(400).json({ error: 'Selecciona al menos un servicio' });
+        return res.status(400).json({
+            error: 'Selecciona al menos un servicio'
+        });
     }
 
     try {
-        const duracion = elegidos.reduce((total, s) => total + s.duracion, 0);
-        const reservas = await db.reservasDelDia(fecha);
-        res.json({ duracion, horas: calcularHoras(fecha, duracion, reservas) });
+        const duracion = elegidos.reduce(
+            (total, servicio) => total + servicio.duracion,
+            0
+        );
+
+        let reservas = await db.reservasDelDia(fecha);
+
+        // Si se está editando una reserva, comprobar que pertenece
+        // al usuario antes de excluirla del cálculo de disponibilidad.
+        if (excluirReserva) {
+            if (!/^\d+$/.test(String(excluirReserva))) {
+                return res.status(400).json({
+                    error: 'Identificador de reserva no válido'
+                });
+            }
+
+            const reservaPropia = await db.reservaDeUsuario(
+                excluirReserva,
+                req.usuario.nombre
+            );
+
+            if (!reservaPropia) {
+                return res.status(404).json({
+                    error: 'Reserva no encontrada o no te pertenece'
+                });
+            }
+
+            reservas = reservas.filter(
+                (reserva) =>
+                    Number(reserva.id) !== Number(excluirReserva)
+            );
+        }
+
+        return res.json({
+            duracion,
+            horas: calcularHoras(fecha, duracion, reservas)
+        });
     } catch (error) {
         console.error('Error al calcular disponibilidad:', error);
-        res.status(500).json({ error: 'No se pudo consultar la disponibilidad' });
+
+        return res.status(500).json({
+            error: 'No se pudo consultar la disponibilidad'
+        });
     }
 });
 
-// Mis reservas futuras
+// Consultar mis reservas futuras.
 router.get('/reservas', verificarToken, async (req, res) => {
     try {
         const hoy = fechaDeHoy();
-        res.json(await db.buscarReserva(req.usuario.nombre, hoy));
+
+        const reservas = await db.buscarReserva(
+            req.usuario.nombre,
+            hoy
+        );
+
+        return res.json(reservas);
     } catch (error) {
         console.error('Error al listar reservas:', error);
-        res.status(500).json({ error: 'No se pudieron cargar tus reservas' });
+
+        return res.status(500).json({
+            error: 'No se pudieron cargar tus reservas'
+        });
     }
 });
 
-// Crear reserva (pantalla Reserva)
-// body: { idAnimal, fecha: "2026-10-15", horainicio: "10:00", servicios: ["1","3"] }
+// Crear una reserva.
+// body: { idAnimal, fecha, horainicio, servicios: ["1", "3"] }
 router.post('/reservas', verificarToken, async (req, res) => {
-    const { idAnimal, fecha, horainicio, servicios: ids } = req.body;
+    const {
+        idAnimal,
+        fecha,
+        horainicio,
+        servicios: ids
+    } = req.body;
 
-    if (!idAnimal || !fecha || !formatoFecha.test(fecha) || !horainicio || !Array.isArray(ids)) {
-        return res.status(400).json({ error: 'Faltan datos de la reserva' });
+    if (
+        !idAnimal ||
+        !fecha ||
+        !formatoFecha.test(fecha) ||
+        !horainicio ||
+        !Array.isArray(ids)
+    ) {
+        return res.status(400).json({
+            error: 'Faltan datos de la reserva'
+        });
+    }
+
+    if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(horainicio)) {
+        return res.status(400).json({
+            error: 'La hora no es válida'
+        });
     }
 
     const elegidos = buscarServicios(ids);
+
     if (elegidos.length === 0 || elegidos.length !== ids.length) {
-        return res.status(400).json({ error: 'Servicios no válidos' });
+        return res.status(400).json({
+            error: 'Servicios no válidos'
+        });
     }
 
     try {
-        const animal = await db.obtenerAnimalDeUsuario(idAnimal, req.usuario.nombre);
+        const animal = await db.obtenerAnimalDeUsuario(
+            idAnimal,
+            req.usuario.nombre
+        );
+
         if (!animal) {
-            return res.status(404).json({ error: 'Ese animal no es tuyo o no existe' });
+            return res.status(404).json({
+                error: 'Ese animal no es tuyo o no existe'
+            });
         }
 
-        // Se vuelve a comprobar aquí por si alguien ha cogido la hora mientras tanto
-        const duracion = elegidos.reduce((total, s) => total + s.duracion, 0);
+        // Comprobar disponibilidad antes de crear la reserva.
+        const duracion = elegidos.reduce(
+            (total, servicio) => total + servicio.duracion,
+            0
+        );
+
         const reservas = await db.reservasDelDia(fecha);
-        const hora = calcularHoras(fecha, duracion, reservas).find((h) => h.hora === horainicio);
+
+        const hora = calcularHoras(
+            fecha,
+            duracion,
+            reservas
+        ).find((elemento) => elemento.hora === horainicio);
 
         if (!hora || !hora.libre) {
-            return res.status(409).json({ error: 'Esa hora ya no está disponible' });
+            return res.status(409).json({
+                error: 'Esa hora ya no está disponible'
+            });
         }
 
         const horafin = aHora(aMinutos(horainicio) + duracion);
-        const nombres = elegidos.map((s) => s.nombre).join(', ');
+        const nombres = elegidos
+            .map((servicio) => servicio.nombre)
+            .join(', ');
 
-        // Comprueba el solape y guarda dentro de una transacción (devuelve null si ya está ocupada)
-        const reserva = await db.crearReservaSiLibre(animal.id, req.usuario.nombre, fecha, horainicio, horafin, nombres);
+        // La función comprueba los solapamientos al guardar.
+        const reserva = await db.crearReservaSiLibre(
+            animal.id,
+            req.usuario.nombre,
+            fecha,
+            horainicio,
+            horafin,
+            nombres
+        );
+
         if (!reserva) {
-            return res.status(409).json({ error: 'Esa hora ya no está disponible' });
+            return res.status(409).json({
+                error: 'Esa hora ya no está disponible'
+            });
         }
-        res.status(201).json(reserva);
+
+        return res.status(201).json(reserva);
     } catch (error) {
-        // Dos reservas a la vez sobre la misma hora: MySQL aborta una con deadlock
-        const codigo = error.parent?.code || error.original?.code || error.code;
+        const codigo =
+            error.parent?.code ||
+            error.original?.code ||
+            error.code;
+
         if (codigo === 'ER_LOCK_DEADLOCK') {
-            return res.status(409).json({ error: 'Esa hora ya no está disponible' });
+            return res.status(409).json({
+                error: 'Esa hora ya no está disponible'
+            });
         }
+
         console.error('Error al crear reserva:', error);
-        res.status(500).json({ error: 'No se pudo crear la reserva' });
+
+        return res.status(500).json({
+            error: 'No se pudo crear la reserva'
+        });
     }
 });
 
+// Cancelar una reserva.
 router.delete('/reservas/:id', verificarToken, async (req, res) => {
     try {
-        const borradas = await db.eliminarReservaDeUsuario(req.params.id, req.usuario.nombre);
-        if (borradas === 0) return res.status(404).json({ error: 'Reserva no encontrada' });
-        res.json({ mensaje: 'Reserva cancelada' });
+        const borradas = await db.eliminarReservaDeUsuario(
+            req.params.id,
+            req.usuario.nombre
+        );
+
+        if (borradas === 0) {
+            return res.status(404).json({
+                error: 'Reserva no encontrada o no te pertenece'
+            });
+        }
+
+        return res.json({
+            mensaje: 'Reserva cancelada'
+        });
     } catch (error) {
         console.error('Error al cancelar reserva:', error);
-        res.status(500).json({ error: 'No se pudo cancelar la reserva' });
+
+        return res.status(500).json({
+            error: 'No se pudo cancelar la reserva'
+        });
+    }
+});
+
+// Modificar una reserva existente.
+// body: { fecha, horainicio, servicios: ["1", "3"] }
+router.put('/reservas/:id', verificarToken, async (req, res) => {
+    const {
+        fecha,
+        horainicio,
+        servicios: ids
+    } = req.body;
+
+    if (
+        !fecha ||
+        !formatoFecha.test(fecha) ||
+        !horainicio ||
+        !/^([01]\d|2[0-3]):[0-5]\d$/.test(horainicio) ||
+        !Array.isArray(ids) ||
+        ids.length === 0
+    ) {
+        return res.status(400).json({
+            error: 'Los datos de la reserva no son válidos'
+        });
+    }
+
+    const elegidos = buscarServicios(ids);
+
+    if (elegidos.length !== ids.length) {
+        return res.status(400).json({
+            error: 'Servicios no válidos'
+        });
+    }
+
+    try {
+        // Verificar que la reserva existe y pertenece al usuario.
+        const reserva = await db.reservaDeUsuario(
+            req.params.id,
+            req.usuario.nombre
+        );
+
+        if (!reserva) {
+            return res.status(404).json({
+                error: 'Reserva no encontrada o no te pertenece'
+            });
+        }
+
+        if (fecha < fechaDeHoy()) {
+            return res.status(400).json({
+                error: 'No puedes elegir una fecha pasada'
+            });
+        }
+
+        const duracion = elegidos.reduce(
+            (total, servicio) => total + servicio.duracion,
+            0
+        );
+
+        const reservas = await db.reservasDelDia(fecha);
+
+        // Excluir la propia reserva para permitir mantener su horario.
+        const otrasReservas = reservas.filter(
+            (elemento) => Number(elemento.id) !== Number(req.params.id)
+        );
+
+        const horas = calcularHoras(
+            fecha,
+            duracion,
+            otrasReservas
+        );
+
+        const hora = horas.find(
+            (elemento) => elemento.hora === horainicio
+        );
+
+        if (!hora || !hora.libre) {
+            return res.status(409).json({
+                error: 'Esa hora ya no está disponible'
+            });
+        }
+
+        const horafin = aHora(aMinutos(horainicio) + duracion);
+
+        const nombresServicios = elegidos
+            .map((servicio) => servicio.nombre)
+            .join(', ');
+
+        const resultado = await db.modificarReservaDeUsuario(
+            req.params.id,
+            req.usuario.nombre,
+            {
+                fecha,
+                horainicio,
+                horafin,
+                servicio: nombresServicios
+            }
+        );
+
+        if (resultado[0] === 0) {
+            return res.status(404).json({
+                error: 'No se pudo encontrar la reserva para modificar'
+            });
+        }
+
+        return res.json({
+            mensaje: 'Reserva modificada correctamente'
+        });
+    } catch (error) {
+        console.error('Error al modificar reserva:', error);
+
+        return res.status(500).json({
+            error: 'No se pudo modificar la reserva'
+        });
     }
 });
 

@@ -95,4 +95,55 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+
+  // Contenedor horizontal para los dos botones
+  contenedorBotones: {
+    flexDirection: "row",
+    alignItems: "stretch",
+    justifyContent: "space-between",
+    gap: 10,
+    marginTop: 12,
+    width: "100%",
+  },
+
+  // Botón Modificar reserva
+  botonModificar: {
+    flex: 1,
+    minWidth: 0,
+    paddingVertical: 12,
+    paddingHorizontal: 5,
+    borderRadius: 8,
+    backgroundColor: "#D8D0C4",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  textoBotonModificar: {
+    color: "#333333",
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+
+  // Botón Eliminar reserva
+  botonEliminar: {
+    flex: 1,
+    minWidth: 0,
+    marginTop: 0,
+    paddingVertical: 12,
+    paddingHorizontal: 5,
+    borderRadius: 8,
+    backgroundColor: "#ffebee",
+    borderWidth: 1,
+    borderColor: "#ffcdd2",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  textoBotonEliminar: {
+    color: "#c62828",
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });

@@ -1,91 +1,112 @@
+
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    backgroundColor: "#f5f5f5",
     justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
   },
 
   title: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 25,
+    color: "#333333",
+    textAlign: "center",
+    marginBottom: 24,
+  },
+
+  tarjeta: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    padding: 22,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#D8D0C4",
+    marginBottom: 18,
   },
 
   label: {
-    width: "80%",
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
-    marginTop: 10,
-    marginBottom: 5,
+    color: "#756B5F",
+    marginTop: 12,
+    marginBottom: 4,
   },
 
   value: {
-    width: "80%",
-    fontSize: 18,
-    marginBottom: 10,
-  },
-
-  aviso: {
-    width: "80%",
     fontSize: 16,
-    marginBottom: 5,
+    color: "#333333",
+    lineHeight: 23,
   },
 
   listaAnimales: {
-    width: "80%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginBottom: 10,
+    marginTop: 8,
+    gap: 10,
   },
 
   animal: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    marginRight: 8,
-    marginBottom: 8,
-    borderRadius: 20,
+    padding: 13,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: "#D8D0C4",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FAF8F5",
   },
 
   animalSeleccionado: {
     backgroundColor: "#D8D0C4",
+    borderColor: "#8A8175",
+    borderWidth: 2,
   },
 
   textoAnimal: {
     fontSize: 16,
+    color: "#333333",
+    fontWeight: "600",
+  },
+
+  aviso: {
+    fontSize: 14,
+    color: "#756B5F",
+    marginTop: 8,
+    lineHeight: 21,
   },
 
   button: {
-    width: "80%",
-    padding: 15,
-    marginTop: 25,
+    width: "100%",
+    paddingVertical: 15,
+    paddingHorizontal: 16,
     borderRadius: 10,
     backgroundColor: "#D8D0C4",
     alignItems: "center",
+    justifyContent: "center",
+    marginTop: 4,
+    marginBottom: 10,
+  },
+
+  buttonSecondary: {
+    width: "100%",
+    paddingVertical: 13,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+    borderColor: "#D8D0C4",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+  },
+
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333333",
+    textAlign: "center",
   },
 
   botonDeshabilitado: {
     opacity: 0.6,
-  },
-
-  buttonText: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-
-  buttonSecondary: {
-    width: "80%",
-    padding: 15,
-    marginTop: 15,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#D8D0C4",
-    backgroundColor: "#ffffff",
-    alignItems: "center",
   },
 });

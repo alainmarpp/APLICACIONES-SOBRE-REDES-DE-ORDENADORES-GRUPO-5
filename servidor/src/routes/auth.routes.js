@@ -6,14 +6,23 @@ const TokenInvalido = require('../models/blacklist.model');
 const { verificarToken, generarToken } = require('../middlewares/auth.middleware');
 
 router.post('/registro', async (req, res) => {
-    console.log("📥 [SERVIDOR/Register] Petición POST recibida en /registro");
-    console.log("📦 [SERVIDOR/Register] Datos que han llegado (req.body):", req.body);
-
     const { nombre, tlf, contrasenia } = req.body;
 
     if (!nombre || !tlf || !contrasenia) {
         return res.status(400).json({ error: 'Faltan campos obligatorios' });
     }
+
+    // --- NUEVAS RESTRICCIONES (Issue #55) ---
+    if (nombre.length < 3 || nombre.length > 20) {
+        return res.status(400).json({ error: 'El nombre debe tener entre 3 y 20 caracteres.' });
+    }
+
+    // Expresión regular: Mínimo 6 caracteres, al menos una letra y un número
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    if (!passwordRegex.test(contrasenia)) {
+        return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres, incluir una letra y un número.' });
+    }
+    // ----------------------------------------
 
     try {
         const existente = await Usuario.findOne({ where: { nombre } });
@@ -29,6 +38,7 @@ router.post('/registro', async (req, res) => {
 
         const token = generarToken(usuarioCreado);
 
+        // Conflicto resuelto: mantenemos el log de la rama cerrar-sesion
         console.log("✅ [SERVIDOR/Register] Usuario guardado y encriptado con éxito.");
         
         res.status(201).json({ 
@@ -37,7 +47,6 @@ router.post('/registro', async (req, res) => {
             nombre: usuarioCreado.nombre
         });
     } catch (error) {
-        console.error("❌ [SERVIDOR] Error al registrar el usuario en la BBDD:", error);
         res.status(500).json({ error: 'Hubo un error al registrar el usuario.' });
     }
 });

@@ -47,11 +47,23 @@ const estilos = StyleSheet.create({
     padding: 15,
     borderRadius: 12,
     alignItems: "center",
+    marginBottom: 15, // Añadido margen inferior para separar del botón de salir
   },
   textoBoton: {
     color: "#40382F",
     fontSize: 16,
     fontWeight: "600",
+  },
+  botonSalir: {
+    backgroundColor: "#ff3b30",
+    padding: 15,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  textoBotonSalir: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

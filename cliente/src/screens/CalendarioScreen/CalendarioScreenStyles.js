@@ -9,7 +9,11 @@ export default StyleSheet.create({
   },
   contenedor: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+  },
+  contenedorContenido: {
+    paddingTop: 10,
+    paddingBottom: 40, // Otorga espacio extra al final para no chocar con el botón atrás/gestos
   },
   tituloCabecera: {
     fontSize: 26,
@@ -123,7 +127,7 @@ export default StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     marginTop: 30,
-    marginBottom: 20,
+    marginBottom: 10,
     shadowColor: '#FF6B6B',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
