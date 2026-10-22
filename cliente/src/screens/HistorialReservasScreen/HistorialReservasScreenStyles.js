@@ -1,4 +1,3 @@
-
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -93,6 +92,22 @@ export default StyleSheet.create({
 
   textoBoton: {
     fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  botonEliminar: {
+    marginTop: 12,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: "#ffebee",
+    borderWidth: 1,
+    borderColor: "#ffcdd2",
+    alignItems: "center",
+  },
+
+  textoBotonEliminar: {
+    color: "#c62828",
+    fontSize: 15,
     fontWeight: "bold",
   },
 });

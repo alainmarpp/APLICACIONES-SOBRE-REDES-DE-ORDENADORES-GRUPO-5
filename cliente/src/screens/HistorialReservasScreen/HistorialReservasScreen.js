@@ -1,10 +1,11 @@
-
 import {
   ActivityIndicator,
   FlatList,
   Text,
   TouchableOpacity,
   View,
+  Alert,
+  Platform,
 } from "react-native";
 
 import estilos from "./HistorialReservasScreenStyles";
@@ -16,7 +17,30 @@ export default function HistorialReservasScreen() {
     cargando,
     error,
     volverAlMenu,
+    eliminarReserva,
   } = useHistorialReservasScreen();
+
+  const confirmarEliminacion = (id) => {
+    if (Platform.OS === 'web') {
+      const aceptado = window.confirm("¿Estás seguro de que deseas eliminar esta reserva?");
+      if (aceptado) {
+        eliminarReserva(id);
+      }
+    } else {
+      Alert.alert(
+        "Eliminar reserva",
+        "¿Estás seguro de que deseas eliminar esta reserva?",
+        [
+          { text: "Cancelar", style: "cancel" },
+          {
+            text: "Eliminar",
+            style: "destructive",
+            onPress: () => eliminarReserva(id),
+          },
+        ]
+      );
+    }
+  };
 
   const formatearFecha = (fecha) => {
     if (!fecha) return "Fecha no disponible";
@@ -60,6 +84,14 @@ export default function HistorialReservasScreen() {
             ? servicios.join(", ")
             : String(servicios).replace(/,/g, ", ")}
         </Text>
+
+        {/* Botón para eliminar esta reserva */}
+        <TouchableOpacity
+          style={estilos.botonEliminar}
+          onPress={() => confirmarEliminacion(item.id)}
+        >
+          <Text style={estilos.textoBotonEliminar}>Eliminar reserva</Text>
+        </TouchableOpacity>
       </View>
     );
   };
