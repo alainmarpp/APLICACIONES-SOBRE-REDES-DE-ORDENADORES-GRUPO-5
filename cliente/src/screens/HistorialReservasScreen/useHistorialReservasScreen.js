@@ -1,3 +1,4 @@
+
 import {
   router,
   useFocusEffect,
@@ -5,11 +6,15 @@ import {
 } from "expo-router";
 
 import { useCallback, useState } from "react";
-import { peticion } from "../../services/api";
 import { Alert } from "react-native";
+import { peticion } from "../../services/api";
+
+const primerValor = (valor) =>
+  Array.isArray(valor) ? valor[0] : valor;
 
 export function useHistorialReservasScreen() {
-  const { usuario } = useLocalSearchParams();
+  const params = useLocalSearchParams();
+  const usuario = primerValor(params.usuario) ?? "";
 
   const [reservas, setReservas] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -56,10 +61,38 @@ export function useHistorialReservasScreen() {
         metodo: "DELETE",
       });
 
-      setReservas((prevReservas) => prevReservas.filter((r) => r.id !== id));
+      setReservas((anteriores) =>
+        anteriores.filter(
+          (reserva) => String(reserva.id) !== String(id)
+        )
+      );
     } catch (e) {
-      Alert.alert("Error", e.message || "No se pudo eliminar la reserva.");
+      Alert.alert(
+        "Error",
+        e.message || "No se pudo eliminar la reserva."
+      );
     }
+  };
+
+  const modificarReserva = (reserva) => {
+    router.push({
+      pathname: "/servicios",
+      params: {
+        usuario,
+        reservaId: String(reserva.id),
+        fechaActual: String(reserva.fecha).slice(0, 10),
+        horaActual: String(reserva.horainicio).slice(0, 5),
+        serviciosActuales: String(
+          reserva.servicio || reserva.servicios || ""
+        ),
+        idAnimal: String(
+          reserva.idAnimal ??
+          reserva.Animal?.id ??
+          reserva.animal?.id ??
+          ""
+        ),
+      },
+    });
   };
 
   const volverAlMenu = () => {
@@ -75,5 +108,6 @@ export function useHistorialReservasScreen() {
     error,
     volverAlMenu,
     eliminarReserva,
+    modificarReserva,
   };
 }

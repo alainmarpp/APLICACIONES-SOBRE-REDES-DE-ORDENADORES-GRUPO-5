@@ -1,3 +1,4 @@
+
 import {
   ActivityIndicator,
   FlatList,
@@ -18,11 +19,15 @@ export default function HistorialReservasScreen() {
     error,
     volverAlMenu,
     eliminarReserva,
+    modificarReserva,
   } = useHistorialReservasScreen();
 
   const confirmarEliminacion = (id) => {
-    if (Platform.OS === 'web') {
-      const aceptado = window.confirm("¿Estás seguro de que deseas eliminar esta reserva?");
+    if (Platform.OS === "web") {
+      const aceptado = window.confirm(
+        "¿Estás seguro de que deseas eliminar esta reserva?"
+      );
+
       if (aceptado) {
         eliminarReserva(id);
       }
@@ -58,7 +63,8 @@ export default function HistorialReservasScreen() {
   const renderReserva = ({ item }) => {
     const animal = item.Animal || item.animal;
     const nombreAnimal = animal?.nombreAnimal || "Animal";
-    const servicios = item.servicio || item.servicios || "No especificados";
+    const servicios =
+      item.servicio || item.servicios || "No especificados";
 
     return (
       <View style={estilos.tarjetaReserva}>
@@ -85,13 +91,28 @@ export default function HistorialReservasScreen() {
             : String(servicios).replace(/,/g, ", ")}
         </Text>
 
-        {/* Botón para eliminar esta reserva */}
-        <TouchableOpacity
-          style={estilos.botonEliminar}
-          onPress={() => confirmarEliminacion(item.id)}
-        >
-          <Text style={estilos.textoBotonEliminar}>Eliminar reserva</Text>
-        </TouchableOpacity>
+        {/* Botones de modificar y eliminar en la misma fila */}
+        <View style={estilos.contenedorBotones}>
+          <TouchableOpacity
+            style={estilos.botonModificar}
+            onPress={() => modificarReserva(item)}
+            activeOpacity={0.7}
+          >
+            <Text style={estilos.textoBotonModificar}>
+              Modificar reserva
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={estilos.botonEliminar}
+            onPress={() => confirmarEliminacion(item.id)}
+            activeOpacity={0.7}
+          >
+            <Text style={estilos.textoBotonEliminar}>
+              Eliminar reserva
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -132,6 +153,7 @@ export default function HistorialReservasScreen() {
       <TouchableOpacity
         style={estilos.boton}
         onPress={volverAlMenu}
+        activeOpacity={0.7}
       >
         <Text style={estilos.textoBoton}>
           Volver al menú
