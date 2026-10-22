@@ -1,4 +1,3 @@
-
 import { router, useLocalSearchParams } from "expo-router";
 
 export function useInicioScreen() {
@@ -43,6 +42,13 @@ export function useInicioScreen() {
     });
   };
 
+  const irLocalizacion = () => {
+    router.push({
+      pathname: "/localizacion",
+      params: { usuario },
+    });
+  };
+
   return {
     irInicio,
     irMiPerfil,
@@ -50,5 +56,6 @@ export function useInicioScreen() {
     irHacerReserva,
     irMisReservas,
     irResenas,
+    irLocalizacion,
   };
 }
