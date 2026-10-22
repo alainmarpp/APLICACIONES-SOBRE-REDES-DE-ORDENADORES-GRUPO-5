@@ -7,7 +7,8 @@ const sequelize = require('./config/database');
 require('./src/models/user.model');
 require('./src/models/animal.model');
 require('./src/models/reserva.model');
-require('./src/models/resena.model'); 
+require('./src/models/blacklist.model'); // Conservado de cerrar-sesion
+require('./src/models/resena.model');    // Conservado de main
 
 const authRoutes = require('./src/routes/auth.routes');
 const serviciosRoutes = require('./src/routes/servicios.routes');
@@ -21,7 +22,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors()); 
 app.use(express.json());
 
-
 app.get('/', (req, res) => {
     res.json({ mensaje: '¡API REST levantada y conectada a Aiven!' });
 });
@@ -31,7 +31,6 @@ app.use(serviciosRoutes);
 app.use(animalesRoutes);
 app.use(reservasRoutes);
 app.use(resenasRoutes);
-
 
 async function iniciarServidor() {
     try {
