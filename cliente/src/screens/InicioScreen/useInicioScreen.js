@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL, obtenerToken, cerrarSesion as cerrarSesionAuth } from "../../services/authService";
 
 export function useInicioScreen() {
   const { usuario } = useLocalSearchParams();
@@ -53,9 +53,9 @@ export function useInicioScreen() {
   const cerrarSesion = async () => {
     try {
       try {
-        const tokenGuardado = await AsyncStorage.getItem('token');
+        const tokenGuardado = await obtenerToken();
         if (tokenGuardado) {
-          await fetch("http://10.0.2.2:3000/logout", {
+          await fetch(`${API_URL}/logout`, {
             method: "POST",
             headers: {
               "Authorization": `Bearer ${tokenGuardado}`,
@@ -67,10 +67,9 @@ export function useInicioScreen() {
         console.log("El servidor no respondió, forzando cierre local...");
       }
 
-      await AsyncStorage.clear(); 
+      await cerrarSesionAuth(); 
       
       alert("Has cerrado sesión correctamente.");
-      router.replace("/"); 
 
     } catch (error) {
       console.error("Error grave al cerrar sesión:", error);
