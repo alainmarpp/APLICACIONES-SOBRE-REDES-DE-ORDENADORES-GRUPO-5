@@ -1,3 +1,4 @@
+
 import { Text, TouchableOpacity, View } from "react-native";
 
 import estilos from "./InicioScreenStyles";
@@ -9,6 +10,7 @@ export default function InicioScreen() {
     irMisAnimales,
     irHacerReserva,
     irMisReservas,
+    irResenas,
   } = useInicioScreen();
 
   return (
@@ -50,6 +52,15 @@ export default function InicioScreen() {
       >
         <Text style={estilos.textoBoton}>
           Mis reservas
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.boton}
+        onPress={irResenas}
+      >
+        <Text style={estilos.textoBoton}>
+          Reseñas
         </Text>
       </TouchableOpacity>
     </View>
