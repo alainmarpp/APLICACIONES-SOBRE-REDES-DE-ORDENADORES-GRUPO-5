@@ -104,6 +104,15 @@ async function buscarReserva(usuario, fechaActual) {
     });
 }
 
+async function reservaDeUsuario(idReserva, usuario) {
+    return await Reserva.findOne({
+        where: {
+            id: idReserva,
+            usuario
+        }
+    });
+}
+
 // Todas las reservas de un día (de cualquier usuario), para calcular huecos libres
 async function reservasDelDia(fecha) {
     return await Reserva.findAll({ where: { fecha } });
@@ -116,6 +125,15 @@ async function eliminarReserva(idReserva) {
 // Igual que eliminarReserva pero solo si la reserva es de ese usuario
 async function eliminarReservaDeUsuario(idReserva, usuario) {
     return await Reserva.destroy({ where: { id: idReserva, usuario } });
+}
+
+async function modificarReservaDeUsuario(idReserva, usuario, nuevosDatos) {
+    return await Reserva.update(nuevosDatos, {
+        where: {
+            id: idReserva,
+            usuario
+        }
+    });
 }
 
 module.exports = {
@@ -134,7 +152,9 @@ module.exports = {
     crearReserva,
     crearReservaSiLibre,
     buscarReserva,
+    reservaDeUsuario,
     reservasDelDia,
     eliminarReserva,
-    eliminarReservaDeUsuario
+    eliminarReservaDeUsuario,
+    modificarReservaDeUsuario
 };
