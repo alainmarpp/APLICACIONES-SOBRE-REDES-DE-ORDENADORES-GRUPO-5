@@ -1,11 +1,12 @@
 import {
   ActivityIndicator,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+// Usamos SafeAreaView de safe-area-context para un soporte adecuado en Android
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import estilos from "./CalendarioScreenStyles";
 import { useCalendarioScreen } from "./useCalendarioScreen";
@@ -42,7 +43,11 @@ const CalendarioScreen = () => {
 
   return (
     <SafeAreaView style={estilos.areaSegura}>
-      <ScrollView style={estilos.contenedor} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={estilos.contenedor}
+        contentContainerStyle={estilos.contenedorContenido}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={estilos.tituloCabecera}>Reserva tu Cita</Text>
 
         {serviciosSeleccionados.length > 0 && (
@@ -124,7 +129,6 @@ const CalendarioScreen = () => {
           {horasDisponibles.map((hora) => {
             const estaSeleccionada = horaSeleccionada === hora;
             const estaOcupada = estaHoraReservada(hora);
-            // Sin día elegido o mientras cargan las horas, tampoco se pueden pulsar
             const sinDatos = !fechaSeleccionada || cargandoHoras;
 
             return (
