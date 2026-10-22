@@ -7,16 +7,17 @@ const sequelize = require('./config/database');
 require('./src/models/user.model');
 require('./src/models/animal.model');
 require('./src/models/reserva.model');
+require('./src/models/resena.model'); 
 
 const authRoutes = require('./src/routes/auth.routes');
 const serviciosRoutes = require('./src/routes/servicios.routes');
 const animalesRoutes = require('./src/routes/animales.routes');
 const reservasRoutes = require('./src/routes/reservas.routes');
+const resenasRoutes = require('./src/routes/resenas.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares
 app.use(cors()); 
 app.use(express.json());
 
@@ -25,10 +26,11 @@ app.get('/', (req, res) => {
     res.json({ mensaje: '¡API REST levantada y conectada a Aiven!' });
 });
 
-app.use(authRoutes);      // POST /registro, POST /login, GET /perfil
-app.use(serviciosRoutes); // GET /servicios
-app.use(animalesRoutes);  // GET/POST /animales, PUT/DELETE /animales/:id   (con token)
-app.use(reservasRoutes);  // GET /disponibilidad, GET/POST /reservas, DELETE /reservas/:id (con token)
+app.use(authRoutes);
+app.use(serviciosRoutes);
+app.use(animalesRoutes);
+app.use(reservasRoutes);
+app.use(resenasRoutes);
 
 
 async function iniciarServidor() {

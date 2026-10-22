@@ -101,10 +101,13 @@ router.post('/reservas', verificarToken, async (req, res) => {
 router.delete('/reservas/:id', verificarToken, async (req, res) => {
     try {
         const borradas = await db.eliminarReservaDeUsuario(req.params.id, req.usuario.nombre);
-        if (borradas === 0) return res.status(404).json({ error: 'Reserva no encontrada' });
+
+        if (borradas === 0) {
+            return res.status(404).json({ error: 'Reserva no encontrada o no te pertenece' });
+        }
+        
         res.json({ mensaje: 'Reserva cancelada' });
     } catch (error) {
-        console.error('Error al cancelar reserva:', error);
         res.status(500).json({ error: 'No se pudo cancelar la reserva' });
     }
 });

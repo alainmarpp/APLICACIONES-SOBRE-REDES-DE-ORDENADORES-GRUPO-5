@@ -6,8 +6,6 @@ const { verificarToken, generarToken } = require('../middlewares/auth.middleware
 
 // --- RUTA: REGISTRO SEGURO (Con hash de contraseña y tus logs) ---
 router.post('/registro', async (req, res) => {
-    console.log("📥 [SERVIDOR/Register] Petición POST recibida en /registro");
-    console.log("📦 [SERVIDOR/Register] Datos que han llegado (req.body):", req.body);
 
     const { nombre, tlf, contrasenia } = req.body;
 
@@ -31,8 +29,6 @@ router.post('/registro', async (req, res) => {
 
         // Generar token para login automático tras el registro
         const token = generarToken(usuarioCreado);
-
-        console.log("✅ [SERVIDOR/Register] Usuario guardado y encriptado con éxito en Aiven.");
         
         res.status(201).json({ 
             mensaje: 'Usuario registrado correctamente de forma segura.',
@@ -40,7 +36,6 @@ router.post('/registro', async (req, res) => {
             nombre: usuarioCreado.nombre
         });
     } catch (error) {
-        console.error("❌ [SERVIDOR] Error al registrar el usuario en la BBDD:", error);
         res.status(500).json({ error: 'Hubo un error al registrar el usuario.' });
     }
 });

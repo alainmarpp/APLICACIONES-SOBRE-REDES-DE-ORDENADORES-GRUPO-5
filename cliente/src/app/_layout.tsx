@@ -43,6 +43,30 @@ export default function DisenoRaiz() {
         />
 
         <Stack.Screen
+          name="resenas"
+          options={{
+            title: "Reseñas",
+            headerShown: true,
+          }}
+        />
+
+        <Stack.Screen
+          name="anadirResena"
+          options={{
+            title: "Añadir una reseña",
+            headerShown: true,
+          }}
+        />
+
+        <Stack.Screen
+          name="verResenas"
+          options={{
+            title: "Ver reseñas",
+            headerShown: true,
+          }}
+        />
+
+        <Stack.Screen
           name="registroPerro"
           options={{
             title: "Registro del perro",

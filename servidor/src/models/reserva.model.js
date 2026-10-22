@@ -24,6 +24,14 @@ const Reserva = sequelize.define('Reserva', {
     servicio: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    usuario: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    idAnimal: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     tableName: 'reservas',

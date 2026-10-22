@@ -6,6 +6,7 @@ import {
 
 import { useCallback, useState } from "react";
 import { peticion } from "../../services/api";
+import { Alert } from "react-native";
 
 export function useHistorialReservasScreen() {
   const { usuario } = useLocalSearchParams();
@@ -49,6 +50,18 @@ export function useHistorialReservasScreen() {
     }, [])
   );
 
+  const eliminarReserva = async (id) => {
+    try {
+      await peticion(`/reservas/${id}`, {
+        metodo: "DELETE",
+      });
+
+      setReservas((prevReservas) => prevReservas.filter((r) => r.id !== id));
+    } catch (e) {
+      Alert.alert("Error", e.message || "No se pudo eliminar la reserva.");
+    }
+  };
+
   const volverAlMenu = () => {
     router.push({
       pathname: "/inicio",
@@ -61,5 +74,6 @@ export function useHistorialReservasScreen() {
     cargando,
     error,
     volverAlMenu,
+    eliminarReserva,
   };
 }
