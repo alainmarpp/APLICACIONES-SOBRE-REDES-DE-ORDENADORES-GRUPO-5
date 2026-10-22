@@ -1,3 +1,4 @@
+
 import { router, useLocalSearchParams } from "expo-router";
 
 export function useInicioScreen() {
@@ -35,11 +36,19 @@ export function useInicioScreen() {
     });
   };
 
+  const irResenas = () => {
+    router.push({
+      pathname: "/resenas",
+      params: { usuario },
+    });
+  };
+
   return {
     irInicio,
     irMiPerfil,
     irMisAnimales,
     irHacerReserva,
     irMisReservas,
+    irResenas,
   };
 }
