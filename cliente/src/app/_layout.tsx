@@ -1,7 +1,8 @@
 import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { View, Text, StyleSheet } from "react-native";
-import { useEffect, useRef } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import NetInfo from "@react-native-community/netinfo";
 
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import { useRed } from "../hooks/useRed";
@@ -12,24 +13,63 @@ SplashScreen.preventAutoHideAsync();
 export default function DisenoRaiz() {
   const { estaConectado } = useRed();
   const conexionAnterior = useRef(estaConectado);
+  const [isChecking, setIsChecking] = useState(false);
+  const [forzarEstadoRed, setForzarEstadoRed] = useState<boolean | null>(null);
+
+  // Combina el estado en tiempo real del hook con la comprobación manual
+  const estadoActual = forzarEstadoRed !== null ? forzarEstadoRed : estaConectado;
 
   useEffect(() => {
-    if (!conexionAnterior.current && estaConectado) {
+    if (!conexionAnterior.current && estadoActual) {
       sincronizarColaOffline();
     }
-    conexionAnterior.current = estaConectado;
+    conexionAnterior.current = estadoActual;
+  }, [estadoActual]);
+
+  // Si la red cambia de forma nativa, limpiamos el estado forzado
+  useEffect(() => {
+    setForzarEstadoRed(null);
   }, [estaConectado]);
 
+  // Función para reintentar la conexión manualmente al pulsar el botón
+  const handleReconnect = () => {
+    setIsChecking(true);
+    NetInfo.fetch().then(state => {
+      setForzarEstadoRed(state.isConnected);
+      if (state.isConnected) {
+        sincronizarColaOffline();
+      }
+      setIsChecking(false);
+    });
+  };
+
+  // Si no hay conexión, bloqueamos la app mostrando la pantalla de aviso y reconexión
+  if (estadoActual === false) {
+    return (
+      <View style={estilos.contenedorOffline}>
+        <Text style={estilos.tituloOffline}>⚠️ ¡Sin conexión a Internet!</Text>
+        <Text style={estilos.subtituloOffline}>
+          Se ha perdido la red. Por favor, comprueba tu conexión Wi-Fi o servidor y pulsa reconectar para continuar.
+        </Text>
+
+        <TouchableOpacity 
+          style={estilos.botonReconectar} 
+          onPress={handleReconnect}
+          disabled={isChecking}
+        >
+          {isChecking ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={estilos.textoBoton}>Reconectar</Text>
+          )}
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  // Si hay red, la app fluye con normalidad
   return (
     <View style={estilos.contenedor}>
-      {!estaConectado && (
-        <View style={estilos.bannerOffline}>
-          <Text style={estilos.textoOffline}>
-            ⚠️ Sin conexión a Internet. Las acciones se guardarán y sincronizarán al volver.
-          </Text>
-        </View>
-      )}
-
       <ThemeProvider value={DefaultTheme}>
         <AnimatedSplashOverlay />
         <Stack>
@@ -54,17 +94,43 @@ export default function DisenoRaiz() {
 
 const estilos = StyleSheet.create({
   contenedor: { flex: 1 },
-  bannerOffline: {
-    backgroundColor: "#ff3b30",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+  contenedorOffline: {
+    flex: 1,
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 999,
+    padding: 24,
   },
-  textoOffline: {
-    color: "#ffffff",
+  tituloOffline: {
+    fontSize: 22,
     fontWeight: "bold",
-    fontSize: 14,
+    color: "#ff3b30",
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  subtituloOffline: {
+    fontSize: 16,
+    color: "#666666",
+    textAlign: "center",
+    marginBottom: 32,
+    lineHeight: 22,
+  },
+  botonReconectar: {
+    backgroundColor: "#007AFF",
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 12,
+    minWidth: 160,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  textoBoton: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
