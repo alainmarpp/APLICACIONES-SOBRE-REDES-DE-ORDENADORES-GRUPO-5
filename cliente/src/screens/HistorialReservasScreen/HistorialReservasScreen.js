@@ -1,4 +1,3 @@
-
 import {
   ActivityIndicator,
   FlatList,
@@ -8,6 +7,7 @@ import {
   Alert,
   Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import estilos from "./HistorialReservasScreenStyles";
 import { useHistorialReservasScreen } from "./useHistorialReservasScreen";
@@ -117,48 +117,43 @@ export default function HistorialReservasScreen() {
     );
   };
 
-  return (
-    <View style={estilos.contenedor}>
-      <Text style={estilos.titulo}>
-        Historial de Reservas
-      </Text>
+  const cabecera = (
+    <Text style={estilos.titulo}>Historial de Reservas</Text>
+  );
 
-      {cargando ? (
-        <View style={estilos.estado}>
-          <ActivityIndicator size="large" color="#8A8175" />
-          <Text style={estilos.mensaje}>
-            Cargando reservas...
-          </Text>
-        </View>
-      ) : error ? (
-        <Text style={estilos.mensajeError}>
-          {error}
-        </Text>
-      ) : reservas.length === 0 ? (
-        <Text style={estilos.historial}>
-          No hay reservas por el momento
-        </Text>
-      ) : (
-        <FlatList
-          style={estilos.lista}
-          data={reservas}
-          renderItem={renderReserva}
-          keyExtractor={(item, index) =>
-            String(item.id ?? index)
-          }
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-
-      <TouchableOpacity
-        style={estilos.boton}
-        onPress={volverAlMenu}
-        activeOpacity={0.7}
-      >
-        <Text style={estilos.textoBoton}>
-          Volver al menú
-        </Text>
-      </TouchableOpacity>
+  const contenidoVacio = cargando ? (
+    <View style={estilos.estado}>
+      <ActivityIndicator size="large" color="#8A8175" />
+      <Text style={estilos.mensaje}>Cargando reservas...</Text>
     </View>
+  ) : error ? (
+    <Text style={estilos.mensajeError}>{error}</Text>
+  ) : (
+    <Text style={estilos.historial}>No hay reservas por el momento</Text>
+  );
+
+  return (
+    <SafeAreaView style={estilos.pantalla}>
+      <FlatList
+        style={estilos.lista}
+        contentContainerStyle={estilos.contenidoLista}
+        data={cargando || error ? [] : reservas}
+        renderItem={renderReserva}
+        keyExtractor={(item, index) => String(item.id ?? index)}
+        ListHeaderComponent={cabecera}
+        ListEmptyComponent={contenidoVacio}
+        showsVerticalScrollIndicator={false}
+      />
+
+      <View style={estilos.pie}>
+        <TouchableOpacity
+          style={estilos.boton}
+          onPress={volverAlMenu}
+          activeOpacity={0.7}
+        >
+          <Text style={estilos.textoBoton}>Volver al menú</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }

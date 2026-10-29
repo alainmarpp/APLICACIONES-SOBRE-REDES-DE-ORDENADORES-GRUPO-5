@@ -1,9 +1,8 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  contenedor: {
+  pantalla: {
     flex: 1,
-    padding: 25,
     backgroundColor: "#f5f5f5",
   },
 
@@ -11,8 +10,8 @@ export default StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop: 30,
-    marginBottom: 25,
+    marginTop: 20,
+    marginBottom: 20,
   },
 
   lista: {
@@ -21,7 +20,32 @@ export default StyleSheet.create({
   },
 
   contenidoLista: {
+    flexGrow: 1,
+    width: "100%",
+    maxWidth: 500,
+    alignSelf: "center",
+    paddingHorizontal: 25,
     paddingBottom: 20,
+  },
+
+  estado: {
+    flex: 1,
+    minHeight: 150,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  // Zona fija inferior: el botón siempre está visible
+  pie: {
+    width: "100%",
+    maxWidth: 500,
+    alignSelf: "center",
+    paddingHorizontal: 25,
+    paddingTop: 12,
+    paddingBottom: 16,
+    backgroundColor: "#f5f5f5",
+    borderTopWidth: 1,
+    borderTopColor: "#E5DFD5",
   },
 
   tarjeta: {
@@ -71,8 +95,6 @@ export default StyleSheet.create({
   boton: {
     width: "100%",
     padding: 15,
-    marginTop: 15,
-    marginBottom: 10,
     borderRadius: 10,
     backgroundColor: "#D8D0C4",
     alignItems: "center",

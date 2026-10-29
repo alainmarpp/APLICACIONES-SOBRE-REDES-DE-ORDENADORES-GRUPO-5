@@ -1,4 +1,5 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import estilos from "./LocalizacionScreenStyles";
 import { useLocalizacionScreen } from "./useLocalizacionScreen";
@@ -7,7 +8,12 @@ export default function LocalizacionScreen() {
   const { tienda, abrirEnMapas } = useLocalizacionScreen();
 
   return (
-    <View style={estilos.contenedor}>
+    <SafeAreaView style={estilos.pantalla}>
+      <ScrollView
+        style={estilos.pantalla}
+        contentContainerStyle={estilos.contenido}
+      >
+        <View style={estilos.cuerpo}>
       <Text style={estilos.titulo}>Localización</Text>
 
       <Text style={estilos.subtitulo}>Encuentra nuestra tienda</Text>
@@ -22,6 +28,8 @@ export default function LocalizacionScreen() {
       <TouchableOpacity style={estilos.boton} onPress={abrirEnMapas}>
         <Text style={estilos.textoBoton}>Abrir en Maps</Text>
       </TouchableOpacity>
-    </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
