@@ -1,22 +1,27 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+
+const fuente = Platform.select({
+  ios: "Georgia",
+  android: "serif",
+  default: "Georgia, 'Times New Roman', serif",
+});
+
+const suave = {
+  shadowColor: "#8E3E63",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.12,
+  shadowRadius: 10,
+  elevation: 3,
+};
 
 export default StyleSheet.create({
-  pantalla: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
+  pantalla: { 
+    flex: 1, 
+    backgroundColor: "#FDF7F9" 
   },
 
-  titulo: {
-    fontSize: 30,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 20,
-    marginBottom: 20,
-  },
-
-  lista: {
-    flex: 1,
-    width: "100%",
+  lista: { 
+    flex: 1 
   },
 
   contenidoLista: {
@@ -24,85 +29,111 @@ export default StyleSheet.create({
     width: "100%",
     maxWidth: 500,
     alignSelf: "center",
-    paddingHorizontal: 25,
+    paddingHorizontal: 24,
+    paddingTop: 10,
     paddingBottom: 20,
   },
 
-  estado: {
-    flex: 1,
-    minHeight: 150,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  // Zona fija inferior: el botón siempre está visible
-  pie: {
-    width: "100%",
-    maxWidth: 500,
-    alignSelf: "center",
-    paddingHorizontal: 25,
-    paddingTop: 12,
-    paddingBottom: 16,
-    backgroundColor: "#f5f5f5",
-    borderTopWidth: 1,
-    borderTopColor: "#E5DFD5",
+  titulo: {
+    fontFamily: fuente,
+    fontSize: 32,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: "#8E3E63",
+    letterSpacing: 1,
+    marginTop: 15,
+    marginBottom: 20,
+    textAlign: "center",
   },
 
   tarjeta: {
     width: "100%",
+    backgroundColor: "#FFFFFF",
     padding: 20,
-    marginBottom: 15,
-    backgroundColor: "#ffffff",
+    borderRadius: 24,
+    marginBottom: 14,
     borderWidth: 1,
-    borderColor: "#D8D0C4",
-    borderRadius: 15,
+    borderColor: "#EADAE4",
+    ...suave,
   },
 
   nombre: {
-    fontSize: 22,
+    fontFamily: fuente,
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 12,
-    color: "#333333",
-  },
-
-  dato: {
-    fontSize: 16,
-    color: "#555555",
+    fontStyle: "italic",
+    color: "#8E3E63",
     marginBottom: 8,
   },
 
+  dato: {
+    fontFamily: fuente,
+    fontSize: 15,
+    color: "#3D2232",
+    lineHeight: 22,
+    marginBottom: 2,
+  },
+
+  estado: {
+    paddingVertical: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
   mensaje: {
-    fontSize: 16,
+    fontFamily: fuente,
+    fontSize: 15,
+    fontStyle: "italic",
+    color: "#8E3E63",
+    opacity: 0.8,
     textAlign: "center",
     marginVertical: 30,
-    color: "#555555",
   },
 
   enlaceRegistro: {
+    marginTop: 15,
+    marginBottom: 20,
     alignItems: "center",
-    padding: 12,
-    marginTop: 5,
+    paddingVertical: 8,
   },
 
   textoEnlaceRegistro: {
-    fontSize: 16,
-    color: "#6B5D4D",
+    fontFamily: fuente,
+    fontSize: 15,
     fontWeight: "bold",
-    textAlign: "center",
+    color: "#8E3E63",
     textDecorationLine: "underline",
+    textAlign: "center",
+  },
+
+  pie: {
+    width: "100%",
+    maxWidth: 500,
+    alignSelf: "center",
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 16,
+    backgroundColor: "rgba(253, 247, 249, 0.95)",
   },
 
   boton: {
     width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#D8D0C4",
+    paddingVertical: 16,
+    borderRadius: 26,
+    backgroundColor: "#8E3E63",
     alignItems: "center",
+    justifyContent: "center",
+    ...suave,
+    shadowColor: "#8E3E63",
+    shadowOpacity: 0.3,
   },
 
   textoBoton: {
-    fontSize: 18,
+    fontFamily: fuente,
+    fontSize: 17,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#FFFFFF",
+    letterSpacing: 0.8,
+    textAlign: "center",
   },
 });

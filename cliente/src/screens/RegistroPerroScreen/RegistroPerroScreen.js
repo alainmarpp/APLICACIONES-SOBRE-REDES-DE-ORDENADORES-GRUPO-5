@@ -18,44 +18,49 @@ export default function RegistroPerroScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> Registro del perro</Text>
+      <Text style={styles.title}>Nuevo Animal</Text>
+      <Text style={styles.subtitle}>Cuéntanos</Text>
 
-      <Text style={styles.label}>Nombre</Text>
+      <Text style={styles.label}>¿Cómo se llama? 🐾</Text>
       <TextInput
         style={styles.input}
-        placeholder="Introduce el nombre"
+        placeholder="Ej. Coco, Mía, Bimba..."
+        placeholderTextColor="#B5A0AC"
         value={nombre}
         onChangeText={setNombre}
       />
 
-      <Text style={styles.label}>Edad</Text>
+      <Text style={styles.label}>Edad (años) 🎂</Text>
       <TextInput
         style={styles.input}
-        placeholder="Introduce la edad"
+        placeholder="Ej. 2"
+        placeholderTextColor="#B5A0AC"
         keyboardType="numeric"
         value={edad}
         onChangeText={setEdad}
       />
 
-      <Text style={styles.label}>Peso (kg)</Text>
+      <Text style={styles.label}>Peso (kg) ⚖️</Text>
       <TextInput
         style={styles.input}
-        placeholder="Introduce el peso"
+        placeholder="Ej. 8.5"
+        placeholderTextColor="#B5A0AC"
         keyboardType="decimal-pad"
         value={peso}
         onChangeText={setPeso}
       />
 
-      <Text style={styles.label}>Raza</Text>
+      <Text style={styles.label}>Raza o mezcla 🐕‍🦺</Text>
       <TextInput
         style={styles.input}
-        placeholder="Introduce la raza"
+        placeholder="Ej. Caniche, Mestizo..."
+        placeholderTextColor="#B5A0AC"
         value={raza}
         onChangeText={setRaza}
       />
 
       <TouchableOpacity style={styles.button} onPress={handleRegistro}>
-        <Text style={styles.buttonText}>Registrar perro</Text>
+        <Text style={styles.buttonText}>Guardar perfil ✨</Text>
       </TouchableOpacity>
     </View>
   );

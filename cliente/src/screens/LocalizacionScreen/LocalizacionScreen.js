@@ -31,12 +31,15 @@ function construirHtml(tienda) {
 <style>
   html, body, #mapa { height: 100%; margin: 0; padding: 0; }
   .pin { display: flex; flex-direction: column; align-items: center; font-family: sans-serif; }
-  .etq { color: #fff; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 10px; margin-bottom: 4px; white-space: nowrap; }
-  .burbuja { width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 3px solid; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-  .tienda .etq { background: #40382F; }
-  .tienda .burbuja { border-color: #40382F; }
-  .yo .etq { background: #2F80ED; }
-  .yo .burbuja { border-color: #2F80ED; }
+  .etq { color: #fff; font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 12px; margin-bottom: 4px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+  .burbuja { width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 3px solid; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 3px 6px rgba(0,0,0,0.15); }
+  
+  /* Estilo Chic / Rosa para la tienda */
+  .tienda .etq { background: #8E3E63; }
+  .tienda .burbuja { border-color: #8E3E63; background-color: #FFF0F5; }
+  
+  .yo .etq { background: #40382F; }
+  .yo .burbuja { border-color: #40382F; }
 </style>
 </head>
 <body>
@@ -59,7 +62,7 @@ function construirHtml(tienda) {
     });
   }
 
-  L.marker(tienda, { icon: icono('tienda', '🐶', 'Peluquería canina') }).addTo(mapa);
+  L.marker(tienda, { icon: icono('tienda', '🐶', 'Peluquería Canina ') }).addTo(mapa);
 
   var yo = null;
   var linea = null;
@@ -68,8 +71,8 @@ function construirHtml(tienda) {
   function actualizar(lat, lng) {
     var pos = [lat, lng];
     if (!yo) {
-      yo = L.marker(pos, { icon: icono('yo', '🙋', 'Tú estás aquí') }).addTo(mapa);
-      linea = L.polyline([pos, tienda], { color: '#40382F', weight: 3, dashArray: '8,8' }).addTo(mapa);
+      yo = L.marker(pos, { icon: icono('yo', '🙋‍♀️', 'Tú estás aquí') }).addTo(mapa);
+      linea = L.polyline([pos, tienda], { color: '#8E3E63', weight: 3, dashArray: '6,6' }).addTo(mapa);
     } else {
       yo.setLatLng(pos);
       linea.setLatLngs([pos, tienda]);
@@ -89,14 +92,12 @@ export default function LocalizacionScreen() {
     useLocalizacionScreen();
 
   const { height: altoPantalla } = useWindowDimensions();
-  // El mapa ocupa ~38% de la pantalla, entre 220 y 380 px
   const altoMapa = Math.min(380, Math.max(220, Math.round(altoPantalla * 0.38)));
 
   const webRef = useRef(null);
   const [listo, setListo] = useState(false);
   const [html] = useState(() => construirHtml(tienda));
 
-  // Cada vez que cambia tu posición, se la pasamos al mapa
   useEffect(() => {
     if (listo && posicion && webRef.current) {
       webRef.current.injectJavaScript(
@@ -113,72 +114,72 @@ export default function LocalizacionScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={estilos.cuerpo}>
-      <Text style={estilos.titulo}>Localización</Text>
+          <Text style={estilos.titulo}>Localización</Text>
 
-      <Text style={estilos.subtitulo}>Encuentra nuestra peluquería</Text>
+          <Text style={estilos.subtitulo}>Encuentra nuestra peluquería</Text>
 
-      <View style={[estilos.contenedorMapa, { height: altoMapa }]}>
-        <WebView
-          ref={webRef}
-          style={estilos.mapa}
-          originWhitelist={["*"]}
-          source={{ html, baseUrl: "https://localhost" }}
-          javaScriptEnabled
-          domStorageEnabled
-          nestedScrollEnabled
-          onLoadEnd={() => setListo(true)}
-        />
+          <View style={[estilos.contenedorMapa, { height: altoMapa }]}>
+            <WebView
+              ref={webRef}
+              style={estilos.mapa}
+              originWhitelist={["*"]}
+              source={{ html, baseUrl: "https://localhost" }}
+              javaScriptEnabled
+              domStorageEnabled
+              nestedScrollEnabled
+              onLoadEnd={() => setListo(true)}
+            />
 
-        {estado === "ok" && (
-          <View style={estilos.cartelDistancia}>
-            <Text style={estilos.textoCartel}>
-              🐾 {formatearDistancia(distancia)}
-            </Text>
+            {estado === "ok" && (
+              <View style={estilos.cartelDistancia}>
+                <Text style={estilos.textoCartel}>
+                   {formatearDistancia(distancia)}
+                </Text>
+              </View>
+            )}
           </View>
-        )}
-      </View>
 
-      <View style={estilos.tarjeta}>
-        {estado === "cargando" && (
-          <Text style={estilos.textoTarjeta}>Obteniendo tu ubicación...</Text>
-        )}
+          <View style={estilos.tarjeta}>
+            {estado === "cargando" && (
+              <Text style={estilos.textoTarjeta}>Obteniendo tu ubicación...</Text>
+            )}
 
-        {estado === "ok" && (
-          <>
-            <Text style={estilos.textoTarjeta}>
-              Estás a {formatearDistancia(distancia)} de la peluquería
-            </Text>
-            <Text style={estilos.textoSecundario}>
-              🚶 Unos {minutosAPie(distancia)} min a pie
-            </Text>
-          </>
-        )}
+            {estado === "ok" && (
+              <>
+                <Text style={estilos.textoTarjeta}>
+                  Estás a {formatearDistancia(distancia)} de la peluquería
+                </Text>
+                <Text style={estilos.textoSecundario}>
+                  🚶 Unos {minutosAPie(distancia)} min a pie
+                </Text>
+              </>
+            )}
 
-        {estado === "denegado" && (
-          <>
-            <Text style={estilos.textoTarjeta}>Sin permiso de ubicación</Text>
-            <Text style={estilos.textoSecundario}>
-              Actívalo en los ajustes para ver la distancia.
-            </Text>
-          </>
-        )}
+            {estado === "denegado" && (
+              <>
+                <Text style={estilos.textoTarjeta}>Sin permiso de ubicación</Text>
+                <Text style={estilos.textoSecundario}>
+                  Actívalo en los ajustes para ver la distancia.
+                </Text>
+              </>
+            )}
 
-        {estado === "error" && (
-          <Text style={estilos.textoTarjeta}>
-            No se pudo obtener tu ubicación. Comprueba que el GPS está activado.
-          </Text>
-        )}
-      </View>
+            {estado === "error" && (
+              <Text style={estilos.textoTarjeta}>
+                No se pudo obtener tu ubicación. Comprueba que el GPS está activado.
+              </Text>
+            )}
+          </View>
 
-      {estado === "denegado" ? (
-        <TouchableOpacity style={estilos.boton} onPress={abrirAjustes}>
-          <Text style={estilos.textoBoton}>Abrir ajustes</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity style={estilos.boton} onPress={abrirEnMapas}>
-          <Text style={estilos.textoBoton}>Cómo llegar</Text>
-        </TouchableOpacity>
-      )}
+          {estado === "denegado" ? (
+            <TouchableOpacity style={estilos.boton} onPress={abrirAjustes}>
+              <Text style={estilos.textoBoton}>Abrir ajustes</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={estilos.boton} onPress={abrirEnMapas}>
+              <Text style={estilos.textoBoton}>Cómo llegar</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

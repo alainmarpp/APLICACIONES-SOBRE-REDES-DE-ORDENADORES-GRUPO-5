@@ -1,36 +1,67 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+
+const fuente = Platform.select({
+  ios: "Georgia",
+  android: "serif",
+  default: "Georgia, 'Times New Roman', serif",
+});
+
+const suave = {
+  shadowColor: "#8E3E63",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.15,
+  shadowRadius: 10,
+  elevation: 3,
+};
+
+const tituloBase = {
+  fontFamily: fuente,
+  fontWeight: "bold",
+  fontStyle: "italic",
+  color: "#A8537A",
+  letterSpacing: 1,
+  textShadowColor: "#FFFFFF",
+  textShadowOffset: { width: 1, height: 1 },
+  textShadowRadius: 0,
+};
+
+const campo = {
+  width: "80%",
+  height: 52,
+  borderRadius: 26,
+  paddingHorizontal: 20,
+  fontSize: 16,
+  color: "#3D2232",
+  backgroundColor: "#FFFFFF",
+  ...suave,
+  shadowOpacity: 0.1,
+  elevation: 2,
+};
 
 const estilos = StyleSheet.create({
   contenedor: {
     flex: 1,
-    backgroundColor: "#FAF8F5",
+    backgroundColor: "#FDF7F9",
     alignItems: "center",
     padding: 24,
   },
-
   titulo: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#161411",
+    ...tituloBase,
+    fontSize: 34,
     textAlign: "center",
-    marginTop: 30,
-    marginBottom: 25,
+    marginTop: 20,
+    marginBottom: 20,
   },
-
-  contenido: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-  },
-
+  contenido: { flex: 1, width: "100%", alignItems: "center" },
   mensaje: {
-    fontSize: 17,
-    color: "#6B6259",
+    fontFamily: fuente,
+    fontSize: 16,
+    fontStyle: "italic",
+    color: "#8A697A",
     textAlign: "center",
-    lineHeight: 25,
+    lineHeight: 24,
     marginTop: 20,
   },
-
   listaContenedor: {
     paddingHorizontal: 10,
     width: "100%",
@@ -38,54 +69,40 @@ const estilos = StyleSheet.create({
     alignSelf: "center",
     paddingBottom: 20,
   },
-
   tarjetaResena: {
     backgroundColor: "#FFFFFF",
     padding: 22,
     marginVertical: 10,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#E6E1DA",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
+    borderRadius: 26,
     width: "100%",
+    ...suave,
   },
-
   usuarioResena: {
+    fontFamily: fuente,
     fontSize: 18,
     fontWeight: "bold",
-    color: "#161411",
-    marginBottom: 8,
+    fontStyle: "italic",
+    color: "#A8537A",
+    marginBottom: 6,
   },
-
-  puntuacionResena: {
-    fontSize: 16, 
-    marginBottom: 8,
-  },
-
-  comentarioResena: {
-    fontSize: 16,
-    color: "#554D44",
-    lineHeight: 24,
-  },
-
+  puntuacionResena: { fontSize: 16, color: "#D4A359", marginBottom: 8 },
+  comentarioResena: { fontSize: 15, color: "#3D2232", lineHeight: 22 },
   botonVolver: {
     width: "100%",
-    padding: 15,
+    padding: 16,
     marginTop: 15,
     marginBottom: 10,
-    borderRadius: 10,
-    backgroundColor: "#D8D0C4",
+    borderRadius: 26,
+    backgroundColor: "#EADAE4",
     alignItems: "center",
+    ...suave,
   },
-
   textoBotonVolver: {
-    fontSize: 18,
+    fontFamily: fuente,
+    fontSize: 17,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#3D2232",
+    letterSpacing: 0.8,
   },
 });
 

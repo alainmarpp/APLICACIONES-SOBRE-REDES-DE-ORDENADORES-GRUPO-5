@@ -1,158 +1,191 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from "react-native";
 
-const { width } = Dimensions.get('window');
+const fuente = Platform.select({
+  ios: "Georgia",
+  android: "serif",
+  default: "Georgia, 'Times New Roman', serif",
+});
+
+const suave = {
+  shadowColor: "#8E3E63",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.12,
+  shadowRadius: 10,
+  elevation: 3,
+};
+
+const { width } = Dimensions.get("window");
 
 export default StyleSheet.create({
-  areaSegura: {
-    flex: 1,
-    backgroundColor: '#FAFAFA',
-  },
-  contenedor: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
+  areaSegura: { flex: 1, backgroundColor: "#FDF7F9" },
+
+  contenedor: { flex: 1, paddingHorizontal: 20 },
+
   contenedorContenido: {
     paddingTop: 10,
-    paddingBottom: 40, // Otorga espacio extra al final para no chocar con el botón atrás/gestos
+    paddingBottom: 40,
   },
+
   tituloCabecera: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#333',
+    fontFamily: fuente,
+    fontSize: 30,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: "#8E3E63",
+    letterSpacing: 1,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
+
   subtitulo: {
+    fontFamily: fuente,
     fontSize: 15,
-    color: '#666',
-    textAlign: 'center',
+    fontStyle: "italic",
+    color: "#8E3E63",
+    opacity: 0.8,
+    textAlign: "center",
     marginBottom: 10,
   },
+
   tituloSeccion: {
+    fontFamily: fuente,
     fontSize: 18,
-    fontWeight: '600',
-    color: '#444',
+    fontWeight: "bold",
+    color: "#3D2232",
     marginTop: 20,
     marginBottom: 10,
   },
+
   cabeceraMes: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 15,
   },
+
   textoMes: {
+    fontFamily: fuente,
     fontSize: 18,
-    fontWeight: '500',
-    color: '#333',
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: "#8E3E63",
   },
-  botonNavegacion: {
-    padding: 10,
-  },
+
+  botonNavegacion: { padding: 10 },
+
   textoBotonNavegacion: {
-    fontSize: 18,
-    color: '#FF6B6B',
-    fontWeight: 'bold',
+    fontSize: 20,
+    color: "#8E3E63",
+    fontWeight: "bold",
   },
+
   contenedorDiasSemana: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 10,
   },
+
   textoDiaSemana: {
     width: width / 9,
-    textAlign: 'center',
-    color: '#888',
-    fontWeight: '600',
+    textAlign: "center",
+    color: "#8E3E63",
+    opacity: 0.7,
+    fontWeight: "600",
   },
+
   rejillaDias: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
+
   botonDia: {
     width: width / 9,
     aspectRatio: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
     borderRadius: 20,
   },
+
   botonDiaSeleccionado: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: "#8E3E63",
+    ...suave,
   },
-  textoDia: {
-    fontSize: 16,
-    color: '#333',
-  },
-  textoDiaSeleccionado: {
-    color: '#FFF',
-    fontWeight: 'bold',
-  },
-  textoDiaDeshabilitado: {
-    color: '#CCC',
-  },
+
+  textoDia: { fontSize: 16, color: "#3D2232" },
+
+  textoDiaSeleccionado: { color: "#FFFFFF", fontWeight: "bold" },
+
+  textoDiaDeshabilitado: { color: "#D2C5CE" },
+
   rejillaHoras: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     marginTop: 10,
   },
+
   botonHora: {
-    width: '23%',
+    width: "23%",
     paddingVertical: 12,
-    backgroundColor: '#FFF',
-    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
     borderWidth: 1,
-    borderColor: '#E0E0E0',
-    alignItems: 'center',
+    borderColor: "#EADAE4",
+    borderRadius: 18,
+    alignItems: "center",
     marginBottom: 10,
+    ...suave,
   },
+
+  // Hora seleccionada: Fondo Burdeos elegante
   botonHoraSeleccionado: {
-    backgroundColor: '#FF6B6B',
-    borderColor: '#FF6B6B',
+    backgroundColor: "#8E3E63",
+    borderColor: "#8E3E63",
   },
-  textoHora: {
-    color: '#555',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  textoHoraSeleccionado: {
-    color: '#FFF',
-    fontWeight: 'bold',
-  },
+
+  textoHora: { color: "#3D2232", fontSize: 14, fontWeight: "500" },
+
+  // Texto blanco con buen contraste sobre el burdeos
+  textoHoraSeleccionado: { color: "#FFFFFF", fontWeight: "bold" },
+
   botonConfirmar: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: "#8E3E63",
     paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
+    borderRadius: 26,
+    alignItems: "center",
     marginTop: 30,
     marginBottom: 10,
-    shadowColor: '#FF6B6B',
-    shadowOffset: { width: 0, height: 4 },
+    ...suave,
+    shadowColor: "#8E3E63",
     shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
   },
+
   botonConfirmarDeshabilitado: {
-    backgroundColor: '#FFC0C0',
+    backgroundColor: "#EADAE4",
     shadowOpacity: 0,
     elevation: 0,
   },
+
   textoBotonConfirmar: {
-    color: '#FFF',
+    color: "#FFFFFF",
+    fontFamily: fuente,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    letterSpacing: 0.8,
   },
+
   botonHoraDeshabilitado: {
-    backgroundColor: '#F0F0F0',
-    borderColor: '#E0E0E0',
+    backgroundColor: "#F7EEF3",
+    borderColor: "#F7EEF3",
+    shadowOpacity: 0,
+    elevation: 0,
   },
-  textoHoraInactiva: {
-    color: '#CCCCCC',
-  },
+
+  textoHoraInactiva: { color: "#D2C5CE" },
+
   textoHoraDeshabilitado: {
-    color: '#CCCCCC',
-    textDecorationLine: 'line-through',
+    color: "#D2C5CE",
+    textDecorationLine: "line-through",
   },
 });
