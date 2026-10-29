@@ -12,15 +12,21 @@ router.post('/registro', async (req, res) => {
         return res.status(400).json({ error: 'Faltan campos obligatorios' });
     }
 
-    // --- NUEVAS RESTRICCIONES (Issue #55) ---
-    if (nombre.length < 3 || nombre.length > 20) {
-        return res.status(400).json({ error: 'El nombre debe tener entre 3 y 20 caracteres.' });
+    // --- NUEVAS VALIDACIONES DE TIPO ---
+    // Comprobamos que sean texto (string) para evitar inyecciones o datos malformados
+    if (typeof nombre !== 'string' || typeof contrasenia !== 'string') {
+        return res.status(400).json({ error: 'Formato de datos inválido.' });
     }
 
-    // Expresión regular: Mínimo 6 caracteres, al menos una letra y un número
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    // --- NUEVAS RESTRICCIONES ---
+    if (nombre.trim().length < 6 || nombre.trim().length > 20) {
+        return res.status(400).json({ error: 'El nombre debe tener entre 6 y 20 caracteres.' });
+    }
+
+    // Expresión regular: Mínimo 7 caracteres, 1 minúscula, 1 mayúscula, 1 símbolo
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{7,}$/;
     if (!passwordRegex.test(contrasenia)) {
-        return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres, incluir una letra y un número.' });
+        return res.status(400).json({ error: 'La contraseña debe tener al menos 7 caracteres, incluir una mayúscula, una minúscula y un símbolo.' });
     }
     // ----------------------------------------
 
