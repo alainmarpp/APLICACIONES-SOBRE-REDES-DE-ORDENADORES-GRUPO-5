@@ -20,6 +20,21 @@ export function useRegisterScreen() {
       return;
     }
 
+    // --- NUEVAS VALIDACIONES FRONTEND ---
+    // Nombre entre 6 y 20 caracteres
+    if (usuario.trim().length < 6 || usuario.trim().length > 20) {
+      alert("El nombre debe tener entre 6 y 20 caracteres.");
+      return;
+    }
+
+    // Contraseña: Min 7 chars, 1 minúscula, 1 mayúscula, 1 símbolo
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{7,}$/;
+    if (!passwordRegex.test(contrasena)) {
+      alert("La contraseña debe tener al menos 7 caracteres, incluir una mayúscula, una minúscula y un símbolo.");
+      return;
+    }
+    // ------------------------------------------------
+
     if (telefono.length !== 9) {
       alert("El teléfono debe tener exactamente 9 dígitos numéricos.");
       return;
@@ -36,8 +51,6 @@ export function useRegisterScreen() {
       contrasenia: contrasena 
     };
 
-    console.log("📤 [CLIENTE/Register] Enviando datos al servidor:", datosAEnviar);
-
     setCargando(true);
     try {
       const res = await fetch(`${API_URL}/registro`, {
@@ -47,8 +60,6 @@ export function useRegisterScreen() {
       });
       const datos = await res.json();
       
-      console.log("📥 [CLIENTE/Register] Respuesta recibida del servidor:", datos);
-
       if (!res.ok) {
         alert(datos.error || "No se pudo crear la cuenta");
         return;
@@ -61,7 +72,6 @@ export function useRegisterScreen() {
       alert("¡Cuenta registrada con éxito!");
       router.replace({ pathname: "/inicio", params: { usuario: datos.nombre || usuario } });
     } catch (error) {
-      console.error("❌ [CLIENTE/Register] Error de red o servidor:", error);
       alert("No se pudo conectar con el servidor. Asegúrate de que está encendido.");
     } finally {
       setCargando(false);

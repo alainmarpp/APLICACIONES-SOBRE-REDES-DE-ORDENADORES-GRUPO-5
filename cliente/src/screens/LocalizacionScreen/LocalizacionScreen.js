@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
 
 import estilos from "./LocalizacionScreenStyles";
@@ -81,6 +88,10 @@ export default function LocalizacionScreen() {
   const { tienda, posicion, distancia, estado, abrirAjustes, abrirEnMapas } =
     useLocalizacionScreen();
 
+  const { height: altoPantalla } = useWindowDimensions();
+  // El mapa ocupa ~38% de la pantalla, entre 220 y 380 px
+  const altoMapa = Math.min(380, Math.max(220, Math.round(altoPantalla * 0.38)));
+
   const webRef = useRef(null);
   const [listo, setListo] = useState(false);
   const [html] = useState(() => construirHtml(tienda));
@@ -95,12 +106,18 @@ export default function LocalizacionScreen() {
   }, [listo, posicion]);
 
   return (
-    <View style={estilos.contenedor}>
+    <SafeAreaView style={estilos.pantalla}>
+      <ScrollView
+        style={estilos.pantalla}
+        contentContainerStyle={estilos.contenido}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={estilos.cuerpo}>
       <Text style={estilos.titulo}>Localización</Text>
 
       <Text style={estilos.subtitulo}>Encuentra nuestra peluquería</Text>
 
-      <View style={estilos.contenedorMapa}>
+      <View style={[estilos.contenedorMapa, { height: altoMapa }]}>
         <WebView
           ref={webRef}
           style={estilos.mapa}
@@ -108,6 +125,7 @@ export default function LocalizacionScreen() {
           source={{ html, baseUrl: "https://localhost" }}
           javaScriptEnabled
           domStorageEnabled
+          nestedScrollEnabled
           onLoadEnd={() => setListo(true)}
         />
 
@@ -161,6 +179,8 @@ export default function LocalizacionScreen() {
           <Text style={estilos.textoBoton}>Cómo llegar</Text>
         </TouchableOpacity>
       )}
-    </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

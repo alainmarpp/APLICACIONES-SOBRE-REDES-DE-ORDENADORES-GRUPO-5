@@ -41,7 +41,9 @@
         {
           "locationWhenInUsePermission": "Necesitamos tu ubicación para calcular la distancia a la peluquería."
         }
-      ]
+      ],
+      "expo-font",
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true,

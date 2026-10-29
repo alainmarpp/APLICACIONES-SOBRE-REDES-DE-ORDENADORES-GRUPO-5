@@ -1,12 +1,24 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  contenedor: {
+  pantalla: {
     flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+
+  contenido: {
+    flexGrow: 1,
+    padding: 25,
+    paddingBottom: 40,
+  },
+
+  cuerpo: {
+    flex: 1,
+    width: "100%",
+    maxWidth: 500,
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    padding: 25,
-    backgroundColor: "#f5f5f5",
   },
 
   titulo: {
@@ -24,8 +36,7 @@ export default StyleSheet.create({
   },
 
   contenedorMapa: {
-    width: "90%",
-    height: 300,
+    width: "100%",
     borderRadius: 15,
     borderWidth: 1,
     borderColor: "#D8D0C4",
@@ -139,7 +150,7 @@ export default StyleSheet.create({
   },
 
   tarjeta: {
-    width: "90%",
+    width: "100%",
     minHeight: 65,
     backgroundColor: "#ffffff",
     borderWidth: 1,
@@ -167,8 +178,9 @@ export default StyleSheet.create({
   },
 
   boton: {
-    width: "90%",
-    height: 65,
+    width: "100%",
+    minHeight: 60,
+    paddingVertical: 12,
     backgroundColor: "#ffffff",
     borderWidth: 1,
     borderColor: "#D8D0C4",
@@ -182,5 +194,6 @@ export default StyleSheet.create({
     fontSize: 19,
     fontWeight: "bold",
     color: "#333333",
+    textAlign: "center",
   },
 });

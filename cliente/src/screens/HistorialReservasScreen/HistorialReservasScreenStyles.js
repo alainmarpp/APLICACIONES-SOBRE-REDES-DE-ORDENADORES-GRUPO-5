@@ -1,18 +1,38 @@
-
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  contenedor: {
+  pantalla: {
     flex: 1,
-    padding: 25,
     backgroundColor: "#f5f5f5",
+  },
+
+  contenidoLista: {
+    flexGrow: 1,
+    width: "100%",
+    maxWidth: 500,
+    alignSelf: "center",
+    paddingHorizontal: 25,
+    paddingBottom: 20,
+  },
+
+  // Zona fija inferior: el botón siempre está visible
+  pie: {
+    width: "100%",
+    maxWidth: 500,
+    alignSelf: "center",
+    paddingHorizontal: 25,
+    paddingTop: 12,
+    paddingBottom: 16,
+    backgroundColor: "#f5f5f5",
+    borderTopWidth: 1,
+    borderTopColor: "#E5DFD5",
   },
 
   titulo: {
     fontSize: 30,
     fontWeight: "bold",
-    marginTop: 25,
-    marginBottom: 25,
+    marginTop: 20,
+    marginBottom: 20,
     textAlign: "center",
   },
 
@@ -64,6 +84,7 @@ export default StyleSheet.create({
 
   estado: {
     flex: 1,
+    minHeight: 150,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -87,13 +108,12 @@ export default StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#D8D0C4",
     alignItems: "center",
-    marginTop: 15,
-    marginBottom: 10,
   },
 
   textoBoton: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#333333",
   },
 
   // Contenedor horizontal para los dos botones
@@ -120,7 +140,7 @@ export default StyleSheet.create({
 
   textoBotonModificar: {
     color: "#333333",
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -142,7 +162,7 @@ export default StyleSheet.create({
 
   textoBotonEliminar: {
     color: "#c62828",
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
   },

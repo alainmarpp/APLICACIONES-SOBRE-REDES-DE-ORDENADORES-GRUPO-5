@@ -1,5 +1,5 @@
-
-import { Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./ReservaScreenStyles";
 import { useReservaScreen } from "./useReservaScreen";
 
@@ -21,7 +21,13 @@ export default function ReservaScreen() {
   } = useReservaScreen();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.pantalla}>
+      <ScrollView
+        style={styles.pantalla}
+        contentContainerStyle={styles.contenido}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.cuerpo}>
       <Text style={styles.title}>
         {modoEdicion ? "Modificar reserva" : "Confirmar cita"}
       </Text>
@@ -115,6 +121,8 @@ export default function ReservaScreen() {
       >
         <Text style={styles.buttonText}>Cancelar</Text>
       </TouchableOpacity>
-    </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

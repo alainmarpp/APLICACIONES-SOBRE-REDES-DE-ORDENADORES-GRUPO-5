@@ -1,12 +1,23 @@
-
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  container: {
+  pantalla: {
     flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+
+  contenido: {
+    flexGrow: 1,
     paddingHorizontal: 24,
     paddingVertical: 20,
-    backgroundColor: "#f5f5f5",
+    paddingBottom: 40,
+  },
+
+  cuerpo: {
+    flex: 1,
+    width: "100%",
+    maxWidth: 500,
+    alignSelf: "center",
     justifyContent: "center",
   },
 
@@ -40,6 +51,7 @@ export default StyleSheet.create({
     fontSize: 16,
     color: "#333333",
     lineHeight: 23,
+    flexShrink: 1,
   },
 
   listaAnimales: {

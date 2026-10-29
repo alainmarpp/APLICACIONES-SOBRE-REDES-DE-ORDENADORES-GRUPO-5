@@ -1,10 +1,15 @@
 import { StyleSheet } from "react-native";
 
 const estilos = StyleSheet.create({
-  contenedor: {
+  pantalla: {
     flex: 1,
     backgroundColor: "#FAF8F5",
+  },
+
+  contenido: {
+    flexGrow: 1,
     padding: 24,
+    paddingBottom: 60,
     alignItems: "center",
   },
 
@@ -34,6 +39,7 @@ const estilos = StyleSheet.create({
 
   estrellas: {
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "center",
     gap: 12,
     marginBottom: 30,
