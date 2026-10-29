@@ -1,28 +1,43 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  contenedor: {
+  pantalla: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 25,
     backgroundColor: "#f5f5f5",
   },
 
+  contenido: {
+    flexGrow: 1,
+    paddingHorizontal: 25,
+    paddingTop: 15,
+    paddingBottom: 40,
+  },
+
+  cabecera: {
+    width: "100%",
+    alignItems: "flex-end",
+  },
+
+  cuerpo: {
+    flex: 1,
+    width: "100%",
+    maxWidth: 500,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 20,
+  },
+
   botonPerfil: {
-    position: "absolute",
-    top: 15,
-    right: 15,
-    zIndex: 10,
     backgroundColor: "#D8D0C4",
-    paddingVertical: 7,
-    paddingHorizontal: 12,
+    paddingVertical: 9,
+    paddingHorizontal: 16,
     borderRadius: 20,
   },
 
   textoPerfil: {
     color: "#40382F",
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "600",
   },
 
@@ -36,41 +51,45 @@ export default StyleSheet.create({
   subtitulo: {
     fontSize: 18,
     color: "#666666",
-    marginBottom: 35,
+    marginBottom: 30,
     textAlign: "center",
   },
 
   boton: {
-    width: "90%",
-    height: 65,
+    width: "100%",
+    minHeight: 60,
+    paddingVertical: 12,
     backgroundColor: "#ffffff",
     borderWidth: 1,
     borderColor: "#D8D0C4",
     borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 18,
+    marginBottom: 16,
   },
 
   textoBoton: {
     fontSize: 19,
     fontWeight: "bold",
     color: "#333333",
+    textAlign: "center",
   },
 
   botonSalir: {
-    width: "90%",
-    height: 65,
+    width: "100%",
+    minHeight: 60,
+    paddingVertical: 12,
     backgroundColor: "#ff3b30",
     borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 14,
   },
 
   textoBotonSalir: {
     fontSize: 19,
     fontWeight: "bold",
     color: "#ffffff",
+    textAlign: "center",
   },
 });
