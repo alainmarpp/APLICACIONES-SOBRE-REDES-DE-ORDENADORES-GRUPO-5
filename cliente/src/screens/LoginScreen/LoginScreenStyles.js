@@ -1,65 +1,105 @@
 // src/screens/LoginScreen/LoginScreenStyles.js
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from "react-native";
+
+// ✿ Con calle, pero elegante ✿
+const fuente = Platform.select({
+  ios: "Georgia",
+  android: "serif",
+  default: "Georgia, 'Times New Roman', serif",
+});
+
+// Sombra suave en tono burdeos sofisticado
+const suave = {
+  shadowColor: "#8E3E63",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.15,
+  shadowRadius: 10,
+  elevation: 3,
+};
+
+const tituloBase = {
+  fontFamily: fuente,
+  fontWeight: "bold",
+  fontStyle: "italic",
+  color: "#A8537A", // Burdeos medio sofisticado
+  letterSpacing: 1,
+  textShadowColor: "#FFFFFF",
+  textShadowOffset: { width: 1, height: 1 },
+  textShadowRadius: 0,
+};
+
+const campo = {
+  width: "80%",
+  height: 52,
+  borderRadius: 26,
+  paddingHorizontal: 20,
+  fontSize: 16,
+  color: "#3D2232", // Texto berenjena oscuro/legible
+  backgroundColor: "#FFFFFF",
+  ...suave,
+  shadowOpacity: 0.1,
+  elevation: 2,
+};
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
+    backgroundColor: "#FDF7F9", // Fondo suave neutro/empolvado
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
+  title: { ...tituloBase, fontSize: 38, marginBottom: 12, textAlign: "center" },
   welcome: {
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontFamily: fuente,
+    fontSize: 19,
+    fontStyle: "italic",
+    color: "#8A697A", // Tono neutro rosado
     marginBottom: 30,
-    textAlign: 'center',
+    textAlign: "center",
   },
   label: {
-    width: '80%',
-    fontSize: 17,
-    fontWeight: 'bold',
-    marginBottom: 5,
+    width: "80%",
+    fontFamily: fuente,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#3D2232",
+    marginBottom: 6,
     marginTop: 10,
   },
-  input: {
-    width: '80%',
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    backgroundColor: '#ffffff',
-  },
+  input: { ...campo },
   button: {
-    width: '80%',
-    padding: 15,
-    marginTop: 25,
-    borderRadius: 10,
-    backgroundColor: '#D8D0C4',
-    alignItems: 'center',
+    width: "80%",
+    padding: 16,
+    marginTop: 28,
+    borderRadius: 26,
+    backgroundColor: "#8E3E63", // Burdeos chic principal
+    alignItems: "center",
+    ...suave,
+    shadowColor: "#8E3E63",
+    shadowOpacity: 0.3,
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: fuente,
+    fontSize: 19,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    letterSpacing: 1,
   },
   registerText: {
-    fontSize: 16,
+    fontFamily: fuente,
+    fontSize: 15,
+    fontStyle: "italic",
+    color: "#8A697A",
     marginTop: 25,
-    marginBottom: 10,
+    marginBottom: 6,
   },
-  registerButton: {
-    padding: 10,
-  },
+  registerButton: { padding: 8 },
   registerButtonText: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: '#000000',
-    textDecorationLine: 'underline',
+    fontFamily: fuente,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#A8537A",
+    textDecorationLine: "underline",
   },
 });

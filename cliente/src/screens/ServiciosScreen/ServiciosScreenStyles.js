@@ -1,14 +1,34 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+
+const fuente = Platform.select({
+  ios: "Georgia",
+  android: "serif",
+  default: "Georgia, 'Times New Roman', serif",
+});
+
+const suave = {
+  shadowColor: "#8E3E63",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.12,
+  shadowRadius: 10,
+  elevation: 3,
+};
+
+const tituloBase = {
+  fontFamily: fuente,
+  fontWeight: "bold",
+  fontStyle: "italic",
+  color: "#8E3E63",
+  letterSpacing: 1,
+};
 
 export default StyleSheet.create({
-  pantalla: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
+  pantalla: { flex: 1, backgroundColor: "#FDF7F9" },
 
-  lista: {
-    flex: 1,
-  },
+  estampado: { ...StyleSheet.absoluteFillObject, opacity: 0.15 },
+  adorno: { position: "absolute" },
+
+  lista: { flex: 1 },
 
   contenidoLista: {
     flexGrow: 1,
@@ -19,63 +39,112 @@ export default StyleSheet.create({
     paddingBottom: 20,
   },
 
-  cabecera: {
-    alignItems: "center",
-  },
+  cabecera: { alignItems: "center" },
 
   bienvenida: {
-    fontSize: 22,
-    fontWeight: "bold",
+    fontFamily: fuente,
+    fontSize: 17,
+    fontStyle: "italic",
+    color: "#8E3E63",
+    opacity: 0.8,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 4,
     textAlign: "center",
   },
 
-  titulo: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginTop: 10,
-    marginBottom: 10,
+  titulo: { ...tituloBase, fontSize: 34, marginTop: 4, marginBottom: 4 },
+
+  lema: {
+    fontFamily: fuente,
+    fontSize: 12,
+    fontStyle: "italic",
+    color: "#8E3E63",
+    letterSpacing: 2,
+    textTransform: "uppercase",
+    marginBottom: 16,
+    textAlign: "center",
+    opacity: 0.85,
   },
 
   subtitulo: {
-    fontSize: 18,
-    marginBottom: 20,
+    fontFamily: fuente,
+    fontSize: 15,
+    color: "#3D2232",
+    marginBottom: 22,
     textAlign: "center",
+    paddingHorizontal: 10,
   },
 
   textoVacio: {
-    fontSize: 16,
-    color: "#666666",
+    fontFamily: fuente,
+    fontSize: 15,
+    fontStyle: "italic",
+    color: "#8E3E63",
+    opacity: 0.7,
     textAlign: "center",
     marginTop: 20,
   },
 
   itemServicio: {
-    padding: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    borderRadius: 24,
+    marginBottom: 12,
+    backgroundColor: "#FFFFFF",
     borderWidth: 1,
-    borderColor: "#cccccc",
-    borderRadius: 10,
-    marginBottom: 10,
-    backgroundColor: "#ffffff",
+    borderColor: "#EADAE4",
+    ...suave,
   },
+
+  // Unificación duocroma: todas las variantes comparten la base sobria
+  servicioRosa: { backgroundColor: "#FFFFFF" },
+  servicioLila: { backgroundColor: "#FFFFFF" },
+  servicioMenta: { backgroundColor: "#FFFFFF" },
+  servicioMelocoton: { backgroundColor: "#FFFFFF" },
+  servicioCielo: { backgroundColor: "#FFFFFF" },
 
   itemServicioSeleccionado: {
-    backgroundColor: "#D8D0C4",
-    borderColor: "#D8D0C4",
+    backgroundColor: "#8E3E63",
+    borderColor: "#8E3E63",
+    shadowColor: "#8E3E63",
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 5,
   },
+
+  emojiServicio: { fontSize: 24, marginRight: 14 },
 
   textoServicio: {
+    flex: 1,
+    fontFamily: fuente,
     fontSize: 16,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#3D2232",
+    letterSpacing: 0.5,
   },
 
-  textoServicioSeleccionado: {
-    color: "#000000",
+  textoServicioSeleccionado: { color: "#FFFFFF" },
+
+  circulo: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#FDF7F9",
+    borderWidth: 1,
+    borderColor: "#EADAE4",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
-  // Zona fija inferior: el botón siempre está visible
+  circuloSeleccionado: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#FFFFFF",
+  },
+
+  check: { fontSize: 15, fontWeight: "bold", color: "#8E3E63" },
+
   pie: {
     width: "100%",
     maxWidth: 500,
@@ -83,22 +152,25 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 12,
     paddingBottom: 16,
-    backgroundColor: "#f5f5f5",
-    borderTopWidth: 1,
-    borderTopColor: "#E5DFD5",
+    backgroundColor: "rgba(253, 247, 249, 0.95)",
   },
 
   boton: {
     width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#D8D0C4",
+    padding: 16,
+    borderRadius: 26,
+    backgroundColor: "#8E3E63",
     alignItems: "center",
+    ...suave,
+    shadowColor: "#8E3E63",
+    shadowOpacity: 0.3,
   },
 
   textoBoton: {
-    fontSize: 18,
+    fontFamily: fuente,
+    fontSize: 17,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#FFFFFF",
+    letterSpacing: 0.8,
   },
 });

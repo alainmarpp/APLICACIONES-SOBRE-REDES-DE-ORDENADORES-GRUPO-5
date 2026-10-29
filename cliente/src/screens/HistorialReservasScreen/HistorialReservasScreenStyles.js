@@ -1,10 +1,21 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+
+const fuente = Platform.select({
+  ios: "Georgia",
+  android: "serif",
+  default: "Georgia, 'Times New Roman', serif",
+});
+
+const suave = {
+  shadowColor: "#8E3E63",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.15,
+  shadowRadius: 10,
+  elevation: 3,
+};
 
 export default StyleSheet.create({
-  pantalla: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
+  pantalla: { flex: 1, backgroundColor: "#FDF7F9" },
 
   contenidoLista: {
     flexGrow: 1,
@@ -15,7 +26,6 @@ export default StyleSheet.create({
     paddingBottom: 20,
   },
 
-  // Zona fija inferior: el botón siempre está visible
   pie: {
     width: "100%",
     maxWidth: 500,
@@ -23,49 +33,51 @@ export default StyleSheet.create({
     paddingHorizontal: 25,
     paddingTop: 12,
     paddingBottom: 16,
-    backgroundColor: "#f5f5f5",
-    borderTopWidth: 1,
-    borderTopColor: "#E5DFD5",
+    backgroundColor: "rgba(253, 247, 249, 0.95)",
   },
 
   titulo: {
-    fontSize: 30,
+    fontFamily: fuente,
+    fontSize: 34,
     fontWeight: "bold",
+    fontStyle: "italic",
+    color: "#A8537A",
+    letterSpacing: 1,
     marginTop: 20,
     marginBottom: 20,
     textAlign: "center",
+    textShadowColor: "#FFFFFF",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 0,
   },
 
-  lista: {
-    flex: 1,
-    width: "100%",
-  },
+  lista: { flex: 1, width: "100%" },
 
   tarjetaReserva: {
     width: "100%",
     padding: 18,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: "#D8D0C4",
-    borderRadius: 15,
-    backgroundColor: "#ffffff",
+    marginBottom: 16,
+    borderRadius: 26,
+    backgroundColor: "#FFFFFF",
+    ...suave,
   },
 
   nombreAnimal: {
+    fontFamily: fuente,
     fontSize: 20,
     fontWeight: "bold",
+    fontStyle: "italic",
+    color: "#A8537A",
     marginBottom: 12,
   },
 
-  detalle: {
-    fontSize: 16,
-    marginBottom: 8,
-    color: "#444444",
-  },
+  detalle: { fontSize: 15, marginBottom: 8, color: "#3D2232" },
 
   etiquetaServicios: {
-    fontSize: 16,
+    fontFamily: fuente,
+    fontSize: 15,
     fontWeight: "bold",
+    color: "#3D2232",
     marginTop: 5,
     marginBottom: 5,
   },
@@ -73,13 +85,13 @@ export default StyleSheet.create({
   historial: {
     width: "100%",
     padding: 20,
-    borderWidth: 1,
-    borderColor: "#D8D0C4",
-    borderRadius: 15,
-    backgroundColor: "#ffffff",
+    borderRadius: 26,
+    backgroundColor: "#FFFFFF",
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 15,
+    color: "#3D2232",
     marginBottom: 20,
+    ...suave,
   },
 
   estado: {
@@ -90,33 +102,40 @@ export default StyleSheet.create({
   },
 
   mensaje: {
+    fontFamily: fuente,
     fontSize: 16,
+    fontStyle: "italic",
+    color: "#8A697A",
     textAlign: "center",
     marginTop: 12,
   },
 
   mensajeError: {
-    fontSize: 16,
-    color: "#B00020",
+    fontSize: 15,
+    color: "#A8537A",
     textAlign: "center",
     marginVertical: 20,
   },
 
   boton: {
     width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#D8D0C4",
+    padding: 16,
+    borderRadius: 26,
+    backgroundColor: "#8E3E63",
     alignItems: "center",
+    ...suave,
+    shadowColor: "#8E3E63",
+    shadowOpacity: 0.3,
   },
 
   textoBoton: {
+    fontFamily: fuente,
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#FFFFFF",
+    letterSpacing: 0.8,
   },
 
-  // Contenedor horizontal para los dos botones
   contenedorBotones: {
     flexDirection: "row",
     alignItems: "stretch",
@@ -126,44 +145,63 @@ export default StyleSheet.create({
     width: "100%",
   },
 
-  // Botón Modificar reserva
   botonModificar: {
     flex: 1,
     minWidth: 0,
     paddingVertical: 12,
-    paddingHorizontal: 5,
-    borderRadius: 8,
-    backgroundColor: "#D8D0C4",
+    paddingHorizontal: 8,
+    borderRadius: 20,
+    backgroundColor: "#EADAE4",
     alignItems: "center",
     justifyContent: "center",
+    ...suave,
   },
 
   textoBotonModificar: {
-    color: "#333333",
+    color: "#3D2232",
+    fontFamily: fuente,
     fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
   },
 
-  // Botón Eliminar reserva
   botonEliminar: {
     flex: 1,
     minWidth: 0,
     marginTop: 0,
     paddingVertical: 12,
-    paddingHorizontal: 5,
-    borderRadius: 8,
-    backgroundColor: "#ffebee",
-    borderWidth: 1,
-    borderColor: "#ffcdd2",
+    paddingHorizontal: 8,
+    borderRadius: 20,
+    backgroundColor: "#EADAE4",
     alignItems: "center",
     justifyContent: "center",
+    ...suave,
   },
 
   textoBotonEliminar: {
-    color: "#c62828",
+    color: "#3D2232",
+    fontFamily: fuente,
     fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
+  },
+
+  botonVolver: {
+    width: "100%",
+    padding: 16,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 26,
+    backgroundColor: "#EADAE4",
+    alignItems: "center",
+    ...suave,
+  },
+
+  textoBotonVolver: {
+    fontFamily: fuente,
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "#3D2232",
+    letterSpacing: 0.8,
   },
 });

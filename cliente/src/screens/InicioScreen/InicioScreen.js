@@ -23,37 +23,52 @@ export default function InicioScreen() {
       >
         <View style={estilos.cabecera}>
           <TouchableOpacity style={estilos.botonPerfil} onPress={irMiPerfil}>
-            <Text style={estilos.textoPerfil}>Mi perfil</Text>
+            <Text style={estilos.textoPerfil}>Mi Perfil</Text>
           </TouchableOpacity>
         </View>
 
         <View style={estilos.cuerpo}>
-          <Text style={estilos.titulo}>Pantalla Inicial</Text>
+          <Text style={estilos.titulo}>Bienvenide </Text>
 
-          <Text style={estilos.subtitulo}>¿Qué deseas hacer?</Text>
+          <Text style={estilos.subtitulo}>🐾 ¿Qué deseas hacer hoy? 🐾</Text>
 
-          <TouchableOpacity style={estilos.boton} onPress={irMisAnimales}>
-            <Text style={estilos.textoBoton}>Mis animales</Text>
+          <TouchableOpacity 
+            style={[estilos.boton, estilos.botonRosa]} 
+            onPress={irMisAnimales}
+          >
+            <Text style={estilos.textoBotonPrincipal}>🐶 Mis Animales </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={estilos.boton} onPress={irHacerReserva}>
-            <Text style={estilos.textoBoton}>Hacer reserva</Text>
+          <TouchableOpacity 
+            style={[estilos.boton, estilos.botonLila]} 
+            onPress={irHacerReserva}
+          >
+            <Text style={estilos.textoBoton}>📅 Pedir Cita </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={estilos.boton} onPress={irMisReservas}>
-            <Text style={estilos.textoBoton}>Mis reservas</Text>
+          <TouchableOpacity 
+            style={[estilos.boton, estilos.botonMenta]} 
+            onPress={irMisReservas}
+          >
+            <Text style={estilos.textoBoton}> 📜 Mis Reservas </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={estilos.boton} onPress={irResenas}>
-            <Text style={estilos.textoBoton}>Reseñas</Text>
+          <TouchableOpacity 
+            style={[estilos.boton, estilos.botonMelocoton]} 
+            onPress={irResenas}
+          >
+            <Text style={estilos.textoBoton}>⭐ Reseñas</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={estilos.boton} onPress={irLocalizacion}>
-            <Text style={estilos.textoBoton}>Localización</Text>
+          <TouchableOpacity 
+            style={[estilos.boton, estilos.botonCielo]} 
+            onPress={irLocalizacion}
+          >
+            <Text style={estilos.textoBoton}>📍 Dónde Estamos </Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={estilos.botonSalir} onPress={cerrarSesion}>
-            <Text style={estilos.textoBotonSalir}>Cerrar sesión</Text>
+            <Text style={estilos.textoBotonSalir}>Cerrar Sesión 👋</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

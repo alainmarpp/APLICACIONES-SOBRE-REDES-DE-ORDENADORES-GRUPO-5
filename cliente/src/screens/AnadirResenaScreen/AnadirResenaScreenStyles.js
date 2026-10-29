@@ -1,10 +1,21 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+
+const fuente = Platform.select({
+  ios: "Georgia",
+  android: "serif",
+  default: "Georgia, 'Times New Roman', serif",
+});
+
+const suave = {
+  shadowColor: "#8E3E63",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.15,
+  shadowRadius: 10,
+  elevation: 3,
+};
 
 const estilos = StyleSheet.create({
-  pantalla: {
-    flex: 1,
-    backgroundColor: "#FAF8F5",
-  },
+  pantalla: { flex: 1, backgroundColor: "#FDF7F9" },
 
   contenido: {
     flexGrow: 1,
@@ -14,26 +25,35 @@ const estilos = StyleSheet.create({
   },
 
   titulo: {
-    fontSize: 28,
+    fontFamily: fuente,
+    fontSize: 32,
     fontWeight: "bold",
-    color: "#161411",
+    fontStyle: "italic",
+    color: "#A8537A",
+    letterSpacing: 1,
     textAlign: "center",
-    marginTop: 30,
-    marginBottom: 12,
+    marginTop: 20,
+    marginBottom: 10,
+    textShadowColor: "#FFFFFF",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 0,
   },
 
   subtitulo: {
-    fontSize: 17,
-    color: "#6B6259",
+    fontFamily: fuente,
+    fontSize: 16,
+    fontStyle: "italic",
+    color: "#8A697A",
     textAlign: "center",
-    marginBottom: 30,
+    marginBottom: 25,
   },
 
   etiqueta: {
     width: "100%",
-    fontSize: 17,
+    fontFamily: fuente,
+    fontSize: 16,
     fontWeight: "bold",
-    color: "#3D352E",
+    color: "#3D2232",
     marginBottom: 12,
   },
 
@@ -42,57 +62,63 @@ const estilos = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     gap: 12,
-    marginBottom: 30,
+    marginBottom: 25,
   },
 
-  estrella: {
-    fontSize: 42,
-    color: "#B18A45",
-  },
+  estrella: { fontSize: 40, color: "#D4A359" },
 
   campoComentario: {
     width: "100%",
-    minHeight: 150,
+    minHeight: 140,
     backgroundColor: "#FFFFFF",
     borderWidth: 1.5,
-    borderColor: "#D8D0C4",
-    borderRadius: 10,
+    borderColor: "#EADAE4",
+    borderRadius: 22,
     padding: 15,
     fontSize: 16,
-    color: "#333333",
+    color: "#3D2232",
     marginBottom: 20,
+    ...suave,
   },
 
   boton: {
     width: "100%",
-    padding: 15,
+    padding: 16,
     marginTop: 10,
     marginBottom: 10,
-    borderRadius: 10,
-    backgroundColor: "#D8D0C4",
+    borderRadius: 26,
+    backgroundColor: "#8E3E63",
     alignItems: "center",
+    ...suave,
+    shadowColor: "#8E3E63",
+    shadowOpacity: 0.3,
   },
 
   textoBoton: {
+    fontFamily: fuente,
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#FFFFFF",
+    letterSpacing: 0.8,
   },
 
   botonVolver: {
     width: "100%",
-    padding: 15,
+    padding: 16,
     marginTop: 10,
     marginBottom: 10,
-    borderRadius: 10,
-    backgroundColor: "#D8D0C4",
+    borderRadius: 26,
+    backgroundColor: "#EADAE4",
     alignItems: "center",
+    ...suave,
   },
 
   textoBotonVolver: {
-    fontSize: 18,
+    fontFamily: fuente,
+    fontSize: 17,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#3D2232",
+    letterSpacing: 0.8,
   },
 });
 
