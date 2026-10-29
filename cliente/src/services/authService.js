@@ -2,10 +2,8 @@ import * as SecureStore from 'expo-secure-store';
 import { router } from 'expo-router';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
+import { guardarEnColaOffline } from './colaSincronizacion'; 
 
-// Expo sabe la IP del ordenador donde está corriendo (sirve para móvil físico, emulador y web).
-// Si no la encuentra (por ejemplo usando --tunnel): Emulador Android 10.0.2.2, resto localhost.
-// Para forzar una dirección: EXPO_PUBLIC_API_URL=http://IP_DE_TU_PC:3000 en el .env del cliente.
 const HOST_EXPO = Constants.expoConfig?.hostUri?.split(':')[0];
 const HOST = HOST_EXPO || (Platform.OS === 'android' ? '10.0.2.2' : 'localhost');
 export const API_URL = process.env.EXPO_PUBLIC_API_URL || `http://${HOST}:3000`;
@@ -27,19 +25,81 @@ export async function borrarToken() {
   await SecureStore.deleteItemAsync(TOKEN_KEY);
 }
 
-// fetch que añade automáticamente el token. Si el servidor responde 401, borra el token.
+async function ejecutarConReintentos(fnPeticion, maxReintentos = 3, retardoBaseMs = 1000) {
+  for (let intento = 0; intento < maxReintentos; intento++) {
+    try {
+      return await fnPeticion();
+    } catch (error) {
+      const esUltimoIntento = intento === maxReintentos - 1;
+      
+      if (error.status && error.status >= 400 && error.status < 500) {
+        throw error;
+      }
+
+      if (esUltimoIntento) {
+        throw error;
+      }
+
+      const tiempoEspera = retardoBaseMs * Math.pow(2, intento);
+      await new Promise((resolve) => setTimeout(resolve, tiempoEspera));
+    }
+  }
+}
+
 export async function fetchAutenticado(path, options = {}) {
   const token = await obtenerToken();
-  const res = await fetch(`${API_URL}${path}`, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-  });
-  if (res.status === 401) await borrarToken();
-  return res;
+  
+  const metodo = options.method?.toUpperCase() || 'GET';
+  const esAccionModificacion = ['POST', 'PUT', 'DELETE'].includes(metodo);
+
+  const claveIdempotencia = options.body && esAccionModificacion
+    ? (options.headers?.['Idempotency-Key'] || `offline-${Date.now()}-${Math.random()}`)
+    : null;
+
+  const headersFinales = {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(claveIdempotencia ? { 'Idempotency-Key': claveIdempotencia } : {}),
+    ...(options.headers || {}),
+  };
+
+  try {
+    return await ejecutarConReintentos(async () => {
+      const res = await fetch(`${API_URL}${path}`, {
+        ...options,
+        headers: headersFinales,
+      });
+
+      if (res.status === 401) {
+        await borrarToken();
+      }
+
+      if (!res.ok) {
+        const errorObj = new Error("Error en la respuesta del servidor");
+        errorObj.status = res.status;
+        throw errorObj;
+      }
+
+      return res;
+    });
+
+  } catch (error) {
+    const esErrorDeRed = !error.status || error.message.includes('Network request failed');
+
+    if (esAccionModificacion && esErrorDeRed) {
+      await guardarEnColaOffline(path, {
+        ...options,
+        headers: headersFinales
+      });
+
+      return {
+        ok: true,
+        json: async () => ({ offline: true, mensaje: "Guardado localmente en la cola offline." })
+      };
+    }
+
+    throw error;
+  }
 }
 
 export async function cerrarSesion() {
