@@ -36,6 +36,7 @@ export default StyleSheet.create({
     maxWidth: 500,
     alignSelf: "center",
     paddingHorizontal: 20,
+    paddingTop: 50,
     paddingBottom: 20,
   },
 
@@ -97,8 +98,6 @@ export default StyleSheet.create({
     borderColor: "#EADAE4",
     ...suave,
   },
-
-  // Unificación duocroma: todas las variantes comparten la base sobria
   servicioRosa: { backgroundColor: "#FFFFFF" },
   servicioLila: { backgroundColor: "#FFFFFF" },
   servicioMenta: { backgroundColor: "#FFFFFF" },

@@ -1,3 +1,4 @@
+
 import { Platform, StyleSheet } from "react-native";
 
 const fuente = Platform.select({
@@ -25,19 +26,6 @@ const tituloBase = {
   textShadowRadius: 0,
 };
 
-const campo = {
-  width: "80%",
-  height: 52,
-  borderRadius: 26,
-  paddingHorizontal: 20,
-  fontSize: 16,
-  color: "#3D2232",
-  backgroundColor: "#FFFFFF",
-  ...suave,
-  shadowOpacity: 0.1,
-  elevation: 2,
-};
-
 const estilos = StyleSheet.create({
   contenedor: {
     flex: 1,
@@ -45,7 +33,14 @@ const estilos = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#FDF7F9",
   },
-  titulo: { ...tituloBase, fontSize: 34, textAlign: "center", marginBottom: 30 },
+
+  titulo: {
+    ...tituloBase,
+    fontSize: 34,
+    textAlign: "center",
+    marginBottom: 30,
+  },
+
   tarjeta: {
     backgroundColor: "#FFFFFF",
     padding: 24,
@@ -53,6 +48,7 @@ const estilos = StyleSheet.create({
     marginBottom: 25,
     ...suave,
   },
+
   etiqueta: {
     fontFamily: fuente,
     fontSize: 15,
@@ -60,6 +56,7 @@ const estilos = StyleSheet.create({
     color: "#8A697A",
     marginBottom: 5,
   },
+
   valor: {
     fontFamily: fuente,
     fontSize: 20,
@@ -67,18 +64,34 @@ const estilos = StyleSheet.create({
     color: "#3D2232",
     marginBottom: 22,
   },
+
+  campo: {
+    width: "100%",
+    height: 52,
+    borderRadius: 26,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    color: "#3D2232",
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#D8B5C7",
+    marginBottom: 20,
+  },
+
   texto: {
     fontSize: 16,
     color: "#3D2232",
     textAlign: "center",
     marginBottom: 25,
   },
+
   error: {
     fontSize: 15,
     color: "#A8537A",
     textAlign: "center",
     marginBottom: 25,
   },
+
   boton: {
     backgroundColor: "#8E3E63",
     padding: 16,
@@ -89,6 +102,7 @@ const estilos = StyleSheet.create({
     shadowColor: "#8E3E63",
     shadowOpacity: 0.3,
   },
+
   textoBoton: {
     fontFamily: fuente,
     color: "#FFFFFF",
@@ -96,20 +110,54 @@ const estilos = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.8,
   },
+
+  botonCancelar: {
+    backgroundColor: "#F7EEF3",
+    padding: 16,
+    borderRadius: 26,
+    alignItems: "center",
+    marginBottom: 15,
+  },
+
+  textoBotonCancelar: {
+    fontFamily: fuente,
+    color: "#8E3E63",
+    fontSize: 17,
+    fontWeight: "bold",
+  },
+
   botonSalir: {
     backgroundColor: "#F7EEF3",
     padding: 16,
     borderRadius: 26,
     alignItems: "center",
+    marginBottom: 15,
     ...suave,
     shadowOpacity: 0.08,
   },
+
   textoBotonSalir: {
     fontFamily: fuente,
-    color: "#A8537A",
+    color: "#8E3E63",
     fontSize: 17,
     fontWeight: "bold",
     letterSpacing: 0.8,
+  },
+
+  botonEliminar: {
+    backgroundColor: "#FCE8EC",
+    padding: 16,
+    borderRadius: 26,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#D98A9B",
+  },
+
+  textoBotonEliminar: {
+    fontFamily: fuente,
+    color: "#A83250",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

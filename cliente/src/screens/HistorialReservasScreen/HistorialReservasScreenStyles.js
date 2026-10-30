@@ -23,6 +23,7 @@ export default StyleSheet.create({
     maxWidth: 500,
     alignSelf: "center",
     paddingHorizontal: 25,
+    paddingTop: 100,
     paddingBottom: 20,
   },
 

@@ -1,3 +1,4 @@
+
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import estilos from "./InicioScreenStyles";
@@ -17,58 +18,80 @@ export default function InicioScreen() {
   return (
     <SafeAreaView style={estilos.pantalla}>
       <ScrollView
-        style={estilos.pantalla}
+        style={estilos.scroll}
         contentContainerStyle={estilos.contenido}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
+        keyboardShouldPersistTaps="handled"
       >
         <View style={estilos.cabecera}>
-          <TouchableOpacity style={estilos.botonPerfil} onPress={irMiPerfil}>
+          <TouchableOpacity
+            style={estilos.botonPerfil}
+            onPress={irMiPerfil}
+            activeOpacity={0.7}
+          >
             <Text style={estilos.textoPerfil}>Mi Perfil</Text>
           </TouchableOpacity>
         </View>
 
         <View style={estilos.cuerpo}>
-          <Text style={estilos.titulo}>Bienvenide </Text>
+          <Text style={estilos.titulo}>Bienvenide</Text>
 
-          <Text style={estilos.subtitulo}>🐾 ¿Qué deseas hacer hoy? 🐾</Text>
+          <Text style={estilos.subtitulo}>
+            🐾 ¿Qué deseas hacer hoy? 🐾
+          </Text>
 
-          <TouchableOpacity 
-            style={[estilos.boton, estilos.botonRosa]} 
+          <TouchableOpacity
+            style={[estilos.boton, estilos.botonRosa]}
             onPress={irMisAnimales}
           >
-            <Text style={estilos.textoBotonPrincipal}>🐶 Mis Animales </Text>
+            <Text style={estilos.textoBotonPrincipal}>
+              🐶 Mis Animales
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[estilos.boton, estilos.botonLila]} 
+          <TouchableOpacity
+            style={[estilos.boton, estilos.botonLila]}
             onPress={irHacerReserva}
           >
-            <Text style={estilos.textoBoton}>📅 Pedir Cita </Text>
+            <Text style={estilos.textoBoton}>
+              📅 Pedir Cita
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[estilos.boton, estilos.botonMenta]} 
+          <TouchableOpacity
+            style={[estilos.boton, estilos.botonMenta]}
             onPress={irMisReservas}
           >
-            <Text style={estilos.textoBoton}> 📜 Mis Reservas </Text>
+            <Text style={estilos.textoBoton}>
+              📜 Mis Reservas
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[estilos.boton, estilos.botonMelocoton]} 
+          <TouchableOpacity
+            style={[estilos.boton, estilos.botonMelocoton]}
             onPress={irResenas}
           >
-            <Text style={estilos.textoBoton}>⭐ Reseñas</Text>
+            <Text style={estilos.textoBoton}>
+              ⭐ Reseñas
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[estilos.boton, estilos.botonCielo]} 
+          <TouchableOpacity
+            style={[estilos.boton, estilos.botonCielo]}
             onPress={irLocalizacion}
           >
-            <Text style={estilos.textoBoton}>📍 Dónde Estamos </Text>
+            <Text style={estilos.textoBoton}>
+              📍 Dónde Estamos
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={estilos.botonSalir} onPress={cerrarSesion}>
-            <Text style={estilos.textoBotonSalir}>Cerrar Sesión 👋</Text>
+          <TouchableOpacity
+            style={estilos.botonSalir}
+            onPress={cerrarSesion}
+          >
+            <Text style={estilos.textoBotonSalir}>
+              Cerrar Sesión 👋
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

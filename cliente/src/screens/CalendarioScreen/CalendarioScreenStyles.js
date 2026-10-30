@@ -22,7 +22,7 @@ export default StyleSheet.create({
   contenedor: { flex: 1, paddingHorizontal: 20 },
 
   contenedorContenido: {
-    paddingTop: 10,
+    paddingTop: 80,
     paddingBottom: 40,
   },
 

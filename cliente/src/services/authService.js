@@ -2,10 +2,11 @@ import * as SecureStore from 'expo-secure-store';
 import { router } from 'expo-router';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
-import { guardarEnColaOffline } from './colaSincronizacion'; 
+import { guardarEnColaOffline } from './colaSincronizacion';
 
 const HOST_EXPO = Constants.expoConfig?.hostUri?.split(':')[0];
 const HOST = HOST_EXPO || (Platform.OS === 'android' ? '10.0.2.2' : 'localhost');
+
 export const API_URL = process.env.EXPO_PUBLIC_API_URL || `http://${HOST}:3000`;
 
 const TOKEN_KEY = 'auth_token';
@@ -31,7 +32,7 @@ async function ejecutarConReintentos(fnPeticion, maxReintentos = 3, retardoBaseM
       return await fnPeticion();
     } catch (error) {
       const esUltimoIntento = intento === maxReintentos - 1;
-      
+
       if (error.status && error.status >= 400 && error.status < 500) {
         throw error;
       }
@@ -48,7 +49,7 @@ async function ejecutarConReintentos(fnPeticion, maxReintentos = 3, retardoBaseM
 
 export async function fetchAutenticado(path, options = {}) {
   const token = await obtenerToken();
-  
+
   const metodo = options.method?.toUpperCase() || 'GET';
   const esAccionModificacion = ['POST', 'PUT', 'DELETE'].includes(metodo);
 
@@ -75,10 +76,21 @@ export async function fetchAutenticado(path, options = {}) {
       }
 
       if (!res.ok) {
-        const errorObj = new Error("Error en la respuesta del servidor");
-        errorObj.status = res.status;
-        throw errorObj;
-      }
+          let datosError = {};
+
+          try {
+            datosError = await res.clone().json();
+          } catch (e) {
+            // La respuesta no contiene JSON.
+          }
+
+          const errorObj = new Error(
+            datosError.error || `Error del servidor. Código HTTP: ${res.status}`
+          );
+
+          errorObj.status = res.status;
+          throw errorObj;
+        }
 
       return res;
     });
@@ -86,7 +98,8 @@ export async function fetchAutenticado(path, options = {}) {
   } catch (error) {
     const esErrorDeRed = !error.status || error.message.includes('Network request failed');
 
-    if (esAccionModificacion && esErrorDeRed) {
+    // Las eliminaciones nunca se guardan en la cola offline.
+    if (esAccionModificacion && metodo !== 'DELETE' && esErrorDeRed) {
       await guardarEnColaOffline(path, {
         ...options,
         headers: headersFinales
@@ -94,7 +107,10 @@ export async function fetchAutenticado(path, options = {}) {
 
       return {
         ok: true,
-        json: async () => ({ offline: true, mensaje: "Guardado localmente en la cola offline." })
+        json: async () => ({
+          offline: true,
+          mensaje: "Guardado localmente en la cola offline."
+        })
       };
     }
 
