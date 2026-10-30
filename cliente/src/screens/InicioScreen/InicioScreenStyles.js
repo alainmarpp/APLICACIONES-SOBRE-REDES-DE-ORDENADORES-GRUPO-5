@@ -1,3 +1,4 @@
+
 import { Platform, StyleSheet } from "react-native";
 
 const fuenteElegante = Platform.select({
@@ -17,7 +18,7 @@ const suave = {
 export default StyleSheet.create({
   pantalla: {
     flex: 1,
-    backgroundColor: "#FDF7F9", // Fondo suave neutro/rosa empolvado
+    backgroundColor: "#FDF7F9",
   },
 
   estampado: {
@@ -37,30 +38,34 @@ export default StyleSheet.create({
   contenido: {
     flexGrow: 1,
     paddingHorizontal: 25,
-    paddingTop: 15,
-    paddingBottom: 40,
+    paddingTop: 45,
+    paddingBottom: 60,
   },
 
   cabecera: {
     width: "100%",
     alignItems: "flex-end",
+    paddingTop: 20,
+    paddingBottom: 30,
   },
 
   cuerpo: {
-    flex: 1,
     width: "100%",
     maxWidth: 500,
     alignSelf: "center",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     paddingVertical: 20,
   },
 
   botonPerfil: {
-    backgroundColor: "#EADAE4", // Rosa empolvado suave
-    paddingVertical: 9,
-    paddingHorizontal: 18,
+    backgroundColor: "#EADAE4",
+    paddingVertical: 14,
+    paddingHorizontal: 22,
+    minHeight: 48,
     borderRadius: 22,
+    justifyContent: "center",
+    alignItems: "center",
     ...suave,
   },
 
@@ -77,7 +82,7 @@ export default StyleSheet.create({
     fontSize: 34,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "#7d3d5b", // Burdeos medio elegante
+    color: "#7d3d5b",
     letterSpacing: 1,
     marginBottom: 8,
     textAlign: "center",
@@ -93,7 +98,6 @@ export default StyleSheet.create({
     textAlign: "center",
   },
 
-  // Base de botones con paleta coordinada desaturada
   boton: {
     width: "100%",
     minHeight: 62,
@@ -106,18 +110,31 @@ export default StyleSheet.create({
     ...suave,
   },
 
-  // Variaciones de botones pasteles empolvados (chic y elegantes)
-  botonRosa: { backgroundColor: "#8E3E63" }, // Botón principal burdeos chic
-  botonLila: { backgroundColor: "#8E3E63" }, // Rosa lavanda empolvado
-  botonMenta: { backgroundColor: "#8E3E63" }, // Menta desaturado
-  botonMelocoton: { backgroundColor: "#8E3E63" }, // Melocotón nude
-  botonCielo: { backgroundColor: "#8E3E63" }, // Azul empolvado
+  botonRosa: {
+    backgroundColor: "#8E3E63",
+  },
+
+  botonLila: {
+    backgroundColor: "#8E3E63",
+  },
+
+  botonMenta: {
+    backgroundColor: "#8E3E63",
+  },
+
+  botonMelocoton: {
+    backgroundColor: "#8E3E63",
+  },
+
+  botonCielo: {
+    backgroundColor: "#8E3E63",
+  },
 
   textoBoton: {
     fontFamily: fuenteElegante,
     fontSize: 18,
     fontWeight: "bold",
-    color: "#3D2232", // Texto berenjena/burdeos oscuro muy legible
+    color: "#3D2232",
     letterSpacing: 0.8,
     textAlign: "center",
   },
@@ -126,7 +143,7 @@ export default StyleSheet.create({
     fontFamily: fuenteElegante,
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FFFFFF", // Texto blanco para el botón burdeos principal
+    color: "#FFFFFF",
     letterSpacing: 0.8,
     textAlign: "center",
   },
@@ -135,7 +152,7 @@ export default StyleSheet.create({
     width: "100%",
     minHeight: 56,
     paddingVertical: 12,
-    backgroundColor: "#F7EEF3", // Muy suave para no destacar tanto como acción principal
+    backgroundColor: "#F7EEF3",
     borderRadius: 26,
     alignItems: "center",
     justifyContent: "center",
