@@ -4,6 +4,7 @@ const router = express.Router();
 
 const db = require('../services/db.service');
 const { verificarToken } = require('../middlewares/auth.middleware');
+const idempotencia = require('../middlewares/idempotencia');
 const { servicios } = require('../data/servicios');
 const {
     aMinutos,
@@ -116,7 +117,7 @@ router.get('/reservas', verificarToken, async (req, res) => {
 
 // Crear una reserva.
 // body: { idAnimal, fecha, horainicio, servicios: ["1", "3"] }
-router.post('/reservas', verificarToken, async (req, res) => {
+router.post('/reservas', verificarToken, idempotencia, async (req, res) => {
     const {
         idAnimal,
         fecha,
@@ -225,7 +226,7 @@ router.post('/reservas', verificarToken, async (req, res) => {
 });
 
 // Cancelar una reserva.
-router.delete('/reservas/:id', verificarToken, async (req, res) => {
+router.delete('/reservas/:id', verificarToken, idempotencia, async (req, res) => {
     try {
         const borradas = await db.eliminarReservaDeUsuario(
             req.params.id,
@@ -252,7 +253,7 @@ router.delete('/reservas/:id', verificarToken, async (req, res) => {
 
 // Modificar una reserva existente.
 // body: { fecha, horainicio, servicios: ["1", "3"] }
-router.put('/reservas/:id', verificarToken, async (req, res) => {
+router.put('/reservas/:id', verificarToken, idempotencia, async (req, res) => {
     const {
         fecha,
         horainicio,

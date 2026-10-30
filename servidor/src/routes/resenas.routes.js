@@ -3,6 +3,7 @@ const router = express.Router();
 const Resena = require('../models/resena.model');
 const Usuario = require('../models/user.model');
 const { verificarToken, generarToken } = require('../middlewares/auth.middleware');
+const idempotencia = require('../middlewares/idempotencia');
 
 router.get('/resenas', async (req, res) => {
     try {
@@ -16,7 +17,7 @@ router.get('/resenas', async (req, res) => {
     }
 });
 
-router.post('/resenas', verificarToken, async (req, res) => {
+router.post('/resenas', verificarToken, idempotencia, async (req, res) => {
     try {
         const { puntuacion, comentario } = req.body;
         const usuario = req.usuario.nombre;
