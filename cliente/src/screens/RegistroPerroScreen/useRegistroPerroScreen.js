@@ -29,8 +29,9 @@ export function useRegistroPerroScreen() {
     setCargando(true);
 
     try {
-      await peticion("/registrarAnimal", {
+      const datos = await peticion("/registrarAnimal", {
         metodo: "POST",
+        descripcion: `Registro del perro ${nombre.trim()}`,
         cuerpo: {
           nombreAnimal: nombre.trim(),
           edad: edadNumero,
@@ -39,7 +40,11 @@ export function useRegistroPerroScreen() {
         },
       });
 
-      alert(`¡El perro ${nombre.trim()} se ha registrado correctamente!`);
+      alert(
+        datos?.offline
+          ? `Sin conexión: ${nombre.trim()} se registrará automáticamente cuando vuelva la red.`
+          : `¡El perro ${nombre.trim()} se ha registrado correctamente!`,
+      );
 
       setNombre("");
       setEdad("");

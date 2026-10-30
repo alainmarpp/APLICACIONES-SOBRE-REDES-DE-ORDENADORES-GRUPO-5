@@ -30,22 +30,29 @@ export function useAnadirResenaScreen() {
     }
 
     try {
-      await peticion("/resenas", {
+      const datos = await peticion("/resenas", {
         metodo: "POST",
+        descripcion: "Reseña",
         cuerpo: {
           puntuacion,
           comentario,
         },
       });
 
+      // Sin conexión: queda guardada y se enviará sola al volver la red
+      const pendiente = datos?.offline === true;
+
       if (Platform.OS === 'web') {
-        window.alert("¡Tu reseña se ha publicado correctamente!");
+        window.alert(pendiente ? "Sin conexión: tu reseña se publicará automáticamente cuando vuelva la red." : "¡Tu reseña se ha publicado correctamente!");
         router.replace({
           pathname: "/verResenas",
           params: { usuario },
         });
       } else {
-        Alert.alert("¡Éxito!", "Tu reseña se ha publicado correctamente.", [
+        Alert.alert(
+          pendiente ? "Guardada" : "¡Éxito!",
+          pendiente ? "Sin conexión: tu reseña se publicará automáticamente cuando vuelva la red." : "Tu reseña se ha publicado correctamente.",
+          [
           {
             text: "OK",
             onPress: () => {

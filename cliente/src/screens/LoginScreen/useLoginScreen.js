@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { API_URL, fetchAutenticado, guardarToken, obtenerToken } from "../../services/authService";
+import { fetchConReintentos } from "../../services/red";
 
 export function useLoginScreen() {
   const [usuario, setUsuario] = useState("");
@@ -31,11 +32,16 @@ export function useLoginScreen() {
 
     setCargando(true);
     try {
-      const res = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre: usuario.trim(), contrasenia: contrasena }),
-      });
+      // Login: se puede repetir sin problema (no crea nada), así que se reintenta con espera progresiva
+      const res = await fetchConReintentos(
+        `${API_URL}/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nombre: usuario.trim(), contrasenia: contrasena }),
+        },
+        { reintentos: 3, timeoutMs: 15000 },
+      );
       const datos = await res.json();
 
       if (!res.ok) {
@@ -46,7 +52,7 @@ export function useLoginScreen() {
       await guardarToken(datos.token);
       router.replace({ pathname: "/inicio", params: { usuario: datos.nombre } });
     } catch {
-      alert("No se pudo conectar con el servidor");
+      alert("No se pudo conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.");
     } finally {
       setCargando(false);
     }

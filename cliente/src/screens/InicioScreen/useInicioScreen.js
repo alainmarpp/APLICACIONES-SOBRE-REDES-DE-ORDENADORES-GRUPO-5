@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { API_URL, obtenerToken, cerrarSesion as cerrarSesionAuth } from "../../services/authService";
+import { cerrarSesionCompleta } from "../../services/authService";
 
 export function useInicioScreen() {
   const { usuario } = useLocalSearchParams();
@@ -52,27 +52,10 @@ export function useInicioScreen() {
 
   const cerrarSesion = async () => {
     try {
-      try {
-        const tokenGuardado = await obtenerToken();
-        if (tokenGuardado) {
-          await fetch(`${API_URL}/logout`, {
-            method: "POST",
-            headers: {
-              "Authorization": `Bearer ${tokenGuardado}`,
-              "Content-Type": "application/json"
-            }
-          });
-        }
-      } catch (errorRed) {
-        console.log("El servidor no respondió, forzando cierre local...");
-      }
-
-      await cerrarSesionAuth(); 
-      
+      await cerrarSesionCompleta();
       alert("Has cerrado sesión correctamente.");
-
     } catch (error) {
-      console.error("Error grave al cerrar sesión:", error);
+      console.error("Error al cerrar sesión:", error);
       router.replace("/");
     }
   };
