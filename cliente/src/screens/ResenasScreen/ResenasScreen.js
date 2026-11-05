@@ -42,7 +42,7 @@ export default function ResenasScreen() {
         onPress={volver}
       >
         <Text style={estilos.textoBotonVolver}>
-          Volve al Menu
+          Volver al Menú
         </Text>
       </TouchableOpacity>
     </View>
