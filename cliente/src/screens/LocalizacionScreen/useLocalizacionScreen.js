@@ -2,15 +2,12 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { Linking } from "react-native";
 
-// TODO: comprueba estas coordenadas en Google Maps (clic derecho sobre la tienda
-// > copiar coordenadas) y sustitúyelas si hace falta.
 export const TIENDA = {
   nombre: "Perruqueria",
   latitude: 42.8021,
   longitude: -1.6367,
 };
 
-// Fórmula de Haversine: distancia en metros entre dos coordenadas.
 function distanciaEnMetros(lat1, lon1, lat2, lon2) {
   const R = 6371000;
   const rad = (grados) => (grados * Math.PI) / 180;
@@ -24,7 +21,7 @@ function distanciaEnMetros(lat1, lon1, lat2, lon2) {
 
 export function useLocalizacionScreen() {
   const [posicion, setPosicion] = useState(null);
-  const [estado, setEstado] = useState("cargando"); // cargando | ok | denegado | error
+  const [estado, setEstado] = useState("cargando"); 
 
   useEffect(() => {
     let suscripcion = null;
@@ -55,7 +52,6 @@ export function useLocalizacionScreen() {
           }
         );
 
-        // Si la pantalla se cerró mientras esperábamos, cancelamos al momento
         if (!activo) {
           nuevaSuscripcion.remove();
           return;

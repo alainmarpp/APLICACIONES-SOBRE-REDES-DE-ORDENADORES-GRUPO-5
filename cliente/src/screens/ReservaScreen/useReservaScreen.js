@@ -99,7 +99,6 @@ export function useReservaScreen() {
       return;
     }
 
-    // En una edición se mantiene el perro original.
     if (!modoEdicion && !animalSeleccionado) {
       alert("Elige para qué perro es la cita");
       return;
@@ -126,7 +125,6 @@ export function useReservaScreen() {
 
         alert(`¡Reserva modificada para el ${fecha} a las ${hora}!`);
 
-        // Volvemos al historial para comprobar la reserva actualizada.
         router.replace({
           pathname: "/historialPerro",
           params: { usuario },

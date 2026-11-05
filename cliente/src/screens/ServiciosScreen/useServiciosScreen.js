@@ -33,7 +33,6 @@ export function useServiciosScreen() {
 
         setServiciosDisponibles(datos);
 
-        // Al modificar, marcar los servicios que ya tenía la reserva.
         if (modoEdicion) {
           const nombresActuales = serviciosActuales
             .split(",")
@@ -93,7 +92,6 @@ export function useServiciosScreen() {
         servicios: JSON.stringify(nombresSeleccionados),
         serviciosIds: serviciosSeleccionados.join(","),
 
-        // Estos datos solo se utilizan al modificar una reserva.
         ...(modoEdicion
           ? {
               reservaId,

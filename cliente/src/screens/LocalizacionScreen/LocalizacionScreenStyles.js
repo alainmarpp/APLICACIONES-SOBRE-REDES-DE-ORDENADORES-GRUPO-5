@@ -6,7 +6,6 @@ const fuente = Platform.select({
   default: "Georgia, 'Times New Roman', serif",
 });
 
-// Sombra suave en tono burdeos
 const suave = {
   shadowColor: "#8E3E63",
   shadowOffset: { width: 0, height: 4 },
@@ -16,7 +15,7 @@ const suave = {
 };
 
 export default StyleSheet.create({
-  pantalla: { flex: 1, backgroundColor: "#FDF7F9" }, // Fondo suave neutro/empolvado
+  pantalla: { flex: 1, backgroundColor: "#FDF7F9" }, 
 
   contenido: { flexGrow: 1, padding: 25, paddingBottom: 40 },
 
@@ -34,7 +33,7 @@ export default StyleSheet.create({
     fontSize: 34,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "#A8537A", // Burdeos medio sofisticado
+    color: "#A8537A", 
     letterSpacing: 1,
     marginBottom: 8,
     textAlign: "center",
@@ -44,13 +43,12 @@ export default StyleSheet.create({
     fontFamily: fuente,
     fontSize: 17,
     fontStyle: "italic",
-    color: "#8A697A", // Tono neutro rosado
+    color: "#8A697A", 
     letterSpacing: 0.6,
     marginBottom: 25,
     textAlign: "center",
   },
 
-  // Marco blanco alrededor del mapa
   contenedorMapa: {
     width: "100%",
     borderRadius: 26,
@@ -63,13 +61,12 @@ export default StyleSheet.create({
 
   mapa: { width: "100%", height: "100%" },
 
-  // Marcadores
   marcador: { alignItems: "center" },
 
   emojiMarcador: { fontSize: 24 },
 
   etiquetaTienda: {
-    backgroundColor: "#8E3E63", // Burdeos chic para la tienda
+    backgroundColor: "#8E3E63", 
     paddingVertical: 3,
     paddingHorizontal: 10,
     borderRadius: 12,
@@ -105,7 +102,7 @@ export default StyleSheet.create({
   },
 
   etiquetaUsuario: {
-    backgroundColor: "#A8537A", // Burdeos claro para el usuario
+    backgroundColor: "#A8537A", 
     paddingVertical: 3,
     paddingHorizontal: 10,
     borderRadius: 12,
@@ -140,7 +137,6 @@ export default StyleSheet.create({
     borderTopColor: "#A8537A",
   },
 
-  // Cartel de distancia sobre el mapa
   cartelDistancia: {
     position: "absolute",
     top: 10,
@@ -177,7 +173,7 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "#3D2232", // Texto berenjena oscuro/legible
+    color: "#3D2232", 
     textAlign: "center",
   },
 
@@ -188,12 +184,11 @@ export default StyleSheet.create({
     textAlign: "center",
   },
 
-  // Botón de acción principal
   boton: {
     width: "100%",
     minHeight: 60,
     paddingVertical: 12,
-    backgroundColor: "#8E3E63", // Burdeos principal
+    backgroundColor: "#8E3E63", 
     borderRadius: 26,
     alignItems: "center",
     justifyContent: "center",
@@ -207,7 +202,7 @@ export default StyleSheet.create({
     fontFamily: fuente,
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FFFFFF", // Blanco brillante para destacar en el botón burdeos
+    color: "#FFFFFF", 
     letterSpacing: 0.8,
     textAlign: "center",
   },

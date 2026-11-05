@@ -138,7 +138,6 @@ export default StyleSheet.create({
     ...suave,
   },
 
-  // Hora seleccionada: Fondo Burdeos elegante
   botonHoraSeleccionado: {
     backgroundColor: "#8E3E63",
     borderColor: "#8E3E63",
@@ -146,7 +145,6 @@ export default StyleSheet.create({
 
   textoHora: { color: "#3D2232", fontSize: 14, fontWeight: "500" },
 
-  // Texto blanco con buen contraste sobre el burdeos
   textoHoraSeleccionado: { color: "#FFFFFF", fontWeight: "bold" },
 
   botonConfirmar: {

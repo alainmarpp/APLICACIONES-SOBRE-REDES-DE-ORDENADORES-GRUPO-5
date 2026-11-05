@@ -21,7 +21,7 @@ export default function DisenoRaiz() {
     const { estaConectado } = useRed();
     const conexionAnterior = useRef(estaConectado);
     const [isChecking, setIsChecking] = useState(false);
-    const [forzarEstadoRed, setForzarEstadoRed] = useState(null);
+    const [forzarEstadoRed, setForzarEstadoRed] = useState<boolean | null>(null);
 
     // Combina el estado en tiempo real del hook con la comprobación manual
     const estadoActual =

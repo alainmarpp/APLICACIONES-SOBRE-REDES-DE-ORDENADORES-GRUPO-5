@@ -80,9 +80,7 @@ export async function fetchAutenticado(path, options = {}) {
 
           try {
             datosError = await res.clone().json();
-          } catch (e) {
-            // La respuesta no contiene JSON.
-          }
+          } catch (e) {}
 
           const errorObj = new Error(
             datosError.error || `Error del servidor. Código HTTP: ${res.status}`
@@ -98,7 +96,6 @@ export async function fetchAutenticado(path, options = {}) {
   } catch (error) {
     const esErrorDeRed = !error.status || error.message.includes('Network request failed');
 
-    // Las eliminaciones nunca se guardan en la cola offline.
     if (esAccionModificacion && metodo !== 'DELETE' && esErrorDeRed) {
       await guardarEnColaOffline(path, {
         ...options,
