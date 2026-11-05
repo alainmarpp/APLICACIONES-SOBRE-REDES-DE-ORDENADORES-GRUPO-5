@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
+import { useRouter } from "expo-router";
 
 import estilos from "./LocalizacionScreenStyles";
 import { useLocalizacionScreen } from "./useLocalizacionScreen";
@@ -33,11 +34,10 @@ function construirHtml(tienda) {
   .pin { display: flex; flex-direction: column; align-items: center; font-family: sans-serif; }
   .etq { color: #fff; font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 12px; margin-bottom: 4px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
   .burbuja { width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 3px solid; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 3px 6px rgba(0,0,0,0.15); }
-  
-  /* Estilo Chic / Rosa para la tienda */
+
   .tienda .etq { background: #8E3E63; }
   .tienda .burbuja { border-color: #8E3E63; background-color: #FFF0F5; }
-  
+
   .yo .etq { background: #40382F; }
   .yo .burbuja { border-color: #40382F; }
 </style>
@@ -62,7 +62,7 @@ function construirHtml(tienda) {
     });
   }
 
-  L.marker(tienda, { icon: icono('tienda', '🐶', 'Peluquería Canina ') }).addTo(mapa);
+  L.marker(tienda, { icon: icono('tienda', '🐶', 'Peluquería Canina') }).addTo(mapa);
 
   var yo = null;
   var linea = null;
@@ -70,6 +70,7 @@ function construirHtml(tienda) {
 
   function actualizar(lat, lng) {
     var pos = [lat, lng];
+
     if (!yo) {
       yo = L.marker(pos, { icon: icono('yo', '🙋‍♀️', 'Tú estás aquí') }).addTo(mapa);
       linea = L.polyline([pos, tienda], { color: '#8E3E63', weight: 3, dashArray: '6,6' }).addTo(mapa);
@@ -77,6 +78,7 @@ function construirHtml(tienda) {
       yo.setLatLng(pos);
       linea.setLatLngs([pos, tienda]);
     }
+
     if (!ajustado) {
       ajustado = true;
       mapa.fitBounds([pos, tienda], { padding: [70, 70] });
@@ -88,11 +90,22 @@ function construirHtml(tienda) {
 }
 
 export default function LocalizacionScreen() {
-  const { tienda, posicion, distancia, estado, abrirAjustes, abrirEnMapas } =
-    useLocalizacionScreen();
+  const router = useRouter();
+
+  const {
+    tienda,
+    posicion,
+    distancia,
+    estado,
+    abrirAjustes,
+    abrirEnMapas,
+  } = useLocalizacionScreen();
 
   const { height: altoPantalla } = useWindowDimensions();
-  const altoMapa = Math.min(380, Math.max(220, Math.round(altoPantalla * 0.38)));
+  const altoMapa = Math.min(
+    380,
+    Math.max(220, Math.round(altoPantalla * 0.38))
+  );
 
   const webRef = useRef(null);
   const [listo, setListo] = useState(false);
@@ -116,7 +129,9 @@ export default function LocalizacionScreen() {
         <View style={estilos.cuerpo}>
           <Text style={estilos.titulo}>Localización</Text>
 
-          <Text style={estilos.subtitulo}>Encuentra nuestra peluquería</Text>
+          <Text style={estilos.subtitulo}>
+            Encuentra nuestra peluquería
+          </Text>
 
           <View style={[estilos.contenedorMapa, { height: altoMapa }]}>
             <WebView
@@ -133,7 +148,7 @@ export default function LocalizacionScreen() {
             {estado === "ok" && (
               <View style={estilos.cartelDistancia}>
                 <Text style={estilos.textoCartel}>
-                   {formatearDistancia(distancia)}
+                  {formatearDistancia(distancia)}
                 </Text>
               </View>
             )}
@@ -141,7 +156,9 @@ export default function LocalizacionScreen() {
 
           <View style={estilos.tarjeta}>
             {estado === "cargando" && (
-              <Text style={estilos.textoTarjeta}>Obteniendo tu ubicación...</Text>
+              <Text style={estilos.textoTarjeta}>
+                Obteniendo tu ubicación...
+              </Text>
             )}
 
             {estado === "ok" && (
@@ -149,6 +166,7 @@ export default function LocalizacionScreen() {
                 <Text style={estilos.textoTarjeta}>
                   Estás a {formatearDistancia(distancia)} de la peluquería
                 </Text>
+
                 <Text style={estilos.textoSecundario}>
                   🚶 Unos {minutosAPie(distancia)} min a pie
                 </Text>
@@ -157,7 +175,10 @@ export default function LocalizacionScreen() {
 
             {estado === "denegado" && (
               <>
-                <Text style={estilos.textoTarjeta}>Sin permiso de ubicación</Text>
+                <Text style={estilos.textoTarjeta}>
+                  Sin permiso de ubicación
+                </Text>
+
                 <Text style={estilos.textoSecundario}>
                   Actívalo en los ajustes para ver la distancia.
                 </Text>
@@ -166,20 +187,35 @@ export default function LocalizacionScreen() {
 
             {estado === "error" && (
               <Text style={estilos.textoTarjeta}>
-                No se pudo obtener tu ubicación. Comprueba que el GPS está activado.
+                No se pudo obtener tu ubicación. Comprueba que el GPS está
+                activado.
               </Text>
             )}
           </View>
 
           {estado === "denegado" ? (
-            <TouchableOpacity style={estilos.boton} onPress={abrirAjustes}>
+            <TouchableOpacity
+              style={estilos.boton}
+              onPress={abrirAjustes}
+            >
               <Text style={estilos.textoBoton}>Abrir ajustes</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={estilos.boton} onPress={abrirEnMapas}>
+            <TouchableOpacity
+              style={estilos.boton}
+              onPress={abrirEnMapas}
+            >
               <Text style={estilos.textoBoton}>Cómo llegar</Text>
             </TouchableOpacity>
           )}
+
+          {/* Botón para volver al menú */}
+          <TouchableOpacity
+            style={estilos.boton}
+            onPress={() => router.back()}
+          >
+            <Text style={estilos.textoBoton}>Volver al menú</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
