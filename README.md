@@ -127,10 +127,9 @@ La aplicación **MiPerruqueria** está lista para instalarse directamente en dis
 
 ## Enlaces de Descarga
 - **[Descargar APK directo (GitHub Release)](AQUÍ_TU_ENLACE_PERMANENTE)**
-- **[Enlace de compilación en Expo Cloud](AQUÍ_EL_ENLACE_QUE_TE_DIO_EXPO)**
 
 ###  Pasos para instalar en el móvil:
-1. Descarga el archivo `.apk` directamente desde el móvil usando uno de los enlaces superiores.
-2. Abre el archivo descargado en tu dispositivo Android.
+1. Descarga el archivo `.apk` directamente desde el móvil usando el enlace de arriba
+2. Abre el archivo descargado en tu dispositivo Android
 3. Si el sistema lo solicita, activa la opción **"Permitir la instalación de aplicaciones de fuentes desconocidas"**.
-4. Pulsa en **Instalar** y ¡listo! La aplicación estará disponible en la pantalla de tu móvil.
+4. Pulsa en **Instalar** y ya tienes la aplicación instalada
