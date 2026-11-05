@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require('../services/db.service');
 const { verificarToken } = require('../middlewares/auth.middleware');
 
-// Mis animales (pantalla Reserva: elegir perro)
 router.get('/animales', verificarToken, async (req, res) => {
     try {
         res.json(await db.listarAnimales(req.usuario.nombre));
@@ -13,7 +12,6 @@ router.get('/animales', verificarToken, async (req, res) => {
     }
 });
 
-// Registrar perro (pantalla RegistroPerro)
 router.post('/registrarAnimal', verificarToken, async (req, res) => {
     const { nombreAnimal, edad, peso, raza } = req.body;
 

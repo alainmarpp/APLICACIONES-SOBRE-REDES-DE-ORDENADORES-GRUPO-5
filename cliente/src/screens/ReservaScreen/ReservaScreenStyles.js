@@ -96,7 +96,6 @@ export default StyleSheet.create({
 
   aviso: { fontSize: 14, color: "#8E3E63", opacity: 0.8, marginTop: 8, lineHeight: 21 },
 
-  // Botón Principal (Confirmar Cita) - Burdeos macizo
   button: {
     width: "100%",
     paddingVertical: 16,
@@ -112,7 +111,6 @@ export default StyleSheet.create({
     shadowOpacity: 0.25,
   },
 
-  // Botón Secundario (Cancelar / Volver) - Estilo elegante Outline
   buttonSecondary: {
     width: "100%",
     paddingVertical: 15,
@@ -141,7 +139,7 @@ export default StyleSheet.create({
     fontFamily: fuente,
     fontSize: 16,
     fontWeight: "bold",
-    color: "#8E3E63", // Contraste perfecto en burdeos
+    color: "#8E3E63", 
     textAlign: "center",
     letterSpacing: 0.8,
   },

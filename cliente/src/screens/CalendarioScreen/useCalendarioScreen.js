@@ -33,7 +33,6 @@ export const useCalendarioScreen = () => {
   const servicios = primerValor(params.servicios);
   const serviciosIds = primerValor(params.serviciosIds);
 
-  // Datos adicionales cuando se modifica una reserva existente.
   const reservaId = primerValor(params.reservaId);
   const fechaActual = primerValor(params.fechaActual);
   const horaActual = primerValor(params.horaActual);
@@ -57,7 +56,6 @@ export const useCalendarioScreen = () => {
 
   const hoy = new Date();
 
-  // Si estamos editando, mostrar inicialmente la fecha original.
   const partesFecha = fechaActual
     ? fechaActual.split("-").map(Number)
     : [];
@@ -126,8 +124,6 @@ export const useCalendarioScreen = () => {
         setCargandoHoras(true);
 
         try {
-          // Al editar, solicitamos al backend que excluya
-          // la reserva actual del cálculo de disponibilidad.
           const consulta = new URLSearchParams({
             fecha: fechaIso,
             servicios: serviciosIds,
@@ -150,8 +146,6 @@ export const useCalendarioScreen = () => {
               (elemento) => elemento.hora.slice(0, 5) === actual
             );
 
-            // No perder la hora original mientras se comprueba
-            // su disponibilidad en el modo de edición.
             if (
               modoEdicion &&
               fechaIso === fechaActual &&
@@ -243,7 +237,6 @@ export const useCalendarioScreen = () => {
     const fechaIso =
       `${anioActual}-${dosDigitos(mesActual + 1)}-${dosDigitos(fechaSeleccionada)}`;
 
-    // La hora original no debe aparecer bloqueada por la propia reserva.
     if (
       modoEdicion &&
       fechaIso === fechaActual &&

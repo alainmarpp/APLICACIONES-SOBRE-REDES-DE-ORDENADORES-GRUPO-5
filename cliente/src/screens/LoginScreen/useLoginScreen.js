@@ -7,7 +7,6 @@ export function useLoginScreen() {
   const [contrasena, setContrasena] = useState("");
   const [cargando, setCargando] = useState(false);
 
-  // Si ya hay un token guardado y sigue siendo válido, saltamos el login
   useEffect(() => {
     (async () => {
       try {
@@ -17,9 +16,7 @@ export function useLoginScreen() {
           const datos = await res.json();
           router.replace({ pathname: "/inicio", params: { usuario: datos.nombre } });
         }
-      } catch {
-        // sin conexión: se queda en el login
-      }
+      } catch { }
     })();
   }, []);
 
