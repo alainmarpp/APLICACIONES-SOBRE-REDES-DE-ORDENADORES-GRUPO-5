@@ -1,14 +1,24 @@
 import { Platform, StyleSheet } from "react-native";
 
+const colores = {
+  fondo: "#FDF7F9",
+  principal: "#8E3E63",
+  titulo: "#A8537A",
+  textoSuave: "#8A697A",
+  textoOscuro: "#3D2232",
+  blanco: "#FFFFFF",
+};
+
+const RADIO_BORDE = 26;
+
 const fuente = Platform.select({
   ios: "Georgia",
   android: "serif",
   default: "Georgia, 'Times New Roman', serif",
 });
 
-// Sombra suave en tono burdeos
-const suave = {
-  shadowColor: "#8E3E63",
+const sombraSuave = {
+  shadowColor: colores.principal,
   shadowOffset: { width: 0, height: 4 },
   shadowOpacity: 0.15,
   shadowRadius: 10,
@@ -16,7 +26,7 @@ const suave = {
 };
 
 export default StyleSheet.create({
-  pantalla: { flex: 1, backgroundColor: "#FDF7F9" }, // Fondo suave neutro/empolvado
+  pantalla: { flex: 1, backgroundColor: colores.fondo },
 
   contenido: { flexGrow: 1, padding: 25, paddingBottom: 40 },
 
@@ -34,7 +44,7 @@ export default StyleSheet.create({
     fontSize: 34,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "#A8537A", // Burdeos medio sofisticado
+    color: colores.titulo,
     letterSpacing: 1,
     marginBottom: 8,
     textAlign: "center",
@@ -44,132 +54,35 @@ export default StyleSheet.create({
     fontFamily: fuente,
     fontSize: 17,
     fontStyle: "italic",
-    color: "#8A697A", // Tono neutro rosado
+    color: colores.textoSuave,
     letterSpacing: 0.6,
     marginBottom: 25,
     textAlign: "center",
   },
 
-  // Marco blanco alrededor del mapa
   contenedorMapa: {
     width: "100%",
-    borderRadius: 26,
+    borderRadius: RADIO_BORDE,
     borderWidth: 4,
-    borderColor: "#FFFFFF",
+    borderColor: colores.blanco,
     overflow: "hidden",
     marginBottom: 18,
-    ...suave,
+    ...sombraSuave,
   },
 
   mapa: { width: "100%", height: "100%" },
 
-  // Marcadores
-  marcador: { alignItems: "center" },
-
-  emojiMarcador: { fontSize: 24 },
-
-  etiquetaTienda: {
-    backgroundColor: "#8E3E63", // Burdeos chic para la tienda
-    paddingVertical: 3,
-    paddingHorizontal: 10,
-    borderRadius: 12,
-    marginBottom: 4,
-  },
-
-  textoEtiquetaTienda: {
-    color: "#FFFFFF",
-    fontSize: 11,
-    fontWeight: "bold",
-  },
-
-  burbujaTienda: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
-    backgroundColor: "#FFF0F5",
-    borderWidth: 3,
-    borderColor: "#8E3E63",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  puntaTienda: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderTopWidth: 10,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderTopColor: "#8E3E63",
-  },
-
-  etiquetaUsuario: {
-    backgroundColor: "#A8537A", // Burdeos claro para el usuario
-    paddingVertical: 3,
-    paddingHorizontal: 10,
-    borderRadius: 12,
-    marginBottom: 4,
-  },
-
-  textoEtiquetaUsuario: {
-    color: "#FFFFFF",
-    fontSize: 11,
-    fontWeight: "bold",
-  },
-
-  burbujaUsuario: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 3,
-    borderColor: "#A8537A",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  puntaUsuario: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 6,
-    borderRightWidth: 6,
-    borderTopWidth: 9,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderTopColor: "#A8537A",
-  },
-
-  // Cartel de distancia sobre el mapa
-  cartelDistancia: {
-    position: "absolute",
-    top: 10,
-    alignSelf: "center",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    ...suave,
-  },
-
-  textoCartel: {
-    fontFamily: fuente,
-    fontSize: 15,
-    fontWeight: "bold",
-    color: "#8E3E63",
-  },
-
   tarjeta: {
     width: "100%",
     minHeight: 65,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 26,
+    backgroundColor: colores.blanco,
+    borderRadius: RADIO_BORDE,
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 14,
     paddingHorizontal: 15,
     marginBottom: 18,
-    ...suave,
+    ...sombraSuave,
   },
 
   textoTarjeta: {
@@ -177,29 +90,27 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: "#3D2232", // Texto berenjena oscuro/legible
+    color: colores.textoOscuro,
     textAlign: "center",
   },
 
   textoSecundario: {
     fontSize: 14,
-    color: "#8A697A",
+    color: colores.textoSuave,
     marginTop: 4,
     textAlign: "center",
   },
 
-  // Botón de acción principal
   boton: {
     width: "100%",
     minHeight: 60,
     paddingVertical: 12,
-    backgroundColor: "#8E3E63", // Burdeos principal
-    borderRadius: 26,
+    backgroundColor: colores.principal,
+    borderRadius: RADIO_BORDE,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 18,
-    ...suave,
-    shadowColor: "#8E3E63",
+    ...sombraSuave,
     shadowOpacity: 0.3,
   },
 
@@ -207,7 +118,7 @@ export default StyleSheet.create({
     fontFamily: fuente,
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FFFFFF", // Blanco brillante para destacar en el botón burdeos
+    color: colores.blanco,
     letterSpacing: 0.8,
     textAlign: "center",
   },
