@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 
@@ -14,16 +13,12 @@ const {
 
 const formatoFecha = /^\d{4}-\d{2}-\d{2}$/;
 
-// Convierte los IDs en los servicios correspondientes.
 function buscarServicios(ids) {
     return ids
         .map((id) => servicios.find((s) => s.id === String(id)))
         .filter(Boolean);
 }
 
-// Consultar disponibilidad de horas.
-// GET /disponibilidad?fecha=2026-10-15&servicios=1,3
-// Al modificar: añadir &excluirReserva=ID
 router.get('/disponibilidad', verificarToken, async (req, res) => {
     const {
         fecha,
@@ -55,8 +50,6 @@ router.get('/disponibilidad', verificarToken, async (req, res) => {
 
         let reservas = await db.reservasDelDia(fecha);
 
-        // Si se está editando una reserva, comprobar que pertenece
-        // al usuario antes de excluirla del cálculo de disponibilidad.
         if (excluirReserva) {
             if (!/^\d+$/.test(String(excluirReserva))) {
                 return res.status(400).json({
@@ -94,7 +87,6 @@ router.get('/disponibilidad', verificarToken, async (req, res) => {
     }
 });
 
-// Consultar mis reservas futuras.
 router.get('/reservas', verificarToken, async (req, res) => {
     try {
         const hoy = fechaDeHoy();
@@ -114,8 +106,6 @@ router.get('/reservas', verificarToken, async (req, res) => {
     }
 });
 
-// Crear una reserva.
-// body: { idAnimal, fecha, horainicio, servicios: ["1", "3"] }
 router.post('/reservas', verificarToken, async (req, res) => {
     const {
         idAnimal,
@@ -162,7 +152,6 @@ router.post('/reservas', verificarToken, async (req, res) => {
             });
         }
 
-        // Comprobar disponibilidad antes de crear la reserva.
         const duracion = elegidos.reduce(
             (total, servicio) => total + servicio.duracion,
             0
@@ -187,7 +176,6 @@ router.post('/reservas', verificarToken, async (req, res) => {
             .map((servicio) => servicio.nombre)
             .join(', ');
 
-        // La función comprueba los solapamientos al guardar.
         const reserva = await db.crearReservaSiLibre(
             animal.id,
             req.usuario.nombre,
@@ -224,7 +212,6 @@ router.post('/reservas', verificarToken, async (req, res) => {
     }
 });
 
-// Cancelar una reserva.
 router.delete('/reservas/:id', verificarToken, async (req, res) => {
     try {
         const borradas = await db.eliminarReservaDeUsuario(
@@ -250,8 +237,6 @@ router.delete('/reservas/:id', verificarToken, async (req, res) => {
     }
 });
 
-// Modificar una reserva existente.
-// body: { fecha, horainicio, servicios: ["1", "3"] }
 router.put('/reservas/:id', verificarToken, async (req, res) => {
     const {
         fecha,
@@ -281,7 +266,6 @@ router.put('/reservas/:id', verificarToken, async (req, res) => {
     }
 
     try {
-        // Verificar que la reserva existe y pertenece al usuario.
         const reserva = await db.reservaDeUsuario(
             req.params.id,
             req.usuario.nombre
@@ -306,7 +290,6 @@ router.put('/reservas/:id', verificarToken, async (req, res) => {
 
         const reservas = await db.reservasDelDia(fecha);
 
-        // Excluir la propia reserva para permitir mantener su horario.
         const otrasReservas = reservas.filter(
             (elemento) => Number(elemento.id) !== Number(req.params.id)
         );

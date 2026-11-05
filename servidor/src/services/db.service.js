@@ -44,13 +44,10 @@ async function eliminarAnimal(nombreAnimal, raza, usuario) {
     });
 }
 
-// --- Nuevas: lo que necesita la API para las pantallas ---
-
 async function listarAnimales(usuario) {
     return await Animal.findAll({ where: { usuario } });
 }
 
-// Busca un animal por id comprobando que es de ese usuario
 async function obtenerAnimalDeUsuario(id, usuario) {
     return await Animal.findOne({ where: { id, usuario } });
 }
@@ -67,9 +64,6 @@ async function crearReserva(idAnimal, usuario, fecha, horainicio, horafin, servi
     return await Reserva.create({ idAnimal, usuario, fecha, horainicio, horafin, servicio });
 }
 
-// Crea la reserva solo si no choca con otra del mismo día. Devuelve null si la hora ya está ocupada.
-// Va dentro de una transacción con bloqueo para que dos personas que pulsan a la vez
-// no puedan coger la misma hora.
 async function crearReservaSiLibre(idAnimal, usuario, fecha, horainicio, horafin, servicio) {
     return await sequelize.transaction(async (t) => {
         const choque = await Reserva.findOne({
@@ -91,15 +85,14 @@ async function crearReservaSiLibre(idAnimal, usuario, fecha, horainicio, horafin
 }
 
 async function buscarReserva(usuario, fechaActual) {
-    // Busca reservas del usuario a partir de una fecha dada
     return await Reserva.findAll({
         where: {
             usuario: usuario,
             fecha: {
-                [Op.gte]: fechaActual // Op.gte significa "Greater than or equal" (>=)
+                [Op.gte]: fechaActual 
             }
         },
-        include: [Animal], // Trae también la información del animal asociado
+        include: [Animal],
         order: [['fecha', 'ASC'], ['horainicio', 'ASC']]
     });
 }
@@ -113,7 +106,6 @@ async function reservaDeUsuario(idReserva, usuario) {
     });
 }
 
-// Todas las reservas de un día (de cualquier usuario), para calcular huecos libres
 async function reservasDelDia(fecha) {
     return await Reserva.findAll({ where: { fecha } });
 }
@@ -122,7 +114,6 @@ async function eliminarReserva(idReserva) {
     return await Reserva.destroy({ where: { id: idReserva } });
 }
 
-// Igual que eliminarReserva pero solo si la reserva es de ese usuario
 async function eliminarReservaDeUsuario(idReserva, usuario) {
     return await Reserva.destroy({ where: { id: idReserva, usuario } });
 }

@@ -18,7 +18,6 @@ function fechaDeHoy() {
   return `${d.getFullYear()}-${mes}-${dia}`;
 }
 
-// Devuelve [{ hora: "09:00", libre: true/false }, ...] para un día y una duración.
 function calcularHoras(fecha, duracion, reservasDelDia) {
   const hoy = fechaDeHoy();
   const ahora = new Date();
