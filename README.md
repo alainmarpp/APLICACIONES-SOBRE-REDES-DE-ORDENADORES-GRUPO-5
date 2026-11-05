@@ -121,15 +121,15 @@ Los endpoints se documentarán a medida que se implementen.
 
 Aplicaciones sobre Redes de Ordenadores
 
-## 📱 Descarga e Instalación de la Aplicación (Android)
+## Descarga e Instalación de la Aplicación (Android)
 
 La aplicación **MiPerruqueria** está lista para instalarse directamente en dispositivos Android sin necesidad de Expo Go.
 
-### 📥 Enlaces de Descarga
+## Enlaces de Descarga
 - **[Descargar APK directo (GitHub Release)](AQUÍ_TU_ENLACE_PERMANENTE)**
 - **[Enlace de compilación en Expo Cloud](AQUÍ_EL_ENLACE_QUE_TE_DIO_EXPO)**
 
-### 🛠️ Pasos para instalar en el móvil:
+###  Pasos para instalar en el móvil:
 1. Descarga el archivo `.apk` directamente desde el móvil usando uno de los enlaces superiores.
 2. Abre el archivo descargado en tu dispositivo Android.
 3. Si el sistema lo solicita, activa la opción **"Permitir la instalación de aplicaciones de fuentes desconocidas"**.
