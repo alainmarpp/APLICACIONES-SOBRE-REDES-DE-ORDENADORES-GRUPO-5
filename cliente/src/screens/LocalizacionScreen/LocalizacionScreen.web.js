@@ -1,10 +1,13 @@
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 
 import estilos from "./LocalizacionScreenStyles";
 import { abrirEnMapas, TIENDA } from "./useLocalizacionScreen";
 
 export default function LocalizacionScreen() {
+  const router = useRouter();
+
   return (
     <SafeAreaView style={estilos.pantalla}>
       <ScrollView contentContainerStyle={estilos.contenido}>
@@ -21,6 +24,10 @@ export default function LocalizacionScreen() {
 
           <TouchableOpacity style={estilos.boton} onPress={abrirEnMapas}>
             <Text style={estilos.textoBoton}>Cómo llegar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={estilos.boton} onPress={() => router.back()}>
+            <Text style={estilos.textoBoton}>Volver al menú</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

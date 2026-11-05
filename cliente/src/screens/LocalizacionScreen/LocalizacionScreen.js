@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
+import { useRouter } from "expo-router";
 
 import estilos from "./LocalizacionScreenStyles";
 import {
@@ -128,6 +129,7 @@ function MensajeEstado({ estado, distancia }) {
 }
 
 export default function LocalizacionScreen() {
+  const router = useRouter();
   const { posicion, distancia, estado } = useLocalizacionScreen();
   const { height } = useWindowDimensions();
   const webRef = useRef(null);
@@ -179,6 +181,10 @@ export default function LocalizacionScreen() {
             <Text style={estilos.textoBoton}>
               {permisoDenegado ? "Abrir ajustes" : "Cómo llegar"}
             </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={estilos.boton} onPress={() => router.back()}>
+            <Text style={estilos.textoBoton}>Volver al menú</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
