@@ -19,14 +19,17 @@ function fechaDeHoy() {
 }
 
 // Devuelve [{ hora: "09:00", libre: true/false }, ...] para un día y una duración.
-function calcularHoras(fecha, duracion, reservasDelDia) {
+// horario (opcional): { bloques: [{ inicio, fin }] en minutos, paso }. Si no se pasa, se usa el de data/servicios.js
+function calcularHoras(fecha, duracion, reservasDelDia, horario) {
+  const bloques = horario?.bloques || bloquesHorario;
+  const paso = horario?.paso || pasoMinutos;
   const hoy = fechaDeHoy();
   const ahora = new Date();
   const minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
   const horas = [];
 
-  for (const bloque of bloquesHorario) {
-    for (let inicio = bloque.inicio; inicio < bloque.fin; inicio += pasoMinutos) {
+  for (const bloque of bloques) {
+    for (let inicio = bloque.inicio; inicio < bloque.fin; inicio += paso) {
       const fin = inicio + duracion;
 
       const cabeEnElBloque = fin <= bloque.fin;

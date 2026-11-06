@@ -5,6 +5,7 @@ const router = express.Router();
 const db = require('../services/db.service');
 const { verificarToken } = require('../middlewares/auth.middleware');
 const idempotencia = require('../middlewares/idempotencia');
+const { obtenerHorario } = require('../services/horario.service');
 const { servicios } = require('../data/servicios');
 const {
     aMinutos,
@@ -84,7 +85,7 @@ router.get('/disponibilidad', verificarToken, async (req, res) => {
 
         return res.json({
             duracion,
-            horas: calcularHoras(fecha, duracion, reservas)
+            horas: calcularHoras(fecha, duracion, reservas, await obtenerHorario())
         });
     } catch (error) {
         console.error('Error al calcular disponibilidad:', error);
@@ -171,11 +172,7 @@ router.post('/reservas', verificarToken, idempotencia, async (req, res) => {
 
         const reservas = await db.reservasDelDia(fecha);
 
-        const hora = calcularHoras(
-            fecha,
-            duracion,
-            reservas
-        ).find((elemento) => elemento.hora === horainicio);
+        const hora = calcularHoras(fecha, duracion, reservas, await obtenerHorario()).find((elemento) => elemento.hora === horainicio);
 
         if (!hora || !hora.libre) {
             return res.status(409).json({
@@ -312,11 +309,7 @@ router.put('/reservas/:id', verificarToken, idempotencia, async (req, res) => {
             (elemento) => Number(elemento.id) !== Number(req.params.id)
         );
 
-        const horas = calcularHoras(
-            fecha,
-            duracion,
-            otrasReservas
-        );
+        const horas = calcularHoras(fecha, duracion, otrasReservas, await obtenerHorario());
 
         const hora = horas.find(
             (elemento) => elemento.hora === horainicio

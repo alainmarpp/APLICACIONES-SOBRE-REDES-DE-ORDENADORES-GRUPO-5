@@ -82,7 +82,8 @@ router.post('/login', async (req, res) => {
         res.json({ 
             mensaje: 'Login exitoso', 
             token: token,
-            nombre: usuarioDB.nombre
+            nombre: usuarioDB.nombre,
+            rol: usuarioDB.rol
         });
 
     } catch (error) {
@@ -93,13 +94,13 @@ router.post('/login', async (req, res) => {
 
 router.get('/perfil', verificarToken, async (req, res) => {
     try {
-        const usuarioDB = await Usuario.findByPk(req.usuario.nombre, { attributes: ['nombre', 'tlf'] });
+        const usuarioDB = await Usuario.findByPk(req.usuario.nombre, { attributes: ['nombre', 'tlf', 'rol'] });
 
         if (!usuarioDB) {
             return res.status(401).json({ error: 'Usuario no encontrado' });
         }
 
-        res.json({ nombre: usuarioDB.nombre, tlf: usuarioDB.tlf });
+        res.json({ nombre: usuarioDB.nombre, tlf: usuarioDB.tlf, rol: usuarioDB.rol });
     } catch (error) {
         console.error("Error en /perfil:", error);
         res.status(500).json({ error: 'No se pudo cargar el perfil.' });

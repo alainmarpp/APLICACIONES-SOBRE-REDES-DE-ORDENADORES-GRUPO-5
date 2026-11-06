@@ -15,6 +15,12 @@ const Usuario = sequelize.define('Usuario', {
   contrasenia: {
     type: DataTypes.STRING(100),
     allowNull: false
+  },
+  // "cliente" (por defecto, todos los que se registran) o "peluquero" (solo se da con crear_peluquero.js)
+  rol: {
+    type: DataTypes.STRING(20),
+    allowNull: false,
+    defaultValue: 'cliente'
   }
 }, {
   tableName: 'usuarios',
