@@ -125,10 +125,10 @@ Aplicaciones sobre Redes de Ordenadores
 
 La aplicación **MiPerruqueria** está lista para instalarse directamente en dispositivos Android sin necesidad de Expo Go.
 
-## Enlaces de Descarga
-- **[Descargar APK directo (GitHub Release)](AQUÍ_TU_ENLACE_PERMANENTE)**
+## Enlace de Descarga
+- **[Descargar APK](AQUÍ_TU_ENLACE_PERMANENTE)**
 
-###  Pasos para instalar en un móvil Android:
+###  Pasos para instalar desde un un móvil Android:
 1. Descarga el archivo `.apk` directamente desde el móvil usando el enlace de arriba
 2. Abre el archivo descargado en tu dispositivo Android
 3. Si el sistema lo solicita, activa la opción **"Permitir la instalación de aplicaciones de fuentes desconocidas"**.
@@ -138,11 +138,11 @@ La aplicación **MiPerruqueria** está lista para instalarse directamente en dis
 
 La aplicación **MiPerruqueria** está disponible para dispositivos iPhone mediante una versión web alojada en Netlify
 
-### Enlaces de acceso
+### Enlace de Descarga
 
-- **[Acceder a MiPerruqueria desde iPhone](https://stellar-alfajores-731d07.netlify.app)**
+- **[Descargar aplicación](https://stellar-alfajores-731d07.netlify.app)**
 
-### Pasos para acceder desde un movil iPhone:
+### Pasos para instalar desde un movil iPhone:
 
 1. Abre Safari en tu iPhone.
 2. Accede al enlace de MiPerruqueria publicado en Netlify
