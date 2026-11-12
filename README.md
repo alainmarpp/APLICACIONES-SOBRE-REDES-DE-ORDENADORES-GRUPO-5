@@ -1,5 +1,7 @@
 # Aplicaciones sobre Redes de Ordenadores - Grupo 5
 
+Aplicación para la gestión y reserva de servicios de peluquería y cuidado de mascotas
+
 ## Índice
 
 - [Integrantes](#integrantes)
@@ -20,8 +22,6 @@
 - Ángela Ochoa Martínez
 - Amaia Duo Resano Eguizabal 
 
-Aplicación para la gestión y reserva de servicios de peluquería y cuidado de mascotas
-  
 ## Descripción
 
 Los usuarios pueden registrarse, iniciar sesión, crear el perfil de sus mascotas, elegir servicios, consultar la disponibilidad y reservar. También pueden consultar el historial de mascotas y reservas, dejar reseñas y ver la localización de la peluquería.
