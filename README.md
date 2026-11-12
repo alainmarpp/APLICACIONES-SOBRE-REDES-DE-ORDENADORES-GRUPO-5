@@ -11,7 +11,10 @@ Aplicación para la gestión y reserva de servicios de peluquería y cuidado de 
 - [Servidor](#servidor)
 - [Base de datos](#base-de-datos)
 - [API](#api)
-
+- [Grupo 5](#grupo-5)
+- [Descarga e Instalación de la Aplicación (Android)](#descarga-e-instalación-de-la-aplicación-android)
+- [Descarga e Instalación de la Aplicación (iOS)](#descarga-e-instalación-de-la-aplicación-ios)
+  
 ## Descripción
 
 Los usuarios pueden registrarse, iniciar sesión, crear el perfil de sus mascotas, elegir servicios, consultar la disponibilidad y reservar. También pueden consultar el historial de mascotas y reservas, dejar reseñas y ver la localización de la peluquería.
