@@ -128,7 +128,7 @@ La aplicación móvil se comunica con el servidor mediante una API REST que gest
 
 Los endpoints se documentarán a medida que se implementen.
 
-## Backend desplegado
+## Backend Desplegado
 
 El backend de MiPerruquería está desplegado en Render y conectado a una base de datos MySQL alojada en Aiven
 
