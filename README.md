@@ -134,7 +134,7 @@ La aplicación **MiPerruqueria** está lista para instalarse directamente en dis
 3. Si el sistema lo solicita, activa la opción **"Permitir la instalación de aplicaciones de fuentes desconocidas"**.
 4. Pulsa en **Instalar** y ya tienes la aplicación instalada
 
-## Acceso a la aplicación (iOS)
+## Descarga e Instalación de la Aplicación (iOS)
 
 La aplicación **MiPerruqueria** está disponible para dispositivos iPhone mediante una versión web alojada en Netlify
 
