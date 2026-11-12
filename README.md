@@ -12,7 +12,7 @@ Aplicación para la gestión y reserva de servicios de peluquería y cuidado de 
 - [Servidor](#servidor)
 - [Base de datos](#base-de-datos)
 - [API](#api)
-- [Backend desplegado](#backend-desplegado)
+- [Backend Desplegado](#backend-desplegado)
 - [Descarga e Instalación de la Aplicación (Android)](#descarga-e-instalación-de-la-aplicación-android)
 - [Descarga e Instalación de la Aplicación (iOS)](#descarga-e-instalación-de-la-aplicación-ios)
 
