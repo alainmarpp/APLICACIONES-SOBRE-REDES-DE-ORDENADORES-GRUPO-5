@@ -127,6 +127,22 @@ La aplicación móvil se comunica con el servidor mediante una API REST que gest
 
 Los endpoints se documentarán a medida que se implementen.
 
+## Backend desplegado
+
+El backend de MiPerruquería está desplegado en Render y conectado a una base de datos MySQL alojada en Aiven
+
+- **URL de la API:** https://miperruqueria-api.onrender.com
+- **Servidor:** Render
+- **Base de datos:** Aiven (MySQL)
+
+Para comprobar que el servidor está funcionando, accede a la URL de la API. Deberías recibir el siguiente mensaje:
+
+```json
+{
+  "mensaje": "¡API REST levantada y conectada a Aiven!"
+}
+```
+
 ## Descarga e Instalación de la Aplicación (Android)
 
 La aplicación **MiPerruqueria** está lista para instalarse directamente en dispositivos Android sin necesidad de Expo Go.
