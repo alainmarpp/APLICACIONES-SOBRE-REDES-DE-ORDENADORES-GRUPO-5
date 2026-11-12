@@ -1,16 +1,8 @@
 # Aplicaciones sobre Redes de Ordenadores - Grupo 5
 
-## Integrantes
-
-- Naroa Azparren Villanueva
-- Alain Martínez Arpón 
-- Ángela Ochoa Martínez
-- Amaia Duo Resano Eguizabal 
-
-Aplicación para la gestión y reserva de servicios de peluquería y cuidado de mascotas
-
 ## Índice
 
+- [Integrantes](#integrantes)
 - [Descripción](#descripción)
 - [Funcionalidades](#funcionalidades)
 - [Tecnologías](#tecnologías)
@@ -20,6 +12,15 @@ Aplicación para la gestión y reserva de servicios de peluquería y cuidado de 
 - [API](#api)
 - [Descarga e Instalación de la Aplicación (Android)](#descarga-e-instalación-de-la-aplicación-android)
 - [Descarga e Instalación de la Aplicación (iOS)](#descarga-e-instalación-de-la-aplicación-ios)
+
+## Integrantes
+
+- Naroa Azparren Villanueva
+- Alain Martínez Arpón 
+- Ángela Ochoa Martínez
+- Amaia Duo Resano Eguizabal 
+
+Aplicación para la gestión y reserva de servicios de peluquería y cuidado de mascotas
   
 ## Descripción
 
