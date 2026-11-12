@@ -70,13 +70,14 @@ export default function InicioScreen() {
             <Text style={estilos.textoBoton}>📍 Dónde Estamos </Text>
           </TouchableOpacity>
 
-          <HorarioTienda />
-
           {esPeluquero && (
             <TouchableOpacity style={[estilos.boton, estilos.botonLila]} onPress={irPanelPeluquero}>
               <Text style={estilos.textoBoton}>✂️ Panel del peluquero</Text>
             </TouchableOpacity>
           )}
+
+          <HorarioTienda />
+
 
           <TouchableOpacity style={estilos.botonSalir} onPress={cerrarSesion}>
             <Text style={estilos.textoBotonSalir}>Cerrar Sesión 👋</Text>
