@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+import { useCallback, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { useFocusEffect, router } from "expo-router";
+
+import { peticion } from "../../services/api";
+import { cerrarSesionCompleta } from "../../services/authService";
+=======
 import {
   Text,
   TouchableOpacity,
@@ -5,6 +13,7 @@ import {
   View,
 } from "react-native";
 
+>>>>>>> main
 import estilos from "./MiPerfilScreenStyles";
 import { useMiPerfilScreen } from "./useMiPerfilScreen";
 
@@ -26,6 +35,54 @@ export default function MiPerfilScreen() {
     volver,
   } = useMiPerfilScreen();
 
+<<<<<<< HEAD
+  useFocusEffect(
+    useCallback(() => {
+      let activo = true;
+
+      async function cargarPerfil() {
+        setCargando(true);
+        setError("");
+
+        try {
+          const datos = await peticion("/perfil");
+
+          if (activo) {
+            setPerfil(datos);
+          }
+        } catch (e) {
+          if (activo) {
+            setError(e.message);
+          }
+        } finally {
+          if (activo) {
+            setCargando(false);
+          }
+        }
+      }
+
+      cargarPerfil();
+
+      return () => {
+        activo = false;
+      };
+    }, [])
+  );
+
+  const cerrarSesion = async () => {
+    // Avisa al servidor si hay red y cierra la sesión en el móvil pase lo que pase.
+    // No se borra todo el almacenamiento: los cambios pendientes de enviar se conservan.
+    try {
+      await cerrarSesionCompleta();
+      alert("Has cerrado sesión correctamente.");
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      router.replace("/");
+    }
+  };
+
+=======
+>>>>>>> main
   return (
     <View style={estilos.contenedor}>
       <Text style={estilos.titulo}>Mi perfil</Text>

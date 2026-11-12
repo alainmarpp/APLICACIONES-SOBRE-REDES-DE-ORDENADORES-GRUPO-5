@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../services/db.service');
 const { verificarToken } = require('../middlewares/auth.middleware');
+const idempotencia = require('../middlewares/idempotencia');
 
 router.get('/animales', verificarToken, async (req, res) => {
     try {
@@ -12,7 +13,12 @@ router.get('/animales', verificarToken, async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+// Registrar perro (pantalla RegistroPerro)
+router.post('/registrarAnimal', verificarToken, idempotencia, async (req, res) => {
+=======
 router.post('/registrarAnimal', verificarToken, async (req, res) => {
+>>>>>>> main
     const { nombreAnimal, edad, peso, raza } = req.body;
 
     if (!nombreAnimal || !nombreAnimal.trim() || !raza || !raza.trim()) {
@@ -37,7 +43,7 @@ router.post('/registrarAnimal', verificarToken, async (req, res) => {
     }
 });
 
-router.put('/animales/:id', verificarToken, async (req, res) => {
+router.put('/animales/:id', verificarToken, idempotencia, async (req, res) => {
     const { nombreAnimal, edad, peso, raza } = req.body;
     const nuevosDatos = {};
     if (nombreAnimal !== undefined) nuevosDatos.nombreAnimal = nombreAnimal;
@@ -55,7 +61,7 @@ router.put('/animales/:id', verificarToken, async (req, res) => {
     }
 });
 
-router.delete('/animales/:id', verificarToken, async (req, res) => {
+router.delete('/animales/:id', verificarToken, idempotencia, async (req, res) => {
     try {
         const borrados = await db.eliminarAnimalPorId(req.params.id, req.usuario.nombre);
         if (borrados === 0) return res.status(404).json({ error: 'Animal no encontrado' });

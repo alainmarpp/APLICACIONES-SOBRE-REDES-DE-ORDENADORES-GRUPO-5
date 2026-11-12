@@ -3,6 +3,8 @@ const router = express.Router();
 
 const db = require('../services/db.service');
 const { verificarToken } = require('../middlewares/auth.middleware');
+const idempotencia = require('../middlewares/idempotencia');
+const { obtenerHorario } = require('../services/horario.service');
 const { servicios } = require('../data/servicios');
 const {
     aMinutos,
@@ -76,7 +78,7 @@ router.get('/disponibilidad', verificarToken, async (req, res) => {
 
         return res.json({
             duracion,
-            horas: calcularHoras(fecha, duracion, reservas)
+            horas: calcularHoras(fecha, duracion, reservas, await obtenerHorario())
         });
     } catch (error) {
         console.error('Error al calcular disponibilidad:', error);
@@ -106,7 +108,13 @@ router.get('/reservas', verificarToken, async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+// Crear una reserva.
+// body: { idAnimal, fecha, horainicio, servicios: ["1", "3"] }
+router.post('/reservas', verificarToken, idempotencia, async (req, res) => {
+=======
 router.post('/reservas', verificarToken, async (req, res) => {
+>>>>>>> main
     const {
         idAnimal,
         fecha,
@@ -159,11 +167,7 @@ router.post('/reservas', verificarToken, async (req, res) => {
 
         const reservas = await db.reservasDelDia(fecha);
 
-        const hora = calcularHoras(
-            fecha,
-            duracion,
-            reservas
-        ).find((elemento) => elemento.hora === horainicio);
+        const hora = calcularHoras(fecha, duracion, reservas, await obtenerHorario()).find((elemento) => elemento.hora === horainicio);
 
         if (!hora || !hora.libre) {
             return res.status(409).json({
@@ -212,7 +216,12 @@ router.post('/reservas', verificarToken, async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+// Cancelar una reserva.
+router.delete('/reservas/:id', verificarToken, idempotencia, async (req, res) => {
+=======
 router.delete('/reservas/:id', verificarToken, async (req, res) => {
+>>>>>>> main
     try {
         const borradas = await db.eliminarReservaDeUsuario(
             req.params.id,
@@ -237,7 +246,13 @@ router.delete('/reservas/:id', verificarToken, async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+// Modificar una reserva existente.
+// body: { fecha, horainicio, servicios: ["1", "3"] }
+router.put('/reservas/:id', verificarToken, idempotencia, async (req, res) => {
+=======
 router.put('/reservas/:id', verificarToken, async (req, res) => {
+>>>>>>> main
     const {
         fecha,
         horainicio,
@@ -294,11 +309,7 @@ router.put('/reservas/:id', verificarToken, async (req, res) => {
             (elemento) => Number(elemento.id) !== Number(req.params.id)
         );
 
-        const horas = calcularHoras(
-            fecha,
-            duracion,
-            otrasReservas
-        );
+        const horas = calcularHoras(fecha, duracion, otrasReservas, await obtenerHorario());
 
         const hora = horas.find(
             (elemento) => elemento.hora === horainicio

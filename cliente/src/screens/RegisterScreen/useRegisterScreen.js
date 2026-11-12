@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import { API_URL, guardarToken } from "../../services/authService";
+import { fetchConReintentos, generarClaveIdempotencia } from "../../services/red";
 
 export function useRegisterScreen() {
   const [usuario, setUsuario] = useState("");
@@ -49,11 +50,16 @@ export function useRegisterScreen() {
 
     setCargando(true);
     try {
-      const res = await fetch(`${API_URL}/registro`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datosAEnviar),
-      });
+      // El registro NUNCA se guarda para más tarde (lleva la contraseña): solo se reintenta ahora, con timeout
+      const res = await fetchConReintentos(
+        `${API_URL}/registro`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Idempotency-Key": generarClaveIdempotencia() },
+          body: JSON.stringify(datosAEnviar),
+        },
+        { reintentos: 2, timeoutMs: 15000 },
+      );
       const datos = await res.json();
       
       if (!res.ok) {
