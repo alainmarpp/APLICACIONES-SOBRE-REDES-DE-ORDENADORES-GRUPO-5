@@ -128,8 +128,24 @@ La aplicación **MiPerruqueria** está lista para instalarse directamente en dis
 ## Enlaces de Descarga
 - **[Descargar APK directo (GitHub Release)](AQUÍ_TU_ENLACE_PERMANENTE)**
 
-###  Pasos para instalar en el móvil:
+###  Pasos para instalar en un móvil Android:
 1. Descarga el archivo `.apk` directamente desde el móvil usando el enlace de arriba
 2. Abre el archivo descargado en tu dispositivo Android
 3. Si el sistema lo solicita, activa la opción **"Permitir la instalación de aplicaciones de fuentes desconocidas"**.
 4. Pulsa en **Instalar** y ya tienes la aplicación instalada
+
+## Acceso a la aplicación (iOS)
+
+La aplicación **MiPerruqueria** está disponible para dispositivos iPhone mediante una versión web alojada en Netlify
+
+### Enlaces de acceso
+
+- **[Acceder a MiPerruqueria desde iPhone](https://stellar-alfajores-731d07.netlify.app)**
+
+### Pasos para acceder desde un movil iPhone:
+
+1. Abre Safari en tu iPhone.
+2. Accede al enlace de MiPerruqueria publicado en Netlify
+3. Pulsa el botón de compartir de Safari
+4. Selecciona **«Añadir a pantalla de inicio»**
+5. Confirma pulsando **«Añadir»**
