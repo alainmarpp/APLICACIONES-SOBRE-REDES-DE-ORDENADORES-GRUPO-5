@@ -1,14 +1,11 @@
-// src/screens/LoginScreen/LoginScreenStyles.js
 import { Platform, StyleSheet } from "react-native";
 
-// ✿ Con calle, pero elegante ✿
 const fuente = Platform.select({
   ios: "Georgia",
   android: "serif",
   default: "Georgia, 'Times New Roman', serif",
 });
 
-// Sombra suave en tono burdeos sofisticado
 const suave = {
   shadowColor: "#8E3E63",
   shadowOffset: { width: 0, height: 4 },
@@ -21,7 +18,7 @@ const tituloBase = {
   fontFamily: fuente,
   fontWeight: "bold",
   fontStyle: "italic",
-  color: "#A8537A", // Burdeos medio sofisticado
+  color: "#A8537A",
   letterSpacing: 1,
   textShadowColor: "#FFFFFF",
   textShadowOffset: { width: 1, height: 1 },
@@ -34,7 +31,7 @@ const campo = {
   borderRadius: 26,
   paddingHorizontal: 20,
   fontSize: 16,
-  color: "#3D2232", // Texto berenjena oscuro/legible
+  color: "#3D2232", 
   backgroundColor: "#FFFFFF",
   ...suave,
   shadowOpacity: 0.1,
@@ -47,14 +44,14 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#FDF7F9", // Fondo suave neutro/empolvado
+    backgroundColor: "#FDF7F9", 
   },
   title: { ...tituloBase, fontSize: 38, marginBottom: 12, textAlign: "center" },
   welcome: {
     fontFamily: fuente,
     fontSize: 19,
     fontStyle: "italic",
-    color: "#8A697A", // Tono neutro rosado
+    color: "#8A697A", 
     marginBottom: 30,
     textAlign: "center",
   },
@@ -73,7 +70,7 @@ export default StyleSheet.create({
     padding: 16,
     marginTop: 28,
     borderRadius: 26,
-    backgroundColor: "#8E3E63", // Burdeos chic principal
+    backgroundColor: "#8E3E63", 
     alignItems: "center",
     ...suave,
     shadowColor: "#8E3E63",

@@ -3,7 +3,7 @@ const sequelize = require('../../config/database');
 
 const TokenInvalido = sequelize.define('TokenInvalido', {
     token: {
-        type: DataTypes.STRING(500), // Los JWT son largos
+        type: DataTypes.STRING(500), 
         allowNull: false,
         unique: true
     }

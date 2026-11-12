@@ -30,7 +30,7 @@ export default StyleSheet.create({
     maxWidth: 500,
     alignSelf: "center",
     paddingHorizontal: 24,
-    paddingTop: 10,
+    paddingTop: 120,
     paddingBottom: 20,
   },
 

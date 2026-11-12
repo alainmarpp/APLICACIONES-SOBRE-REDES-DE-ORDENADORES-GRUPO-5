@@ -1,11 +1,9 @@
-// src/screens/RegisterScreen/RegisterScreen.js
 import React from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import styles from './RegisterScreenStyles'; 
 import { useRegisterScreen } from './useRegisterScreen';
 
 export default function RegisterScreen() {
-  // Traemos los datos y funciones desde el archivo de funcionamiento
   const { 
     usuario, setUsuario,
     telefono, setTelefono,

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-// Usamos SafeAreaView de safe-area-context para un soporte adecuado en Android
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import estilos from "./CalendarioScreenStyles";

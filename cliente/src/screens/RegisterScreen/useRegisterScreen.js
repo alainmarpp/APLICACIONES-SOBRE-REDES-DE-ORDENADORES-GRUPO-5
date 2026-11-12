@@ -21,20 +21,16 @@ export function useRegisterScreen() {
       return;
     }
 
-    // --- NUEVAS VALIDACIONES FRONTEND ---
-    // Nombre entre 6 y 20 caracteres
     if (usuario.trim().length < 6 || usuario.trim().length > 20) {
       alert("El nombre debe tener entre 6 y 20 caracteres.");
       return;
     }
 
-    // Contraseña: Min 7 chars, 1 minúscula, 1 mayúscula, 1 símbolo
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{7,}$/;
     if (!passwordRegex.test(contrasena)) {
       alert("La contraseña debe tener al menos 7 caracteres, incluir una mayúscula, una minúscula y un símbolo.");
       return;
     }
-    // ------------------------------------------------
 
     if (telefono.length !== 9) {
       alert("El teléfono debe tener exactamente 9 dígitos numéricos.");

@@ -4,7 +4,6 @@ const db = require('../services/db.service');
 const { verificarToken } = require('../middlewares/auth.middleware');
 const idempotencia = require('../middlewares/idempotencia');
 
-// Mis animales (pantalla Reserva: elegir perro)
 router.get('/animales', verificarToken, async (req, res) => {
     try {
         res.json(await db.listarAnimales(req.usuario.nombre));
@@ -14,8 +13,12 @@ router.get('/animales', verificarToken, async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 // Registrar perro (pantalla RegistroPerro)
 router.post('/registrarAnimal', verificarToken, idempotencia, async (req, res) => {
+=======
+router.post('/registrarAnimal', verificarToken, async (req, res) => {
+>>>>>>> main
     const { nombreAnimal, edad, peso, raza } = req.body;
 
     if (!nombreAnimal || !nombreAnimal.trim() || !raza || !raza.trim()) {

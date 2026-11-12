@@ -1,3 +1,4 @@
+
 import { Platform, StyleSheet } from "react-native";
 
 const fuente = Platform.select({
@@ -43,16 +44,23 @@ const estilos = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FDF7F9",
     alignItems: "center",
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingTop: 140,
+    paddingBottom: 10,
   },
   titulo: {
     ...tituloBase,
     fontSize: 34,
     textAlign: "center",
-    marginTop: 20,
+    marginTop: 0,
     marginBottom: 20,
   },
-  contenido: { flex: 1, width: "100%", alignItems: "center" },
+  contenido: {
+    flex: 1,
+    minHeight: 0,
+    width: "100%",
+    alignItems: "center",
+  },
   mensaje: {
     fontFamily: fuente,
     fontSize: 16,
@@ -85,8 +93,16 @@ const estilos = StyleSheet.create({
     color: "#A8537A",
     marginBottom: 6,
   },
-  puntuacionResena: { fontSize: 16, color: "#D4A359", marginBottom: 8 },
-  comentarioResena: { fontSize: 15, color: "#3D2232", lineHeight: 22 },
+  puntuacionResena: {
+    fontSize: 16,
+    color: "#D4A359",
+    marginBottom: 8,
+  },
+  comentarioResena: {
+    fontSize: 15,
+    color: "#3D2232",
+    lineHeight: 22,
+  },
   botonVolver: {
     width: "100%",
     padding: 16,

@@ -1,16 +1,41 @@
+<<<<<<< HEAD
 import { useCallback, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useFocusEffect, router } from "expo-router";
 
 import { peticion } from "../../services/api";
 import { cerrarSesionCompleta } from "../../services/authService";
+=======
+import {
+  Text,
+  TouchableOpacity,
+  TextInput,
+  View,
+} from "react-native";
+
+>>>>>>> main
 import estilos from "./MiPerfilScreenStyles";
+import { useMiPerfilScreen } from "./useMiPerfilScreen";
 
 export default function MiPerfilScreen() {
-  const [perfil, setPerfil] = useState(null);
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState("");
+  const {
+    perfil,
+    cargando,
+    error,
+    editando,
+    telefono,
+    setTelefono,
+    guardando,
+    eliminando,
+    iniciarEdicion,
+    cancelarEdicion,
+    guardarTelefono,
+    eliminarPerfil,
+    cerrarSesion,
+    volver,
+  } = useMiPerfilScreen();
 
+<<<<<<< HEAD
   useFocusEffect(
     useCallback(() => {
       let activo = true;
@@ -56,6 +81,8 @@ export default function MiPerfilScreen() {
     }
   };
 
+=======
+>>>>>>> main
   return (
     <View style={estilos.contenedor}>
       <Text style={estilos.titulo}>Mi perfil</Text>
@@ -70,23 +97,82 @@ export default function MiPerfilScreen() {
           <Text style={estilos.valor}>{perfil?.nombre}</Text>
 
           <Text style={estilos.etiqueta}>Teléfono</Text>
-          <Text style={estilos.valor}>{perfil?.tlf}</Text>
+
+          {editando ? (
+            <TextInput
+              style={estilos.campo}
+              value={telefono}
+              onChangeText={setTelefono}
+              placeholder="Introduce tu teléfono"
+              placeholderTextColor="#A88B9A"
+              keyboardType="phone-pad"
+              maxLength={20}
+            />
+          ) : (
+            <Text style={estilos.valor}>{perfil?.tlf}</Text>
+          )}
+
+          {editando ? (
+            <>
+              <TouchableOpacity
+                style={estilos.boton}
+                onPress={guardarTelefono}
+                disabled={guardando}
+              >
+                <Text style={estilos.textoBoton}>
+                  {guardando ? "Guardando..." : "Guardar cambios"}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={estilos.botonCancelar}
+                onPress={cancelarEdicion}
+                disabled={guardando}
+              >
+                <Text style={estilos.textoBotonCancelar}>
+                  Cancelar
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <TouchableOpacity
+              style={estilos.boton}
+              onPress={iniciarEdicion}
+            >
+              <Text style={estilos.textoBoton}>
+                Editar teléfono
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
 
       <TouchableOpacity
         style={estilos.boton}
-        onPress={() => router.back()}
+        onPress={volver}
       >
-        <Text style={estilos.textoBoton}>Volver al menú</Text>
+        <Text style={estilos.textoBoton}>
+          Volver al menú
+        </Text>
       </TouchableOpacity>
 
-      {/* BOTÓN DE CERRAR SESIÓN */}
       <TouchableOpacity
         style={estilos.botonSalir}
         onPress={cerrarSesion}
       >
-        <Text style={estilos.textoBotonSalir}>Cerrar sesión</Text>
+        <Text style={estilos.textoBotonSalir}>
+          Cerrar sesión
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.botonEliminar}
+        onPress={eliminarPerfil}
+        disabled={eliminando || cargando}
+      >
+        <Text style={estilos.textoBotonEliminar}>
+          {eliminando ? "Eliminando..." : "Eliminar perfil"}
+        </Text>
       </TouchableOpacity>
     </View>
   );

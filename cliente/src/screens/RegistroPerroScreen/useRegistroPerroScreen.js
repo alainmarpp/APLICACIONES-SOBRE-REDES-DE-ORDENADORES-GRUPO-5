@@ -16,7 +16,6 @@ export function useRegistroPerroScreen() {
       return;
     }
 
-    // Los teclados decimales de algunos móviles escriben coma en vez de punto
     const edadNumero = Number(edad.replace(",", "."));
     const pesoNumero = Number(peso.replace(",", "."));
 
