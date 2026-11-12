@@ -100,6 +100,10 @@ export default function DisenoRaiz() {
           <Stack.Screen name="historialAnimales" options={{ title: "Historial de animales", headerShown: true }} />
           <Stack.Screen name="calendario" options={{ title: "Reserva tu cita", headerShown: true }} />
           <Stack.Screen name="reserva" options={{ title: "Reserva Cita", headerShown: true }} />
+          <Stack.Screen name="peluquero" options={{ title: "Menú del peluquero", headerShown: true }} />
+          <Stack.Screen name="peluqueroReservas" options={{ title: "Reservas", headerShown: true }} />
+          <Stack.Screen name="peluqueroUsuarios" options={{ title: "Usuarios", headerShown: true }} />
+          <Stack.Screen name="horarioTienda" options={{ title: "Horario de la tienda", headerShown: true }} />
           <Stack.Screen name="explore" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>

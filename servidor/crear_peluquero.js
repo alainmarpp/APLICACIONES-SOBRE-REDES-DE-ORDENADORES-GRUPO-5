@@ -1,8 +1,3 @@
-// Crea la cuenta del peluquero (o convierte en peluquero a un usuario que ya existe).
-// Uso (desde la carpeta servidor):   node crear_peluquero.js <nombre> <telefono> <contraseña>
-// Ejemplo:                           node crear_peluquero.js peluquero1 600000000 "Clave#2026"
-// Los clientes que se registran desde la app SIEMPRE son "cliente"; el rol de peluquero solo se da con este script.
-
 require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 
 const sequelize = require('./config/database');
@@ -25,7 +20,7 @@ async function main() {
     }
 
     await sequelize.authenticate();
-    await sequelize.sync({ alter: true }); // por si todavía no existe la columna "rol"
+    await sequelize.sync({ alter: true }); 
 
     const existente = await Usuario.findByPk(nombre);
     if (existente) {

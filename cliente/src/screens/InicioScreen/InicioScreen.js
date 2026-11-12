@@ -1,5 +1,6 @@
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import HorarioTienda from "../../components/HorarioTienda";
 import estilos from "./InicioScreenStyles";
 import { useInicioScreen } from "./useInicioScreen";
 
@@ -11,6 +12,8 @@ export default function InicioScreen() {
     irMisReservas,
     irResenas,
     irLocalizacion,
+    esPeluquero,
+    irPanelPeluquero,
     cerrarSesion,
   } = useInicioScreen();
 
@@ -66,6 +69,14 @@ export default function InicioScreen() {
           >
             <Text style={estilos.textoBoton}>📍 Dónde Estamos </Text>
           </TouchableOpacity>
+
+          <HorarioTienda />
+
+          {esPeluquero && (
+            <TouchableOpacity style={[estilos.boton, estilos.botonLila]} onPress={irPanelPeluquero}>
+              <Text style={estilos.textoBoton}>✂️ Panel del peluquero</Text>
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity style={estilos.botonSalir} onPress={cerrarSesion}>
             <Text style={estilos.textoBotonSalir}>Cerrar Sesión 👋</Text>
