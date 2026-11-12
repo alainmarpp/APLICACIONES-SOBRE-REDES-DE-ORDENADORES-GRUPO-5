@@ -13,12 +13,8 @@ router.get('/animales', verificarToken, async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
 // Registrar perro (pantalla RegistroPerro)
 router.post('/registrarAnimal', verificarToken, idempotencia, async (req, res) => {
-=======
-router.post('/registrarAnimal', verificarToken, async (req, res) => {
->>>>>>> main
     const { nombreAnimal, edad, peso, raza } = req.body;
 
     if (!nombreAnimal || !nombreAnimal.trim() || !raza || !raza.trim()) {

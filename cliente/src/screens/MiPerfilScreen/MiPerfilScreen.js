@@ -1,19 +1,9 @@
-<<<<<<< HEAD
 import { useCallback, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useFocusEffect, router } from "expo-router";
 
 import { peticion } from "../../services/api";
 import { cerrarSesionCompleta } from "../../services/authService";
-=======
-import {
-  Text,
-  TouchableOpacity,
-  TextInput,
-  View,
-} from "react-native";
-
->>>>>>> main
 import estilos from "./MiPerfilScreenStyles";
 import { useMiPerfilScreen } from "./useMiPerfilScreen";
 
@@ -35,7 +25,6 @@ export default function MiPerfilScreen() {
     volver,
   } = useMiPerfilScreen();
 
-<<<<<<< HEAD
   useFocusEffect(
     useCallback(() => {
       let activo = true;
@@ -69,7 +58,7 @@ export default function MiPerfilScreen() {
     }, [])
   );
 
-  const cerrarSesion = async () => {
+  cerrarSesion = async () => {
     // Avisa al servidor si hay red y cierra la sesión en el móvil pase lo que pase.
     // No se borra todo el almacenamiento: los cambios pendientes de enviar se conservan.
     try {
@@ -81,8 +70,6 @@ export default function MiPerfilScreen() {
     }
   };
 
-=======
->>>>>>> main
   return (
     <View style={estilos.contenedor}>
       <Text style={estilos.titulo}>Mi perfil</Text>

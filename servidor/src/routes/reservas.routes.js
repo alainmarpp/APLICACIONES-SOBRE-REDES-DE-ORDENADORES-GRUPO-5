@@ -108,13 +108,7 @@ router.get('/reservas', verificarToken, async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-// Crear una reserva.
-// body: { idAnimal, fecha, horainicio, servicios: ["1", "3"] }
 router.post('/reservas', verificarToken, idempotencia, async (req, res) => {
-=======
-router.post('/reservas', verificarToken, async (req, res) => {
->>>>>>> main
     const {
         idAnimal,
         fecha,
@@ -216,12 +210,7 @@ router.post('/reservas', verificarToken, async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-// Cancelar una reserva.
 router.delete('/reservas/:id', verificarToken, idempotencia, async (req, res) => {
-=======
-router.delete('/reservas/:id', verificarToken, async (req, res) => {
->>>>>>> main
     try {
         const borradas = await db.eliminarReservaDeUsuario(
             req.params.id,
@@ -246,13 +235,7 @@ router.delete('/reservas/:id', verificarToken, async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-// Modificar una reserva existente.
-// body: { fecha, horainicio, servicios: ["1", "3"] }
 router.put('/reservas/:id', verificarToken, idempotencia, async (req, res) => {
-=======
-router.put('/reservas/:id', verificarToken, async (req, res) => {
->>>>>>> main
     const {
         fecha,
         horainicio,

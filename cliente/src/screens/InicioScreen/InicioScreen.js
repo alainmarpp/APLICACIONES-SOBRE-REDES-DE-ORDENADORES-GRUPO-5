@@ -88,7 +88,6 @@ export default function InicioScreen() {
             </Text>
           </TouchableOpacity>
 
-<<<<<<< HEAD
           {esPeluquero && (
             <TouchableOpacity style={[estilos.boton, estilos.botonLila]} onPress={irPanelPeluquero}>
               <Text style={estilos.textoBoton}>✂️ Panel del peluquero</Text>
@@ -100,15 +99,6 @@ export default function InicioScreen() {
 
           <TouchableOpacity style={estilos.botonSalir} onPress={cerrarSesion}>
             <Text style={estilos.textoBotonSalir}>Cerrar Sesión 👋</Text>
-=======
-          <TouchableOpacity
-            style={estilos.botonSalir}
-            onPress={cerrarSesion}
-          >
-            <Text style={estilos.textoBotonSalir}>
-              Cerrar Sesión 👋
-            </Text>
->>>>>>> main
           </TouchableOpacity>
         </View>
       </ScrollView>

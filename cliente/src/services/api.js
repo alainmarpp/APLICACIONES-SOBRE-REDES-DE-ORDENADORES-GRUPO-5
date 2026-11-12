@@ -1,7 +1,6 @@
 import { cerrarSesion, fetchAutenticado } from "./authService";
 import { API_CONFIGURADA } from "./config";
 
-<<<<<<< HEAD
 function mensajeSinConexion() {
   return API_CONFIGURADA
     ? "No se pudo conectar con el servidor. Comprueba tu conexión a Internet e inténtalo de nuevo."
@@ -19,9 +18,6 @@ function mensajeSinConexion() {
 //           const datos = await peticion("/reservas", { metodo: "POST", cuerpo: {...}, descripcion: "Tu reserva del 12/11" });
 //           if (datos?.offline) { /* pendiente de enviar */ }
 export async function peticion(ruta, { metodo = "GET", cuerpo, descripcion, reintentos, timeoutMs } = {}) {
-=======
-export async function peticion(ruta, { metodo = "GET", cuerpo } = {}) {
->>>>>>> main
   let respuesta;
 
   try {
@@ -33,17 +29,7 @@ export async function peticion(ruta, { metodo = "GET", cuerpo } = {}) {
       timeoutMs,
     });
   } catch (error) {
-<<<<<<< HEAD
     throw new Error(error.esErrorDeRed ? mensajeSinConexion() : error.message);
-=======
-    if (error.status) {
-      throw error;
-    }
-
-    throw new Error(
-      "No se pudo conectar con el servidor. Comprueba que está encendido y que el dispositivo está en la misma red WiFi."
-    );
->>>>>>> main
   }
 
   let datos = null;
@@ -54,14 +40,8 @@ export async function peticion(ruta, { metodo = "GET", cuerpo } = {}) {
   }
 
   if (!respuesta.ok) {
-<<<<<<< HEAD
     // Token caducado o inválido: fetchAutenticado ya lo ha borrado, y se vuelve al login
     if (respuesta.status === 401) await cerrarSesion();
-=======
-    if (respuesta.status === 401) {
-      await cerrarSesion();
-    }
->>>>>>> main
 
     const fallo = new Error(datos?.error || "Error en el servidor");
     fallo.estado = respuesta.status;
