@@ -11,7 +11,6 @@ Aplicación para la gestión y reserva de servicios de peluquería y cuidado de 
 - [Servidor](#servidor)
 - [Base de datos](#base-de-datos)
 - [API](#api)
-- [Grupo 5](#grupo-5)
 - [Descarga e Instalación de la Aplicación (Android)](#descarga-e-instalación-de-la-aplicación-android)
 - [Descarga e Instalación de la Aplicación (iOS)](#descarga-e-instalación-de-la-aplicación-ios)
   
@@ -119,10 +118,6 @@ La aplicación móvil se comunica con el servidor mediante una API REST que gest
 - Historial
 
 Los endpoints se documentarán a medida que se implementen.
-
-## Grupo 5
-
-Aplicaciones sobre Redes de Ordenadores
 
 ## Descarga e Instalación de la Aplicación (Android)
 
