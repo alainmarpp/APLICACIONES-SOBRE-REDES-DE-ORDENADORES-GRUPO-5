@@ -24,7 +24,7 @@ export default function MiPerfilScreen() {
     cerrarSesion,
     volver,
   } = useMiPerfilScreen();
-
+/*
   useFocusEffect(
     useCallback(() => {
       let activo = true;
@@ -59,8 +59,6 @@ export default function MiPerfilScreen() {
   );
 
   cerrarSesion = async () => {
-    // Avisa al servidor si hay red y cierra la sesión en el móvil pase lo que pase.
-    // No se borra todo el almacenamiento: los cambios pendientes de enviar se conservan.
     try {
       await cerrarSesionCompleta();
       alert("Has cerrado sesión correctamente.");
@@ -69,7 +67,7 @@ export default function MiPerfilScreen() {
       router.replace("/");
     }
   };
-
+*/
   return (
     <View style={estilos.contenedor}>
       <Text style={estilos.titulo}>Mi perfil</Text>

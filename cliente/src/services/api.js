@@ -7,16 +7,6 @@ function mensajeSinConexion() {
     : "Esta versión de la app no tiene configurada la dirección del servidor.";
 }
 
-// Hace una petición al servidor usando fetchAutenticado (que ya añade el token) y devuelve el JSON.
-// Si algo falla lanza un Error con un mensaje listo para enseñar (error.estado = código HTTP).
-//
-// Si no hay conexión y la operación se puede aplazar (reservar, registrar un perro, reseñas, cancelar),
-// NO falla: el cambio queda guardado en el móvil y la respuesta es { offline: true, mensaje }.
-// Quien llame debe comprobar datos?.offline para no decir "hecho" cuando solo está pendiente.
-//
-// Ejemplo:  const animales = await peticion("/animales");
-//           const datos = await peticion("/reservas", { metodo: "POST", cuerpo: {...}, descripcion: "Tu reserva del 12/11" });
-//           if (datos?.offline) { /* pendiente de enviar */ }
 export async function peticion(ruta, { metodo = "GET", cuerpo, descripcion, reintentos, timeoutMs } = {}) {
   let respuesta;
 
@@ -40,7 +30,6 @@ export async function peticion(ruta, { metodo = "GET", cuerpo, descripcion, rein
   }
 
   if (!respuesta.ok) {
-    // Token caducado o inválido: fetchAutenticado ya lo ha borrado, y se vuelve al login
     if (respuesta.status === 401) await cerrarSesion();
 
     const fallo = new Error(datos?.error || "Error en el servidor");

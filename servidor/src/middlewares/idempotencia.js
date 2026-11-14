@@ -16,11 +16,6 @@ function calcularHuella(req) {
         .digest('hex');
 }
 
-// Usar DESPUÉS de verificarToken:  router.post('/reservas', verificarToken, idempotencia, handler)
-//  - Sin cabecera Idempotency-Key: no hace nada.
-//  - Primera vez que llega una clave: ejecuta la petición y guarda el resultado si ha ido bien (2xx).
-//  - Misma clave otra vez (reintento): devuelve el resultado guardado sin repetir la operación.
-//  - Misma clave mientras la primera sigue en curso: espera a que acabe y devuelve su resultado.
 async function idempotencia(req, res, next) {
     const clave = req.headers['idempotency-key'];
     if (!clave) return next();
@@ -73,8 +68,6 @@ async function idempotencia(req, res, next) {
             }
         }
 
-        // Somos la primera: se ejecuta el handler y se guarda su resultado ANTES de responder,
-        // para que un reintento inmediato siempre encuentre el resultado ya guardado.
         const jsonOriginal = res.json.bind(res);
 
         res.json = (cuerpo) => {
@@ -99,7 +92,6 @@ async function idempotencia(req, res, next) {
     }
 }
 
-// Limpieza periódica de claves antiguas
 const limpiar = () =>
     Idempotencia.destroy({ where: { creadaEn: { [Op.lt]: new Date(Date.now() - DURACION_MS) } } })
         .catch(() => { /* la tabla puede no existir aún en el primer arranque */ });

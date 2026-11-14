@@ -4,7 +4,8 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
 
-require('./src/models/user.model');
+//require('./src/models/user.model');
+const Usuario = require('./src/models/user.model');
 require('./src/models/animal.model');
 require('./src/models/reserva.model');
 require('./src/models/blacklist.model'); 
@@ -36,11 +37,16 @@ app.use(reservasRoutes);
 app.use(resenasRoutes);
 app.use(peluqueroRoutes);
 
+//pa ponerle el rol de peluquero a ese usuario
+const PELUQUEROS_FIJOS = ['peluquero1'];
+
 async function iniciarServidor() {
     try {
         await sequelize.authenticate();
         console.log('✅ Conexión con Aiven establecida correctamente.');
-        await sequelize.sync({ alter: true });
+        //await sequelize.sync({ alter: true });
+        await sequelize.sync({ alter: { drop: false } });
+        await Usuario.update({ rol: 'peluquero' }, { where: { nombre: PELUQUEROS_FIJOS } });
         console.log('✅ Tablas sincronizadas correctamente.');
         app.listen(PORT, () => console.log(`🚀 Servidor en http://localhost:${PORT}`));
     } catch (error) {

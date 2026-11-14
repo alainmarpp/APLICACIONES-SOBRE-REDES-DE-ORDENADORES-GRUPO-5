@@ -7,14 +7,11 @@ import { borrarToken, guardarToken as guardarTokenBase, obtenerToken, obtenerUsu
 
 export { API_URL, borrarToken, obtenerToken, obtenerUsuarioDelToken };
 
-// Al guardar un token nuevo (login o registro) se envían los cambios que estuvieran pendientes
 export async function guardarToken(token) {
   await guardarTokenBase(token);
   sincronizarColaOffline();
 }
 
-// Respuesta cuando el cambio no se ha podido enviar y se ha guardado para más tarde.
-// OJO: quien la reciba NO debe decir "hecho", sino "pendiente" (datos.offline === true).
 function respuestaPendiente() {
   return new Response(
     JSON.stringify({
@@ -25,14 +22,6 @@ function respuestaPendiente() {
   );
 }
 
-// Hace una petición con el token de la sesión.
-//  - Devuelve SIEMPRE la respuesta del servidor, sea 200, 400, 401, 409... (quien llama decide).
-//  - Reintenta con espera progresiva ante fallos de red o del servidor (5xx).
-//  - Las operaciones que modifican datos llevan una Idempotency-Key, igual en todos los reintentos.
-//  - Si no hay forma de contactar con el servidor y la operación se puede aplazar, se guarda en la cola
-//    local y se devuelve una respuesta con offline: true.
-//  - Lanza ErrorDeRed solo si no hay conexión y la operación no se puede aplazar (por ejemplo, un GET).
-// Opciones propias: reintentos, timeoutMs, retardoBaseMs, descripcion (texto para avisar de conflictos).
 export async function fetchAutenticado(path, options = {}) {
   const { reintentos, timeoutMs, retardoBaseMs, descripcion, ...init } = options;
 
@@ -74,8 +63,6 @@ export async function cerrarSesion() {
   router.replace("/");
 }
 
-// Cierre de sesión completo: avisa al servidor (para invalidar el token) si hay red y, pase lo que pase,
-// cierra la sesión en el móvil. Los cambios pendientes de enviar se conservan.
 export async function cerrarSesionCompleta() {
   const token = await obtenerToken();
 
