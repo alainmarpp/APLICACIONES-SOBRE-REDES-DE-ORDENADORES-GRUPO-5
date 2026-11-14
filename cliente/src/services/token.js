@@ -20,7 +20,6 @@ export async function borrarToken() {
 
 const ALFABETO = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-// Decodifica base64url a texto UTF-8 sin depender de atob (que no existe en todos los motores)
 function decodificarBase64Url(texto) {
   const base64 = texto.replace(/-/g, "+").replace(/_/g, "/");
   let acumulado = 0;
@@ -41,8 +40,6 @@ function decodificarBase64Url(texto) {
   return decodeURIComponent(codificado);
 }
 
-// Nombre del usuario al que pertenece el token (sin comprobar si ha caducado).
-// Sirve para saber de quién es cada cambio pendiente de enviar.
 export async function obtenerUsuarioDelToken() {
   const token = await obtenerToken();
   if (!token) return null;

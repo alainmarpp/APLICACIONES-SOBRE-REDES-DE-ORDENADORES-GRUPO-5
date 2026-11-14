@@ -12,7 +12,7 @@ const aMinutos = (hora) => {
 const aHora = (minutos) =>
     `${String(Math.floor(minutos / 60)).padStart(2, '0')}:${String(minutos % 60).padStart(2, '0')}`;
 
-// Horario por defecto: el de data/servicios.js
+
 function horarioPorDefecto() {
     return {
         bloques: bloquesHorario.map((b) => ({ inicio: aHora(b.inicio), fin: aHora(b.fin) })),
@@ -20,13 +20,11 @@ function horarioPorDefecto() {
     };
 }
 
-// Texto fijo que se enseña a los clientes, p. ej. "Abierto de 09:00 a 13:00 y de 15:00 a 19:00"
 function textoHorario(bloques) {
     if (!bloques.length) return 'Cerrado temporalmente';
     return 'Abierto de ' + bloques.map((b) => `${b.inicio} a ${b.fin}`).join(' y de ');
 }
 
-// Devuelve { bloques: [{inicio:"09:00", fin:"13:00"}], paso, texto }
 async function leerHorario() {
     let horario = horarioPorDefecto();
     try {
@@ -41,7 +39,6 @@ async function leerHorario() {
     return { ...horario, texto: textoHorario(horario.bloques) };
 }
 
-// Formato que usa calcularHoras: minutos desde las 00:00
 async function obtenerHorario() {
     const { bloques, paso } = await leerHorario();
     return {
@@ -50,7 +47,6 @@ async function obtenerHorario() {
     };
 }
 
-// Comprueba lo que manda el peluquero. Devuelve { error } o { bloques } ya normalizado.
 function validarBloques(bloques) {
     if (!Array.isArray(bloques) || bloques.length < 1 || bloques.length > 3) {
         return { error: 'Indica entre 1 y 3 tramos de horario.' };

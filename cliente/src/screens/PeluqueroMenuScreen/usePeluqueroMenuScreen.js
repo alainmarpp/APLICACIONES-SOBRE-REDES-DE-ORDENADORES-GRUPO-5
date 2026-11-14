@@ -8,7 +8,6 @@ export function usePeluqueroMenuScreen() {
   const [citasHoy, setCitasHoy] = useState(null);
   const [nombre, setNombre] = useState("");
 
-  // Resumen de hoy; si falla (sin red) simplemente no se enseña
   useFocusEffect(
     useCallback(() => {
       let activo = true;

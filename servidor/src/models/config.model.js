@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 
-// Ajustes de la tienda guardados como clave/valor (de momento solo el horario).
 const ConfigTienda = sequelize.define('ConfigTienda', {
     clave: {
         type: DataTypes.STRING(50),

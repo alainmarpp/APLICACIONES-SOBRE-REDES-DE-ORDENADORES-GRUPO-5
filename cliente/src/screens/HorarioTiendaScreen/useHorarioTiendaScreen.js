@@ -6,7 +6,6 @@ import { peticion } from "../../services/api";
 
 const formatoHora = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
-// Acepta "9:00", "09:00" o "9.00" y lo deja como "09:00"
 function normalizar(texto) {
   const limpio = String(texto || "").trim().replace(".", ":");
   const m = limpio.match(/^(\d{1,2}):(\d{2})$/);
@@ -46,7 +45,6 @@ export function useHorarioTiendaScreen() {
   const guardar = async () => {
     if (guardando) return;
 
-    // Cada tramo es opcional, pero si se rellena hay que poner apertura y cierre
     const tramos = [
       [mananaInicio, mananaFin, "mañana"],
       [tardeInicio, tardeFin, "tarde"],

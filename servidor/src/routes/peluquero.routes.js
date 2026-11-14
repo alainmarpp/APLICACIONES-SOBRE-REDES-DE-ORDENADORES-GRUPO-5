@@ -14,8 +14,6 @@ const { leerHorario, validarBloques, guardarHorario } = require('../services/hor
 
 const formatoFecha = /^\d{4}-\d{2}-\d{2}$/;
 
-// Solo deja pasar a usuarios con rol "peluquero". El rol se mira en la BBDD en cada petición
-// (no en el token), así que quitar el rol a alguien surte efecto al momento.
 async function soloPeluquero(req, res, next) {
     try {
         const usuario = await Usuario.findByPk(req.usuario.nombre, { attributes: ['rol'] });
@@ -29,12 +27,10 @@ async function soloPeluquero(req, res, next) {
     }
 }
 
-// Horario fijo de la tienda. Es público: lo ven los clientes en la app.
 router.get('/horario', async (req, res) => {
     res.json(await leerHorario());
 });
 
-// El peluquero cambia el horario. body: { bloques: [{ inicio: "09:00", fin: "13:00" }, ...] }
 router.put('/horario', verificarToken, soloPeluquero, idempotencia, async (req, res) => {
     const resultado = validarBloques(req.body?.bloques);
     if (resultado.error) return res.status(400).json({ error: resultado.error });
@@ -47,7 +43,7 @@ router.put('/horario', verificarToken, soloPeluquero, idempotencia, async (req, 
     }
 });
 
-// Agenda de un día (por defecto, hoy). GET /peluquero/agenda?fecha=2026-11-12
+
 router.get('/peluquero/agenda', verificarToken, soloPeluquero, async (req, res) => {
     const fecha = req.query.fecha || fechaDeHoy();
     if (!formatoFecha.test(fecha)) {
@@ -76,7 +72,7 @@ router.get('/peluquero/agenda', verificarToken, soloPeluquero, async (req, res) 
             cliente: r.Usuario ? { nombre: r.Usuario.nombre, tlf: r.Usuario.tlf } : { nombre: r.usuario, tlf: '' }
         }));
 
-        // Si ese día no hay citas, se indica cuál es el siguiente día que sí tiene (para que no parezca que falla)
+        
         let proxima = null;
         if (citas.length === 0) {
             const siguiente = await Reserva.findOne({
@@ -95,7 +91,6 @@ router.get('/peluquero/agenda', verificarToken, soloPeluquero, async (req, res) 
     }
 });
 
-// El peluquero cancela la cita de cualquier cliente.
 router.delete('/peluquero/reservas/:id', verificarToken, soloPeluquero, idempotencia, async (req, res) => {
     if (!/^\d+$/.test(req.params.id)) {
         return res.status(400).json({ error: 'Identificador de reserva no válido.' });
@@ -111,9 +106,6 @@ router.delete('/peluquero/reservas/:id', verificarToken, soloPeluquero, idempote
     }
 });
 
-// ---------- Usuarios ----------
-
-// Lista de usuarios (sin contraseñas), con cuántos perros y reservas tiene cada uno.
 router.get('/peluquero/usuarios', verificarToken, soloPeluquero, async (req, res) => {
     try {
         const usuarios = await Usuario.findAll({ attributes: ['nombre', 'tlf', 'rol'], order: [['nombre', 'ASC']], raw: true });
@@ -139,7 +131,6 @@ router.get('/peluquero/usuarios', verificarToken, soloPeluquero, async (req, res
     }
 });
 
-// "Contratar" = dar el rol de peluquero; también se puede volver a cliente. body: { rol: "peluquero" | "cliente" }
 router.put('/peluquero/usuarios/:nombre/rol', verificarToken, soloPeluquero, idempotencia, async (req, res) => {
     const rol = req.body?.rol;
     if (!['peluquero', 'cliente'].includes(rol)) {
@@ -162,7 +153,6 @@ router.put('/peluquero/usuarios/:nombre/rol', verificarToken, soloPeluquero, ide
     }
 });
 
-// Elimina un usuario y todo lo suyo (perros, reservas y reseñas).
 router.delete('/peluquero/usuarios/:nombre', verificarToken, soloPeluquero, idempotencia, async (req, res) => {
     const nombre = req.params.nombre;
     if (nombre === req.usuario.nombre) {
